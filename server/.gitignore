@@ -1,0 +1,10 @@
+# Dependencies
+node_modules/
+
+# pnpm specific files
+.pnpm-store/
+.pnpm-debug.log
+
+# Local environment files
+.env
+.env.local

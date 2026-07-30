@@ -1,0 +1,33 @@
+# Get All Vendors
+curl -X GET "{{local}}/vendor" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Create Vendor
+curl -X POST "{{local}}/vendor" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Plumbing Pros",
+    "email": "contact@plumbingpros.com",
+    "tradeCategory": "Plumbing"
+  }'
+
+# Get Vendor By ID
+curl -X GET "{{local}}/vendor/{{vendorId}}" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Update Vendor
+curl -X PUT "{{local}}/vendor/{{vendorId}}" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Plumbing Pros Updated"
+  }'
+
+# Delete Vendor
+curl -X DELETE "{{local}}/vendor/{{vendorId}}" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Get Vendor Performance
+curl -X GET "{{local}}/vendor/{{vendorId}}/performance" \
+  -H "Origin: http://apex-properties.localhost:3000"

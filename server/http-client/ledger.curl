@@ -1,0 +1,49 @@
+# Get All Ledger Entries
+curl -X GET "{{local}}/ledger/entries" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Create Ledger Entry
+curl -X POST "{{local}}/ledger/entries" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "property": "60d5ec49f1b2a3001f7e3c1a",
+    "entryType": "Rent",
+    "finance": {
+      "totalAmount": 10000,
+      "currency": "INR"
+    },
+    "lines": [
+      {
+        "accountId": "ACC001",
+        "accountName": "Rent Receivable",
+        "type": "DEBIT",
+        "amount": 10000
+      }
+    ]
+  }'
+
+# Get Ledger Entry By ID
+curl -X GET "{{local}}/ledger/entries/{{entryId}}" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Update Ledger Entry
+curl -X PUT "{{local}}/ledger/entries/{{entryId}}" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "status": "Posted",
+    "memo": "Updated memo"
+  }'
+
+# Reverse Ledger Entry
+curl -X GET "{{local}}/ledger/entries/{{entryId}}/reverse" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Update Tenant Balance
+curl -X PUT "{{local}}/ledger/tenant-balance/{{tenantId}}" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Charge Rent
+curl -X POST "{{local}}/ledger/payments/charge-rent" \
+  -H "Origin: http://apex-properties.localhost:3000"

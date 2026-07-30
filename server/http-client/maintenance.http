@@ -1,0 +1,65 @@
+@ticketBaseUrl = {{local}}/tickets
+@originHeader = Origin: http://apex-properties.localhost:3000
+
+### Create Ticket
+POST {{ticketBaseUrl}}
+Content-Type: application/json
+{{originHeader}}
+
+{
+  "property": "60d5ec49f1b2a3001f7e3c1a",
+  "unit": "60d5ec49f1b2a3001f7e3c1b",
+  "title": "Leaky Faucet",
+  "description": "Kitchen faucet is leaking continuously.",
+  "category": "Plumbing",
+  "priority": "Medium",
+  "permissionToEnter": true,
+  "preferredSchedule": "Anytime"
+}
+
+### Get All Tickets
+GET {{ticketBaseUrl}}
+{{originHeader}}
+
+### Get Ticket By ID
+GET {{ticketBaseUrl}}/{{ticketId}}
+{{originHeader}}
+
+### Update Ticket
+PUT {{ticketBaseUrl}}/{{ticketId}}
+Content-Type: application/json
+{{originHeader}}
+
+{
+  "title": "Leaky Faucet Fixed",
+  "status": "In Progress"
+}
+
+### Assign Ticket
+PATCH {{ticketBaseUrl}}/{{ticketId}}/assign
+Content-Type: application/json
+{{originHeader}}
+
+{
+  "assignedVendor": "60d5ec49f1b2a3001f7e3c1c"
+}
+
+### Complete Ticket
+PUT {{ticketBaseUrl}}/{{ticketId}}/complete
+Content-Type: application/json
+{{originHeader}}
+
+{
+  "actualCost": 500
+}
+
+### Add Feedback
+POST {{ticketBaseUrl}}/{{ticketId}}/feedback
+Content-Type: application/json
+{{originHeader}}
+
+{}
+
+### Delete Ticket
+DELETE {{ticketBaseUrl}}/{{ticketId}}
+{{originHeader}}

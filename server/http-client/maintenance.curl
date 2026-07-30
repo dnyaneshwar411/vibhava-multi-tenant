@@ -1,0 +1,57 @@
+# Create Ticket
+curl -X POST "{{local}}/tickets" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "property": "60d5ec49f1b2a3001f7e3c1a",
+    "unit": "60d5ec49f1b2a3001f7e3c1b",
+    "title": "Leaky Faucet",
+    "description": "Kitchen faucet is leaking continuously.",
+    "category": "Plumbing",
+    "priority": "Medium",
+    "permissionToEnter": true,
+    "preferredSchedule": "Anytime"
+  }'
+
+# Get All Tickets
+curl -X GET "{{local}}/tickets" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Get Ticket By ID
+curl -X GET "{{local}}/tickets/{{ticketId}}" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Update Ticket
+curl -X PUT "{{local}}/tickets/{{ticketId}}" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Leaky Faucet Fixed",
+    "status": "In Progress"
+  }'
+
+# Assign Ticket
+curl -X PATCH "{{local}}/tickets/{{ticketId}}/assign" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "assignedVendor": "60d5ec49f1b2a3001f7e3c1c"
+  }'
+
+# Complete Ticket
+curl -X PATCH "{{local}}/tickets/{{ticketId}}/complete" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "actualCost": 500
+  }'
+
+# Add Feedback
+curl -X POST "{{local}}/tickets/{{ticketId}}/feedback" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{}'
+
+# Delete Ticket
+curl -X DELETE "{{local}}/tickets/{{ticketId}}" \
+  -H "Origin: http://apex-properties.localhost:3000"

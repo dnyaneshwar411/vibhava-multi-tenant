@@ -1,5 +1,6 @@
+import { ObjectIdQueryTypeCasting } from "mongoose";
 import { LoginAuthInput } from "../../api/schemas/auth.schema.js";
-import { USER_TYPE } from "../../common/types/index.js";
+import { POSSIBLE_USERS, USER_TYPE } from "../../common/types/index.js";
 import { validateHash } from "../../common/utils/hash.js";
 import AuthRepository from "../../infrastructure/database/repositories/auth.repository.js";
 import OperatorRepository from "../../infrastructure/database/repositories/operator.repository.js";
@@ -7,6 +8,8 @@ import TenantRepository from "../../infrastructure/database/repositories/tenant.
 import UserRepository from "../../infrastructure/database/repositories/user.repository.js";
 import VendorRepository from "../../infrastructure/database/repositories/vendor.repository.js";
 import TokenService from "./token.service.js";
+import ScopeService from "./scope.service.js";
+import S3 from "../../infrastructure/providers/aws/s3.js";
 
 type AuthLogin = {
   success: false; data?: any; message: string
@@ -38,6 +41,47 @@ export default class AuthService {
     if (!result.success || !result.data) return result
     result.data.userType = valid.userType;
     return result;
+  }
+
+  static async getProfile(
+    organizationId: ObjectIdQueryTypeCasting,
+    userId: ObjectIdQueryTypeCasting,
+    actorModel: POSSIBLE_USERS,
+  ): Promise<{
+    success: true,
+    data: any
+    message?: string
+  } | {
+    success: false,
+    data?: any
+    message: string
+  }> {
+    const scopes = await ScopeService.getProfile(userId, "")
+    if (!scopes) return {
+      success: false,
+      message: "Scopes Not Assigned!"
+    }
+
+    if (scopes.actorModel !== "Operator" && String(scopes.organization?._id) !== String(organizationId)) return {
+      success: false,
+      message: "Bad Request!"
+    }
+
+    const user: any = scopes.actor;
+    if (!user) return {
+      success: false,
+      message: "User Not Found!"
+    }
+
+    if (user.avatar && user.avatar.key) user.avatar = await S3.getObjectUrl({
+      isPrivate: user.avatar.private,
+      key: user.avatar.key
+    })
+
+    return {
+      success: true,
+      data: scopes
+    }
   }
 
   private static async buildTokens(payload: any) {

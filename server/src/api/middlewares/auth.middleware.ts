@@ -42,7 +42,7 @@ export const authenticate = function (scopes: Scope[] = []) {
       );
     }
 
-    if (data.organization?.subdomain !== subdomain) {
+    if (data.actorModel !== "Operator" && data.organization?.subdomain !== subdomain) {
       throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid Request!");
     }
 

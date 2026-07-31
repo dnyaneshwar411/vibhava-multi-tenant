@@ -1,6 +1,7 @@
 import { ObjectIdQueryTypeCasting, QueryFilter } from "mongoose";
 import Operator from "../models/operator.model.js";
 import Scope from "../models/scopesMap.model.js";
+import S3 from "../../providers/aws/s3.js";
 
 export default class OperatorRepository {
   private static operatorModel = Operator;
@@ -19,7 +20,11 @@ export default class OperatorRepository {
   }
 
   static async findById(operatorId: ObjectIdQueryTypeCasting) {
-    return await this.operatorModel.findById(operatorId).lean();
+    const user: any = await this.operatorModel.findById(operatorId).lean();
+    if(user.avatar && user.avatar.key) {
+      user.avatar.key = await S3.getObjectUrl({ isPrivate: user.avatar.private, key: user.avatar.key })
+    }
+    return user
   }
   static async getOperatorFilter(filter: QueryFilter<{}>) {
     return await this.operatorModel

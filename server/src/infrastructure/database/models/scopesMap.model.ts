@@ -20,6 +20,8 @@ const scopeSchema = new Schema({
     type: Map,
     of: Boolean,
   },
+}, {
+  timestamps: true
 });
 
 scopeSchema.index({ organization: 1, actor: 1, actorModel: 1 }, { unique: true });

@@ -68,17 +68,9 @@ export default class AuthController {
   });
 
   static profile = catchAsync(async function (req: Request, res: Response) {
-    const scopeMap = await ScopeService.findScopeByUserIdRole(
-      req.user._id,
-      req.userType,
-    );
-    res.status(httpStatus.OK).json({
-      code: httpStatus.OK,
-      data: {
-        user: req.user,
-        scopeMap: scopeMap?.data?.scopeMap,
-      },
-    });
+    const { success, data, message } = await AuthService.getProfile(req.organization!, req.user._id, req.userModel!);
+    if (!success) throw new ApiError(httpStatus.BAD_REQUEST, message);
+    res.status(httpStatus.OK).json({ code: httpStatus.OK, data });
   });
 
   static update = catchAsync(async (req: Request, res: Response) => {

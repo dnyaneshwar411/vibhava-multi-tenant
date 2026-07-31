@@ -3,10 +3,18 @@ import User, { IUser } from "../models/user.model.js";
 import Scope from "../models/scopesMap.model.js";
 import { PaginationOptions } from "../../../common/utils/pagination.js";
 import { QueryFilter } from "mongoose";
+import S3 from "../../providers/aws/s3.js";
 
 export default class UserRepository {
   private static userModel = User;
   private static scopeModel = Scope;
+
+  static async resolveS3Image(user: any) {
+    if (user.avatar && user.avatar.key) {
+      user.avatar = await S3.getObjectUrl({ isPrivate: user.avatar.private, key: user.avatar.key })
+    }
+    return user
+  }
 
   static async paginate(organizationId: ObjectIdQueryTypeCasting, filters: PaginationOptions) {
     const dbQuery: QueryFilter<{}> = { organization: organizationId }
@@ -18,7 +26,7 @@ export default class UserRepository {
     }
 
     // tbd map the avatar of each of the user
-    const [users, total] = await Promise.all([
+    const [result, total] = await Promise.all([
       this.userModel
         .find(dbQuery)
         .select("-organization -updatedAt -__v")
@@ -26,6 +34,8 @@ export default class UserRepository {
       this.userModel
         .countDocuments(dbQuery)
     ])
+
+    const users = await Promise.all(result.map(this.resolveS3Image))
 
     return { users, total }
   }

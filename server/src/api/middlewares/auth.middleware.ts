@@ -5,7 +5,7 @@ import { env } from "../../config/envVars.js";
 import httpStatus from "http-status";
 import AuthService from "../../core/services/auth.service.js";
 
-const validateTenant: (req: Request) => {
+export const validateTenant: (req: Request) => {
   success: boolean;
   message?: string;
   subdomain?: string;
@@ -55,17 +55,13 @@ export const authenticate = function (scopes: Scope[] = []) {
       );
     }
 
-    const map = AuthService.mapValidatedUser(data);
-    if (!map.success || !map.user || !map.organization) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, map.message || "Bad Request");
-    }
-
-    req.organization = String(map.user?.organization);
+    req.organization = String(data?.organization?._id);
+    req.organizationOwner = String(data?.organization?.owner);
     req.subdomain = subdomain;
-    req.user = map.user;
+    req.user = data.actor;
     req.grantedScopes = grantedScopes;
     req.userType = data.userType;
-    req.userModel = data.userModel;
+    req.userModel = data.actorModel;
 
     next();
   };

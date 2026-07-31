@@ -1,0 +1,46 @@
+# Get All Operators
+curl -X GET "{{local}}/operator" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Create Operator
+curl -X POST "{{local}}/operator" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "password": "Password123!",
+    "role": "SUPPORT"
+  }'
+
+# Get Operator By ID
+curl -X GET "{{local}}/operator/{{operatorId}}" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Update Operator
+curl -X PUT "{{local}}/operator/{{operatorId}}" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Jane Doe Updated"
+  }'
+
+# Delete Operator
+curl -X DELETE "{{local}}/operator/{{operatorId}}" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Assign Scopes to Operator
+curl -X PUT "{{local}}/operator/{{operatorId}}/scopes" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "scopes": ["operator:read", "operator:update"]
+  }'
+
+# Unassign Scopes from Operator
+curl -X DELETE "{{local}}/operator/{{operatorId}}/scopes" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "scopes": ["operator:update"]
+  }'

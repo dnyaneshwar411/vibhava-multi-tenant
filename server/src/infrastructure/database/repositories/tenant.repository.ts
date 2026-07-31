@@ -1,4 +1,4 @@
-import { ObjectIdQueryTypeCasting } from "mongoose";
+import { ObjectIdQueryTypeCasting, QueryFilter } from "mongoose";
 import Tenant from "../models/tenant.model.js";
 
 export default class TenantRepository {
@@ -9,7 +9,16 @@ export default class TenantRepository {
       organization,
       _id: tenantId
     })
-    .select("")
-    .lean()
+      .select("")
+      .lean()
+  }
+
+  static async getTenantFilter(filter: QueryFilter<{}>) {
+    return await this.model
+      .findOne(filter)
+      .populate("organization", "owner subdomain")
+      .select("+password")
+      // .select("-updatedAt -__v")
+      .lean();
   }
 }

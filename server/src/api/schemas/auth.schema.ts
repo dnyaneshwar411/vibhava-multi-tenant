@@ -90,6 +90,14 @@ const updateVendorSchema = createVendorSchema.partial().extend({
 });
 
 export default class AuthSchema {
+  static login = z.object({
+    body: z.object({
+      user: z.enum(CONSTANTS.POSSIBLE_USERS).default("User"),
+      username: z.string().min(4, "Password must be at least 4 characters."),
+      password: z.string().min(6, "Password must be at least 6 characters.")
+    })
+  })
+
   static update = z.object({
     body: z.discriminatedUnion("type", [
       updateTenantSchema,
@@ -100,3 +108,4 @@ export default class AuthSchema {
 }
 
 export type UpdateAuthInput = z.infer<typeof AuthSchema.update>;
+export type LoginAuthInput = z.infer<typeof AuthSchema.login>;

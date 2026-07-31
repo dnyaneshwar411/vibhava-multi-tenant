@@ -1,8 +1,9 @@
 import Vendor from "../models/vendor.model.js";
 import { CreateVendorInput, UpdateVendorInput } from "../../../api/schemas/vendor.schema.js";
-import { ObjectIdQueryTypeCasting } from "mongoose";
+import mongoose, { ClientSession, ObjectIdQueryTypeCasting, QueryFilter, UpdateQuery } from "mongoose";
 import { PaginationOptions } from "../../../common/utils/pagination.js";
 import MaintenanceRepository from "./maintenance.repository.js";
+import Scope from "../models/scopesMap.model.js";
 
 export default class VendorRepository {
   private static model = Vendor;
@@ -32,8 +33,11 @@ export default class VendorRepository {
     return await this.model.findOne({ organization: organizationId, _id: vendorId }).lean();
   }
 
-  static async create(payload: CreateVendorInput["body"] & { organization: ObjectIdQueryTypeCasting }) {
-    return await this.model.create(payload);
+  static async createWithSession(
+    payload: CreateVendorInput["body"] & { organization: ObjectIdQueryTypeCasting },
+    session: ClientSession,
+  ) {
+    return await this.model.create([payload], { session });
   }
 
   static async updateOne(
@@ -50,5 +54,21 @@ export default class VendorRepository {
 
   static async getPerformance(organizationId: ObjectIdQueryTypeCasting, vendorId: string) {
     return await MaintenanceRepository.getVendorPerformanceMetrics(organizationId, vendorId);
+  }
+
+  static async manageScopes(
+    filter: QueryFilter<{}>,
+    updateQuery: UpdateQuery<{}>
+  ) {
+    return this.model.findOneAndUpdate(filter, updateQuery);
+  }
+
+  static async getVendorFilter(filter: QueryFilter<{}>) {
+    return await this.model
+      .findOne(filter)
+      .populate("organization", "owner subdomain")
+      .select("+password")
+      // .select("-updatedAt -__v")
+      .lean();
   }
 }

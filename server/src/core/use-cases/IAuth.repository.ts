@@ -1,10 +1,8 @@
-import { USER_TYPE } from "../../common/types/index.js";
-
 export interface IAuthInstance { }
 
 export interface IAuth {
   new(): IAuthInstance;
-  findByIdWithScopes(id: string, userType: USER_TYPE): Promise<{
+  findByIdWithScopes(id: string): Promise<{
     success: boolean;
     message: string;
     data?: never

@@ -41,4 +41,16 @@ router
     VendorController.getVendorPerformance
   );
 
+router.route("/:vendorId/scopes")
+  .put(
+    validate(VendorSchema.manageScopes),
+    authenticate(["vendor:role:assign", "vendor:role:manage"]),
+    VendorController.assignScopes
+  )
+  .delete(
+    validate(VendorSchema.manageScopes),
+    authenticate(["vendor:role:unassign", "vendor:role:manage"]),
+    VendorController.unassignScopes
+  );
+
 export { router as vendorRouter };

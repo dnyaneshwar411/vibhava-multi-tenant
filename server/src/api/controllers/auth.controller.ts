@@ -9,7 +9,8 @@ import { USER_MODELS } from "../../common/types/index.js";
 import UserService from "../../core/services/user.service.js";
 import VendorService from "../../core/services/vendor.service.js";
 import TenantService from "../../core/services/tenant.service.js";
-import TokenService from "../../core/services/token.service.js";
+import { validateTenant } from "../middlewares/auth.middleware.js";
+import { ApiError } from "../utils/apiError.js";
 
 const userServiceMap: Record<
   USER_MODELS,
@@ -20,27 +21,44 @@ const userServiceMap: Record<
   Vendor: (id: string, data: any) => VendorService.updateById(id, data),
 } as const;
 export default class AuthController {
-  static login = catchAsync(async function(req: Request, res: Response) {
-    const data = await AuthService.login({});
-    res.cookie("access", await TokenService.createToken({ _id: "6a5f467f19a932ac63909285", userType: "Staff", userModel: "Operator" }), {
+  static login = catchAsync(async function (req: Request, res: Response) {
+    const subdomainDetails = validateTenant(req)
+    const { success, message, data } = await AuthService.login(req.body, subdomainDetails)
+
+    if (!success) throw new ApiError(httpStatus.BAD_REQUEST, message);
+
+    if (!data.tokens) throw new ApiError(httpStatus.BAD_REQUEST, "Bad Request");
+
+    res.cookie("access", data.tokens.access, {
       httpOnly: true,
       secure: env.NODE_ENV === "production",
       sameSite: "strict",
       maxAge: env.JWT_ACCESS_EXPIRATION,
     });
+
+    res.cookie("access", data.tokens.refresh, {
+      httpOnly: true,
+      secure: env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: env.JWT_REFRESH_EXPIRATION,
+    });
+
     res.status(httpStatus.OK).json({
       code: httpStatus.OK,
       message: "Logged In Successfully!",
+      data: data.user
     });
   });
 
-  static logout = catchAsync(async function(req: Request, res: Response) {
+  static logout = catchAsync(async function (req: Request, res: Response) {
+    res.clearCookie("access")
+    res.clearCookie("refresh")
     res
       .status(httpStatus.OK)
       .json({ code: httpStatus.OK, message: "Logged In Successfully!" });
   });
 
-  static refreshToken = catchAsync(async function(
+  static refreshToken = catchAsync(async function (
     req: Request,
     res: Response,
   ) {
@@ -49,7 +67,7 @@ export default class AuthController {
       .json({ code: httpStatus.OK, message: "Logged In Successfully!" });
   });
 
-  static profile = catchAsync(async function(req: Request, res: Response) {
+  static profile = catchAsync(async function (req: Request, res: Response) {
     const scopeMap = await ScopeService.findScopeByUserIdRole(
       req.user._id,
       req.userType,

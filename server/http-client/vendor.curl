@@ -31,3 +31,19 @@ curl -X DELETE "{{local}}/vendor/{{vendorId}}" \
 # Get Vendor Performance
 curl -X GET "{{local}}/vendor/{{vendorId}}/performance" \
   -H "Origin: http://apex-properties.localhost:3000"
+
+# Assign Scopes to Vendor
+curl -X PUT "{{local}}/vendor/{{vendorId}}/scopes" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "scopes": ["property:read", "ticket:read:own"]
+  }'
+
+# Unassign Scopes from Vendor
+curl -X DELETE "{{local}}/vendor/{{vendorId}}/scopes" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "scopes": ["property:read"]
+  }'

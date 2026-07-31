@@ -7,6 +7,7 @@ export default class VendorSchema {
     body: z.object({
       name: z.string().trim().min(1, "Vendor name is required"),
       email: z.string().email("Invalid email address").trim(),
+      password: z.string().min(8, "Password must be at least 8 characters"),
       countryCode: z.number().positive().optional(),
       mobileNumber: z.number().positive().optional(),
       avatar: imageSchema.optional(),
@@ -49,6 +50,14 @@ export default class VendorSchema {
         zipCode: z.string().trim().optional(),
         country: z.enum(CONSTANTS.AVAILABLE_COUNTRIES).optional(),
       }).partial().optional(),
+    }),
+  });
+  static manageScopes = z.object({
+    params: z.object({
+      vendorId: objectIdSchema,
+    }),
+    body: z.object({
+      scopes: z.array(z.string()).min(1, "At least one scope is required"),
     }),
   });
 }

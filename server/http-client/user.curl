@@ -1,0 +1,45 @@
+# Get All Users
+curl -X GET "{{local}}/user" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Create User
+curl -X POST "{{local}}/user" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "Password123!"
+  }'
+
+# Get User By ID
+curl -X GET "{{local}}/user/{{userId}}" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Update User
+curl -X PUT "{{local}}/user/{{userId}}" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe Updated"
+  }'
+
+# Delete User
+curl -X DELETE "{{local}}/user/{{userId}}" \
+  -H "Origin: http://apex-properties.localhost:3000"
+
+# Assign Scopes
+curl -X PUT "{{local}}/user/{{userId}}/scopes" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "scopes": ["user:read", "user:update"]
+  }'
+
+# Unassign Scopes
+curl -X DELETE "{{local}}/user/{{userId}}/scopes" \
+  -H "Origin: http://apex-properties.localhost:3000" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "scopes": ["user:update"]
+  }'

@@ -6,7 +6,7 @@ import AuthSchema from "../schemas/auth.schema.js";
 
 const router: express.Router = express.Router();
 
-router.route("/login").post(AuthController.login);
+router.route("/login").post(validate(AuthSchema.login), AuthController.login);
 
 router.route("/logout").post(AuthController.logout);
 

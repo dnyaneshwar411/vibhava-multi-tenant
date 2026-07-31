@@ -31,7 +31,7 @@ const exitHandler = function() {
 };
 
 const unexpectedErrorHandler = () => {
-  console.error("error ocurred serving closing");
+  console.error("error ocurred server closing");
   exitHandler();
 };
 

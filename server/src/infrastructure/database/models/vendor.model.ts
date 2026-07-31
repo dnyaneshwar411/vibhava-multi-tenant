@@ -23,8 +23,7 @@ const vendorSchema = new Schema({
   email: {
     type: String,
     required: true,
-    trim: true,
-    index: 1
+    unique: true
   },
   avatar: {
     type: imageSchema
@@ -35,6 +34,12 @@ const vendorSchema = new Schema({
     enum: CONSTANTS.VENDOR_STATUS,
     default: "Active",
     index: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    trim: true,
+    select: false
   },
   tradeCategory: {
     type: String,

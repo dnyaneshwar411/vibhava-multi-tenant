@@ -4,17 +4,17 @@ import type { InferRawDocTypeFromSchema } from "mongoose";
 const scopeSchema = new Schema({
   organization: {
     type: Schema.Types.ObjectId,
-    ref: "Organization",
-    require: true,
+    ref: "Organization"
   },
-  user: {
+  actor: {
     type: Schema.Types.ObjectId,
-    ref: "User",
-    require: true,
+    refPath: "actorModel",
+    required: true
   },
-  tenant: {
-    type: Schema.Types.ObjectId,
-    ref: "Tenant",
+  actorModel: {
+    type: String,
+    enum: ["Tenant", "Vendor", "User", "Operator"],
+    required: true
   },
   scopeMap: {
     type: Map,
@@ -22,8 +22,9 @@ const scopeSchema = new Schema({
   },
 });
 
+scopeSchema.index({ organization: 1, actor: 1, actorModel: 1 }, { unique: true });
+
 const Scope = model("Scope", scopeSchema);
 
 export default Scope;
-
 export type IScope = InferRawDocTypeFromSchema<typeof scopeSchema>;

@@ -44,7 +44,7 @@ const operatorSchema = new Schema({
   versionKey: false,
 });
 
-operatorSchema.index({ email: 1 });
+// operatorSchema.index({ email: 1 });
 
 const Operator = model("Operator", operatorSchema);
 export default Operator;

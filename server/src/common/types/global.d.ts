@@ -8,6 +8,7 @@ declare namespace Express {
   export interface Request {
     grantedScopes?: Scope[]
     organization?: string
+    organizationOwner?: string
     subdomain?: string
     userType?: USER_TYPE
     userModel?: POSSIBLE_USERS

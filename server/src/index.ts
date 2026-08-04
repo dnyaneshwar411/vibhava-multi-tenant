@@ -30,7 +30,7 @@ const exitHandler = function() {
   process.exit(1);
 };
 
-const unexpectedErrorHandler = () => {
+const unexpectedErrorHandler = (error: any) => {
   console.error("error ocurred server closing");
   exitHandler();
 };

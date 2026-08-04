@@ -47,6 +47,11 @@ const envSchema = zod.object({
   AWS_S3_REGION: zod.string(),
   AWS_S3_PRIVATE_BUCKET: zod.string(),
   AWS_S3_PUBLIC_BUCKET: zod.string(),
+
+  COMPANY_DEFAULT_STRIPE_KEY: zod.string(),
+  COMPANY_DEFAULT_RAZORPAY_KEY_ID: zod.string(),
+  COMPANY_DEFAULT_RAZORPAY_KEY_SECRET: zod.string(),
+  COMPANY_DEFAULT_RAZORPAY_SIGNATURE: zod.string(),
 });
 
 const validateEnv = function () {

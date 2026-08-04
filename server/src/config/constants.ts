@@ -60,7 +60,7 @@ export const CONSTANTS = {
   MEMBERSHIP_TIER: ["Starter", "Professional", "Enterprise", "Custom"],
   MEMBERSHIP_STATUS: ["Trialing", "Active", "Past Due", "Canceled", "Unpaid", "Incomplete"],
   MEMBERSHIP_BILLING_CYCLES: ["Monthly", "Annually", "Custom"],
-  MEMBERSHIP_TYPE: ["Subscription Renewal", "Tier Upgrade", "Add-on Purchase"],
+  MEMBERSHIP_TYPE: ["Subscription Renewal", "Tier Upgrade", "Tier Downgrade", "Add-on Purchase"],
 
   AUDIT_LOG_ACTOR_MODEL: ["User", "Operator"],
   AUDIT_LOG_ACTION: [
@@ -82,5 +82,7 @@ export const CONSTANTS = {
   FILE_UPLOAD_DIRECTORIES: [
     "profiles/user", "profiles/tenant",
     "profiles/vendor", "profiles/operators"
-  ]
+  ],
+
+  PAYMENT_RESOURCES: ["ORGANIZATION_MEMBERSHIP"]
 } as const;

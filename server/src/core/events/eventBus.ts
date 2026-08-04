@@ -1,45 +1,51 @@
 import EventEmitter from "node:events";
-import { emailQueue, pushQueue, retryAndBackOff, smsQueue } from "../../infrastructure/queue/queue";
-import { generateJobId } from "./utils";
-import { EventTypes, NotificationEventPayload } from "../../shared/types/notification";
-class EventBus extends EventEmitter {
+import { EventPayload, EventTypes } from "./types.js";
+import { paymentsWebhookQueue } from "../../infrastructure/queue/queue.js";
+import { generateJobId } from "./utils.js";
+import Logger from "../../common/logger/index.js";
+
+class EventOrchestratorImplementation extends EventEmitter {
   constructor() {
     super();
     this.setMaxListeners(50);
   }
 
-  publish(event: EventTypes, payload: NotificationEventPayload) {
-    return this.emit(event, payload);
+  init() {
+    this.handler("WEBHOOK_PAYMENTS", async function (payload: EventPayload) {
+      if (payload.type !== "WEBHOOK_PAYMENTS") return
+      const jobId = generateJobId("webhook-payment", {
+        organizationId: payload.organizationId,
+        transactionId: payload.transactionId,
+        webhookId: payload.webhookId
+      })
+      paymentsWebhookQueue.add(jobId, payload)
+    })
+
+    // this.handler("PAYMENTS", async function (payload: EventPayload) {
+
+    // })
+
+    // this.handler("AUDIT_LOGS", async function (payload: EventPayload) {
+
+    // })
   }
 
-  async subscribe(
+  publish(event: EventTypes, payload: EventPayload) {
+    try {
+      return this.emit(event, payload);
+    } catch (error: any) {
+      Logger.error(error.message || "", error)
+    }
+  }
+
+  async handler(
     event: EventTypes,
-    callback: (payload: NotificationEventPayload) => void | Promise<void>
+    callback: (payload: EventPayload) => void | Promise<void>
   ) {
     this.on(event, callback);
   }
 }
 
-const eventBus = new EventBus();
+export const EventOrchestrator = new EventOrchestratorImplementation();
 
-eventBus.subscribe("notification", async function (payload: NotificationEventPayload) {
-  const jobId = generateJobId({ queue: payload.type });
-  const { type, ...jobData } = payload;
-  switch (type) {
-    case "push":
-      await pushQueue.add(jobId, jobData, retryAndBackOff);
-      break;
-    case "email":
-      await emailQueue.add(jobId, jobData, retryAndBackOff);
-      break;
-    case "sms":
-      await smsQueue.add(jobId, jobData, retryAndBackOff);
-      break;
-    default:
-      break;
-  }
-})
-
-export const publishEvent = function (payload: NotificationEventPayload) {
-  eventBus.publish("notification", payload);
-}
+EventOrchestrator.init();

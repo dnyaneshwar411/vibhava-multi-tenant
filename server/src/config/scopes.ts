@@ -85,6 +85,9 @@ export const ALL_SCOPES = [
   'operator:scopes:assign',
   'operator:scopes:unassign',
 
+  // tbd
+  "organization:membership:manage"
+
 ] as const;
 
 export type Scope = typeof ALL_SCOPES[number];

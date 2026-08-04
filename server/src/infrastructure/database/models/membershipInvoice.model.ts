@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { CONSTANTS } from "../../config/constants.js";
+import { CONSTANTS } from "../../../config/constants.js";
 
 const membershipInvoiceSchema = new Schema({
   organization: {

@@ -1,0 +1,37 @@
+import { Orders } from "razorpay/dist/types/orders.js";
+import { CONSTANTS } from "../../config/constants.js";
+import Stripe from "stripe";
+
+export type GATEWAY_OPTIONS = typeof CONSTANTS.PAYMENT_GATEWAY[number];
+
+export type CURRENCY_OPTIONS = typeof CONSTANTS.AVAILABLE_CURRENCY[number];
+
+export type MEMBERSHIP_TIER = typeof CONSTANTS.MEMBERSHIP_TIER[number];
+
+export type MEMBERSHIP_TIER_CHANGE_TYPE = typeof CONSTANTS.MEMBERSHIP_TYPE[number]
+
+export type MEMBERSHIP_BILLING_CYCLES = typeof CONSTANTS.MEMBERSHIP_BILLING_CYCLES[number]
+
+export type MEMBERSHIP_TIER_CONFIG = {
+  pricing: Record<
+    "monthly" | "yearly",
+    Record<
+      "INR" | "USD", {
+        amount: number,
+        discount: {
+          available: boolean,
+          quantity: number
+        }
+      }>
+  >
+}
+
+export type MEMBERSHIP_DURATION = "monthly" | "yearly";
+
+export type CREATE_PAYMENT_SESSION = {
+  success: true,
+  order: Orders.RazorpayOrder | Stripe.Response<Stripe.Checkout.Session>,
+} | {
+  success: false,
+  message: string
+}

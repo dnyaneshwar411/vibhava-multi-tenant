@@ -8,9 +8,6 @@ import { v1Router } from "./api/routes/index.js";
 import helmet from "helmet";
 import Logger from "./common/logger/index.js";
 import { env } from "./config/envVars.js";
-import "./infrastructure/database/models/tenant.model.js";
-import "./infrastructure/database/models/organization.model.js"
-
 
 const app: Express = express();
 

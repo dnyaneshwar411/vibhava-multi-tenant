@@ -36,12 +36,21 @@ export default class AuthController {
       maxAge: env.JWT_ACCESS_EXPIRATION,
     });
 
-    res.cookie("access", data.tokens.refresh, {
+    res.cookie("refresh", data.tokens.refresh, {
       httpOnly: true,
       secure: env.NODE_ENV === "production",
       sameSite: "strict",
       maxAge: env.JWT_REFRESH_EXPIRATION,
     });
+
+    if (data.user?.organization?.subdomain) {
+      res.cookie("organization", data.user?.organization?.subdomain.toString(), {
+        httpOnly: true,
+        secure: env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: env.JWT_REFRESH_EXPIRATION,
+      })
+    }
 
     res.status(httpStatus.OK).json({
       code: httpStatus.OK,

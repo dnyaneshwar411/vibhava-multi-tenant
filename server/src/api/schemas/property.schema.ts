@@ -74,10 +74,12 @@ export default class PropertySchema {
           .enum(CONSTANTS.AVAILABLE_CURRENCY)
           .nullable(),
         defaultLateFeeAmount: z
+          .coerce
           .number({ message: "Default late fee amount is required" })
           .min(0, "Late fee cannot be negative")
           .default(0),
         defaultGracePeriodDays: z
+          .coerce
           .number()
           .int()
           .min(0, "Grace period days cannot be negative")

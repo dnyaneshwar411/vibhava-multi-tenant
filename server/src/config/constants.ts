@@ -81,7 +81,8 @@ export const CONSTANTS = {
 
   FILE_UPLOAD_DIRECTORIES: [
     "profiles/user", "profiles/tenant",
-    "profiles/vendor", "profiles/operators"
+    "profiles/vendor", "profiles/operators",
+    "property/media"
   ],
 
   PAYMENT_RESOURCES: ["ORGANIZATION_MEMBERSHIP"]

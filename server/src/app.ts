@@ -1,6 +1,7 @@
 import express, { Express, NextFunction, Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 import httpStatus from "http-status";
 import { ApiError } from "./api/utils/apiError.js";
 import { errorConverter, errorHandler } from "./api/middlewares/error.middleware.js";
@@ -13,6 +14,7 @@ const app: Express = express();
 
 app.use(cors());
 app.use(cookieParser());
+app.use(bodyParser.json());
 
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));

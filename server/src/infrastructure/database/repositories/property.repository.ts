@@ -1,10 +1,54 @@
-import { ObjectIdQueryTypeCasting } from "mongoose";
+import { ObjectIdQueryTypeCasting, QueryFilter } from "mongoose";
 import { CreatePropertySchema, UpdatePropertySchema } from "../../../api/schemas/property.schema.js";
 import Property from "../models/property.model.js";
 import { PaginationOptions } from "../../../common/utils/pagination.js";
 
 export default class PropertyRepository {
   private static model = Property;
+
+  static async paginate(organizationId: ObjectIdQueryTypeCasting, filters: Record<string, any>) {
+    const dbQuery: QueryFilter<{}> = {
+      organization: organizationId
+    }
+
+    if(filters.status) {
+      dbQuery.status = filters.status;
+    }
+
+    if(filters.amenities) {
+      dbQuery.amenities = { $in: filters.amenities.split(",") };
+    }
+
+    if(filters.propertyType) {
+      dbQuery.propertyType = filters.propertyType;
+    }
+
+    if (filters.searchByLocation && typeof filters.query === "string" && filters.query.length > 3) {
+      dbQuery["address.street1"] = { $regex: filters.query, $options: "i" };
+      dbQuery["address.street2"] = { $regex: filters.query, $options: "i" };
+      dbQuery["address.city"] = { $regex: filters.query, $options: "i" };
+      dbQuery["address.country"] = { $regex: filters.query, $options: "i" };
+    }
+
+    const [properties, total] = await Promise.all([
+      this.model
+        .find(dbQuery)
+        .select("name status propertyType")
+        .limit(filters.limitNumber)
+        .skip(filters.skip)
+        .lean(),
+      this.model.countDocuments(dbQuery),
+    ])
+
+    return {
+      pagination: {
+        total,
+        page: filters.pageNumber || 1,
+        limit: filters.limitNumber || 10,
+      },
+      properties
+    }
+  }
 
   static async OrganizationPropertiesPaginate(organization: ObjectIdQueryTypeCasting, filters: PaginationOptions) {
     const dbQuery: Record<string, object | string | boolean> = { organization, isDeleted: false }

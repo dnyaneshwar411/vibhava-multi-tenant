@@ -1,4 +1,4 @@
-import { ObjectIdQueryTypeCasting } from "mongoose";
+import { ObjectIdQueryTypeCasting, QueryFilter } from "mongoose";
 import Unit from "../models/unit.model.js";
 import { CreateUnitInput, UpdateUnitInput } from "../../../api/schemas/unit.schema.js";
 
@@ -59,4 +59,53 @@ export default class UnitRepository {
       returnDocument: "after"
     })
   }
+
+  static async paginate(organizationId: ObjectIdQueryTypeCasting, filters: Record<string, any>) {
+      const dbQuery: QueryFilter<{}> = {
+        organization: organizationId
+      }
+  
+      if(filters.status) {
+        dbQuery.status = filters.status;
+      }
+  
+      if(filters.unitType) {
+        dbQuery.unitType = { $in: filters.unitType.split(",") };
+      }
+  
+      if(filters.floor) {
+        dbQuery.floor = { $in: filters.floor.split(",") };
+      }
+
+      if(filters.property) {
+        dbQuery.property = filters.property;
+      }
+  
+      if (filters.searchByLocation && typeof filters.query === "string" && filters.query.length > 3) {
+        dbQuery["address.street1"] = { $regex: filters.query, $options: "i" };
+        dbQuery["address.street2"] = { $regex: filters.query, $options: "i" };
+        dbQuery["address.city"] = { $regex: filters.query, $options: "i" };
+        dbQuery["address.country"] = { $regex: filters.query, $options: "i" };
+      }
+  
+      const [units, total] = await Promise.all([
+        this.model
+          .find(dbQuery)
+          .select("unitNumber floor unitType status")
+          .populate("property", "name")
+          .limit(filters.limitNumber)
+          .skip(filters.skip)
+          .lean(),
+        this.model.countDocuments(dbQuery),
+      ])
+  
+      return {
+        pagination: {
+          total,
+          page: filters.pageNumber || 1,
+          limit: filters.limitNumber || 10,
+        },
+        units
+      }
+    }
 }

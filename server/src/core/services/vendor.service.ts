@@ -18,6 +18,18 @@ export default class VendorService {
     }, {} as Record<string, boolean>)
   }
 
+  static async paginate(organizationId: ObjectIdQueryTypeCasting, filters: Record<string, any>) {
+    const { total, vendors } = await VendorRepository.paginate(organizationId, filters as any)
+    return {
+      pagination: {
+        total,
+        pageNumber: filters.pageNumber || 1,
+        limitNumber: filters.limitNumber || 10
+      },
+      vendors
+    }
+  }
+
   static async create(payload: CreateVendorInput["body"] & { organization: ObjectIdQueryTypeCasting }) {
     const session = await mongoose.startSession();
     session.startTransaction();

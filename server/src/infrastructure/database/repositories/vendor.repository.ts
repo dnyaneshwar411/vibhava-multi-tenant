@@ -8,17 +8,32 @@ import Scope from "../models/scopesMap.model.js";
 export default class VendorRepository {
   private static model = Vendor;
 
-  static async paginate(organizationId: ObjectIdQueryTypeCasting, filters: PaginationOptions) {
+  static async paginate(organizationId: ObjectIdQueryTypeCasting, filters: Record<string, any>) {
     const dbQuery: Record<string, object | string | boolean> = { organization: organizationId };
     if (typeof filters.query === "string" && filters.query.length > 3) {
       dbQuery.name = { $regex: filters.query, $options: "i" };
+    }
+
+    if(filters.status) {
+      dbQuery.status = filters.status;
+    }
+
+    if(filters.tradeCategory) {
+      dbQuery.tradeCategory = { $in: filters.tradeCategory.split(",") };
+    }
+
+    if (filters.searchByLocation && typeof filters.query === "string" && filters.query.length > 3) {
+      dbQuery["address.street1"] = { $regex: filters.query, $options: "i" };
+      dbQuery["address.street2"] = { $regex: filters.query, $options: "i" };
+      dbQuery["address.city"] = { $regex: filters.query, $options: "i" };
+      dbQuery["address.country"] = { $regex: filters.query, $options: "i" };
     }
 
     const [vendors, total] = await Promise.all([
       this.model
         .find(dbQuery)
         .limit(filters.limitNumber)
-        .skip(filters.pageNumber - 1)
+        .skip(filters.skip)
         .lean(),
       this.model.countDocuments(dbQuery)
     ]);

@@ -11,6 +11,7 @@ import { fileRouter } from "./file.router.js";
 import { membershipRouter } from "./membership.router.js";
 import { webhookRouter } from "./webhook.router.js";
 import { dashboardRouter } from "./dashboard.router.js";
+import { directoryRouter } from "./directory.routes.js";
 
 const router: express.Router = express.Router();
 
@@ -27,6 +28,7 @@ const routes: { path: string, router: express.Router }[] = [
   { path: "/memberships", router: membershipRouter },
   { path: "/webhook", router: webhookRouter },
   { path: "/dashboard", router: dashboardRouter },
+  { path: "/directory", router: directoryRouter },
 ];
 
 routes.forEach(route => router.use(route.path, route.router));

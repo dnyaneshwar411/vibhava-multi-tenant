@@ -13,12 +13,30 @@ export default class TenantRepository {
       .lean()
   }
 
-  static async getTenantFilter(filter: QueryFilter<{}>) {
-    return await this.model
-      .findOne(filter)
-      .populate("organization", "owner subdomain")
-      .select("+password")
-      // .select("-updatedAt -__v")
-      .lean();
+  static async paginate(organizationId: ObjectIdQueryTypeCasting, filters: QueryFilter<{}>) {
+    const dbQuery: QueryFilter<{}> = { organization: organizationId }
+    if (filters.query) {
+      dbQuery.$or = [
+        { name: { $regex: filters.query, $options: "i" } },
+        { email: { $regex: filters.query, $options: "i" } }
+      ]
+    }
+
+    if(filters.status) {
+      dbQuery.status = filters.status
+    }
+
+    const [tenants, total] = await Promise.all([
+      this.model
+        .find(dbQuery)
+        .select("name email mobileNumber countryCode status")
+        .limit(filters.limitNumber)
+        .skip(filters.skip)
+        .lean(),
+      this.model
+        .countDocuments(dbQuery)
+    ])
+
+    return { tenants, total }
   }
 }

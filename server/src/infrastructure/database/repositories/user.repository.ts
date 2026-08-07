@@ -4,6 +4,7 @@ import Scope from "../models/scopesMap.model.js";
 import { PaginationOptions } from "../../../common/utils/pagination.js";
 import { QueryFilter } from "mongoose";
 import S3 from "../../providers/aws/s3.js";
+import { CONSTANTS_TYPE } from "../../../common/types/index.js";
 
 export default class UserRepository {
   private static userModel = User;
@@ -16,7 +17,10 @@ export default class UserRepository {
     return user
   }
 
-  static async paginate(organizationId: ObjectIdQueryTypeCasting, filters: PaginationOptions) {
+  static async paginate(
+    organizationId: ObjectIdQueryTypeCasting,
+    filters: PaginationOptions & { status: CONSTANTS_TYPE["USER_STATUS"] }
+  ) {
     const dbQuery: QueryFilter<{}> = { organization: organizationId }
     if (filters.query) {
       dbQuery.$or = [
@@ -25,11 +29,16 @@ export default class UserRepository {
       ]
     }
 
-    // tbd map the avatar of each of the user
+    if(filters.status) {
+      dbQuery.status = filters.status
+    }
+
     const [result, total] = await Promise.all([
       this.userModel
         .find(dbQuery)
         .select("-organization -updatedAt -__v")
+        .limit(filters.limitNumber)
+        .skip(filters.skip)
         .lean(),
       this.userModel
         .countDocuments(dbQuery)

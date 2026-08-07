@@ -16,9 +16,9 @@ export type PaginationOptions<T = {}> = {
 export const buildPaginationFilters = function <T = {}, R = {}>(
   options: PaginationQueryOptions<T>
 ) {
-  const { page, limit, query } = options;
+  const { page, limit, query, ...rest } = options;
   const pageNumber = !isNaN(Number(page)) ? parseInt(page) : 1;
   const limitNumber = !isNaN(Number(limit)) ? parseInt(limit) : 10;
   const skip = (pageNumber - 1) * limitNumber;
-  return { pageNumber, limitNumber, skip, query: query && secureRegexInput(query) } as R & PaginationOptions;
+  return { ...rest, pageNumber, limitNumber, skip, query: query && secureRegexInput(query) } as R & PaginationOptions;
 }

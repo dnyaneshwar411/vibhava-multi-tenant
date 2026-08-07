@@ -13,3 +13,9 @@ export const imageSchema = z.object({
     .trim()
     .min(1, "Key cannot be empty"),
 });
+
+export const paginationSchema = z.object({
+  page: z.coerce.number().default(1),
+  limit: z.coerce.number().default(1),
+  query: z.string().optional(),
+})

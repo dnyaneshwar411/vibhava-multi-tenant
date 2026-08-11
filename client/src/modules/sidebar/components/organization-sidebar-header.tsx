@@ -69,7 +69,7 @@ function SidebarNavMainItem({ item }: {
           <SidebarMenuButton
             id={`nav-main-button-${item.title.toLowerCase().replace(/\s+/g, '-')}`}
             tooltip={item.title}
-            isActive={pathname === item.href}
+            isActive={pathname.startsWith(item.href)}
             className={cn(
               "rounded-xs text-sm font-medium px-3 h-[34px] transition-colors hover:opacity-100 hover:font-medium font-light cursor-pointer",
               pathname === item.href ? "bg-primary! text-primary-foreground!" : "opacity-60"

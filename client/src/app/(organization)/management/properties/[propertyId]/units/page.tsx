@@ -38,7 +38,7 @@ export default function Page() {
     <div className="p-4 w-full space-y-6">
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon">
-          <Link href={`/properties/${propertyId}`}>
+          <Link href={`/management/properties/${propertyId}`}>
             <ArrowLeftIcon className="size-4" />
           </Link>
         </Button>

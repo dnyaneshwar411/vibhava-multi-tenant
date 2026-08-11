@@ -27,7 +27,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DeleteProperty } from "@/modules/properties/components/delete-property";
 import { UpdatePropertyDialog } from "@/modules/properties/components/update-property-dialog";
 import { cn } from "@/lib/utils";
-import { copyText } from "@/lib/helpers";
 
 type GalleryItem = {
   key: string;
@@ -136,7 +135,6 @@ export default function Page() {
 
   return (
     <div className="w-full space-y-6 p-4 md:p-6">
-      <button onClick={copyText(propertyResponse)}>copy</button>
       <div className="flex flex-col gap-4 border-b pb-5 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">

@@ -35,7 +35,7 @@ export const sidebarData: OrgSidebarSection[] = [
     resourceGroup: "/management",
     children: [
       { title: "Properties", type: "RESOURCE", scopes: ["property:read", "property:read:assigned"], icon: Building2, href: "/management/properties" },
-      { title: "Units", type: "RESOURCE", scopes: ["unit:read"], icon: DoorOpen, href: "/management/units" },
+      // { title: "Units", type: "RESOURCE", scopes: ["unit:read"], icon: DoorOpen, href: "/management/units" },
       { title: "Tenants", type: "RESOURCE", scopes: ["tenant:read"], icon: Users, href: "/management/tenants" },
       { title: "Leases", type: "RESOURCE", scopes: ["lease:read"], icon: FileText, href: "/management/leases" },
     ]

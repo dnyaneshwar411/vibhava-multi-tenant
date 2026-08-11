@@ -117,7 +117,7 @@ export default class PropertySchema {
             .object({
               type: z.literal("Point").default("Point"),
               coordinates: z
-                .array(z.number())
+                .array(z.coerce.number())
                 .length(2, "Coordinates must contain exactly [longitude, latitude]")
                 .nullable(),
             })
@@ -138,10 +138,12 @@ export default class PropertySchema {
         .object({
           currency: z.enum(CONSTANTS.AVAILABLE_CURRENCY).nullable().optional(),
           defaultLateFeeAmount: z
+            .coerce
             .number()
             .min(0, "Late fee cannot be negative")
             .optional(),
           defaultGracePeriodDays: z
+            .coerce
             .number()
             .int()
             .min(0, "Grace period days cannot be negative")

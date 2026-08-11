@@ -6,44 +6,38 @@ export const updatePropertyFormSchema = z.object({
     .string()
     .trim()
     .min(1, "Property name is required")
-    .max(150, "Property name cannot exceed 150 characters")
-    .optional(),
-  propertyType: z.enum(PROPERTY_TYPES).optional(),
-  status: z.enum(PROPERTY_STATUSES).optional(),
+    .max(150, "Property name cannot exceed 150 characters"),
+  propertyType: z.enum(PROPERTY_TYPES),
+  status: z.enum(PROPERTY_STATUSES),
   address: z
     .object({
-      street1: z.string().trim().min(1, "Street address is required").optional(),
-      street2: z.string().trim().nullable().optional(),
-      city: z.string().trim().min(1, "City is required").optional(),
-      state: z.string().trim().min(1, "State is required").optional(),
-      zipCode: z.string().trim().min(1, "Zip code is required").optional(),
-      country: z.enum(COUNTRIES).optional(),
+      street1: z.string().trim().min(1, "Street address is required"),
+      street2: z.string(),
+      city: z.string().trim().min(1, "City is required"),
+      state: z.string().trim().min(1, "State is required"),
+      zipCode: z.string().trim().min(1, "Zip code is required"),
+      country: z.enum(COUNTRIES),
       location: z
         .object({
           type: z.literal("Point"),
           coordinates: z
-            .array(z.number())
-            .length(2, "Coordinates must contain exactly [longitude, latitude]")
-            .nullable(),
-        })
-        .optional(),
-    })
-    .optional(),
-  amenities: z.array(z.enum(AMENITIES)).optional(),
+            .array(z.string())
+            .length(2, "Coordinates must contain exactly [longitude, latitude]"),
+        }),
+    }),
+  amenities: z.array(z.enum(AMENITIES)),
   media: z
     .object({
-      primaryImage: z.any().optional(),
-      coverImage: z.any().optional(),
-      gallery: z.array(z.any()).optional(),
-    })
-    .optional(),
+      primaryImage: z.any(),
+      coverImage: z.any(),
+      gallery: z.array(z.any()),
+    }),
   finance: z
     .object({
-      currency: z.enum(CURRENCIES).optional(),
-      defaultLateFeeAmount: z.coerce.number().min(0, "Late fee cannot be negative").optional(),
-      defaultGracePeriodDays: z.coerce.number().int().min(0, "Grace period cannot be negative").optional(),
-    })
-    .optional(),
+      currency: z.enum(CURRENCIES),
+      defaultLateFeeAmount: z.string(),
+      defaultGracePeriodDays: z.string(),
+    }),
 });
 
 export type UpdatePropertyFormValues = z.infer<typeof updatePropertyFormSchema>;

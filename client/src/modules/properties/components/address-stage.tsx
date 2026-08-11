@@ -1,4 +1,5 @@
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
@@ -6,11 +7,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UseFormReturn } from "react-hook-form";
-import { CreatePropertyFormValues } from "../helpers/index";
+import { useForm, UseFormReturn } from "react-hook-form";
+import { addressFormSchema, AddressInfoFormSchemaType, CreatePropertyFormValues } from "../helpers/index";
+import { useMemo } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
 
 export function AddressStage({
-  form,
+  form: defaultForm,
   previousStep,
   nextStep
 }: {
@@ -18,8 +22,23 @@ export function AddressStage({
   nextStep: any,
   form: UseFormReturn<CreatePropertyFormValues>;
 }) {
+  const defaultFormState = useMemo(() => defaultForm.getValues(), [])
+
+  const form = useForm<AddressInfoFormSchemaType>({
+    resolver: zodResolver(addressFormSchema),
+    mode: "onChange",
+    defaultValues: {
+      address: defaultFormState.address
+    }
+  });
+
+  async function goToNextStep(data: AddressInfoFormSchemaType) {
+    defaultForm.setValues(data)
+    nextStep();
+  }
+
   return (
-    <div className="space-y-4">
+    <Form {...form}>
       <FormField
         control={form.control}
         name="address.street1"
@@ -91,6 +110,19 @@ export function AddressStage({
           )}
         />
       </div>
-    </div>
+      <div className="flex justify-end gap-4 pt-4">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={previousStep}
+          className="min-w-[100px]"
+        >
+          Back
+        </Button>
+        <Button onClick={form.handleSubmit(goToNextStep)} className="min-w-[100px]">
+          Next
+        </Button>
+      </div>
+    </Form>
   );
 }

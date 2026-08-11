@@ -20,47 +20,46 @@ import { PROPERTY_TYPES, PROPERTY_STATUSES } from "../configs/index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
+import { useMemo } from "react";
 
 export function BasicInfoStage({
-  previousStep,
   nextStep,
   form: defaultForm,
 }: {
-  previousStep: () => void;
   nextStep: () => void;
   form: UseFormReturn<CreatePropertyFormValues>;
 }) {
+  const defaultFormState = useMemo(() => defaultForm.getValues(), [])
+
   const form = useForm<BasicInfoFormSchemaType>({
     resolver: zodResolver(basicInfoFormSchema),
-    mode: "onChange", // 👈 Fixed: validates live on keystrokes
+    mode: "onChange",
     defaultValues: {
-      name: "",
-      propertyType: "Multi-Family",
-      status: "Active"
+      name: defaultFormState.name,
+      propertyType: defaultFormState.propertyType,
+      status: defaultFormState.status
     }
   });
 
   async function goToNextStep(data: BasicInfoFormSchemaType) {
-    console.log("Validated Data:", data);
+    defaultForm.setValues(data)
     nextStep();
   }
 
   return (
     <Form {...form}>
       <FieldGroup>
-        <form onSubmit={form.handleSubmit(goToNextStep)} className="space-y-4">
+        <div onSubmit={form.handleSubmit(goToNextStep)} className="space-y-4">
           <FormField
             control={form.control}
             name="name"
             render={({ field, ...others }) => (
               <FormItem>
-                {JSON.stringify({field, ...others})}
                 <FormLabel>Property Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter property name" {...field} />
                 </FormControl>
-                {/* Fixed: Uncommented FormMessage */}
-                <FormMessage />
+                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
@@ -115,10 +114,10 @@ export function BasicInfoStage({
             />
           </div>
 
-          <Button type="submit">
+          <Button onClick={form.handleSubmit(goToNextStep)} className="ml-auto block min-w-[100px]">
             Next
           </Button>
-        </form>
+        </div>
       </FieldGroup>
     </Form>
   );

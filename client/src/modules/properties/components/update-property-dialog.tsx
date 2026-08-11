@@ -46,14 +46,18 @@ export function UpdatePropertyDialog({
         street2: property.address.street2,
         city: property.address.city,
         state: property.address.state,
-        zipCode: property.address.zipCode,
+        zipCode: String(property.address.zipCode),
         country: property.address.country,
+        location: {
+          type: property.location?.type || "Point",
+          coordinates: property.location?.coordinates || [0, 0]
+        }
       },
       amenities: property.amenities,
       finance: {
         currency: property.finance.currency,
-        defaultLateFeeAmount: property.finance.defaultLateFeeAmount,
-        defaultGracePeriodDays: property.finance.defaultGracePeriodDays,
+        defaultLateFeeAmount: String(property.finance.defaultLateFeeAmount),
+        defaultGracePeriodDays: String(property.finance.defaultGracePeriodDays),
       },
     },
   });
@@ -65,28 +69,51 @@ export function UpdatePropertyDialog({
       });
       if (response.code !== 200) throw new Error(response.message);
       toast.success(response.message);
-      window.location.reload();
+      // mutate functionality
     } catch (error) {
       toast.error(buildToastMessage(error));
     }
   }
 
+  const nextStep = function () {
+    if (currentStage === 3) return
+    setCurrentStage(step => step + 1);
+  }
+
+  const previousStep = function () {
+    if (currentStage === 0) return
+    setCurrentStage(step => step - 1);
+  }
+
   const renderStage = () => {
     switch (currentStage) {
       case 0:
-        return <BasicInfoStage form={form as any} />;
+        return <BasicInfoStage
+          nextStep={nextStep}
+          form={form as any}
+        />;
       case 1:
-        return <AddressStage form={form as any} />;
+        return <AddressStage
+          previousStep={previousStep}
+          nextStep={nextStep}
+          form={form as any}
+        />;
       case 2:
-        return <AmenitiesFinanceStage form={form as any} />;
-      case 3:
-        return <MediaStage form={form as any} />;
+        return <AmenitiesFinanceStage
+          previousStep={previousStep}
+          nextStep={onSubmit}
+          form={form as any}
+        />;
+      // case 3:
+      //   return <MediaStage
+      //     previousStep={previousStep}
+      //     nextStep={onSubmit}
+      //     form={form as any}
+      //   />;
       default:
         return null;
     }
   };
-
-  const isLastStage = currentStage === STAGES.length - 1;
 
   return (
     <Dialog>
@@ -101,25 +128,6 @@ export function UpdatePropertyDialog({
         <Form {...form}>
           <div className="space-y-4">
             {renderStage()}
-            <div className="flex justify-between pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                disabled={currentStage === 0}
-                onClick={() => setCurrentStage((prev) => prev - 1)}
-              >
-                Back
-              </Button>
-              {isLastStage ? (
-                <Button onClick={form.handleSubmit(onSubmit)}>
-                  Update Property
-                </Button>
-              ) : (
-                <Button onClick={() => setCurrentStage((prev) => prev + 1)}>
-                  Next
-                </Button>
-              )}
-            </div>
           </div>
         </Form>
       </DialogContent>

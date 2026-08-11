@@ -10,8 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import {
   createPropertyFormSchema,
   type CreatePropertyFormValues,
@@ -20,12 +18,11 @@ import { BasicInfoStage } from "./basic-info-stage";
 import { AddressStage } from "./address-stage";
 import { AmenitiesFinanceStage } from "./amenities-finance-stage";
 import { MediaStage } from "./media-stage";
-import { fileUpload } from "@/lib/file-upload";
 import { toast } from "sonner";
 import { buildToastMessage } from "@/lib/catchAsync";
 import api from "@/network/client";
-import { uploadImageHelper } from "@/modules/file-upload/helpers";
 import { createPropertyDefaultValue } from "../configs/creation-default";
+import { uploadPropertyImages } from "../helpers/network";
 
 const STAGES = ["Basic Info", "Address", "Amenities & Finance", "Media"];
 
@@ -43,60 +40,67 @@ export default function CreatePropertyModal({
 
   async function onSubmit(values: CreatePropertyFormValues) {
     try {
-      // tdb image upload logic
-      const fileUpload = await uploadImageHelper(values.media.primaryImage, { resource: "profiles/user" })
-      console.log(fileUpload)
-      return
+      const toastMediaUpload = toast.loading("Uploading Media Images");
+      const mediaResponse: any = await uploadPropertyImages(values.media)
       const payload = {
         ...values,
         media: {
-          primaryImage: {
-            private: false,
-            key: "/property/media"
-          },
-          coverImage: {
-            private: false,
-            key: "/property/media"
-          },
-          gallery: []
+          primaryImage: mediaResponse.primaryImage.data,
+          coverImage: mediaResponse.coverImage.data,
+          gallery: mediaResponse.gallery.map((item: any) => item.data)
         }
       }
+      toast.dismiss(toastMediaUpload);
+      toast.success("Media Uploaded Successfully");
       const response = await api.post("/api/v1/property", {
         body: payload as any
       })
       if (response.code !== 201) throw new Error(response.message);
       toast.success(response.message);
     } catch (error) {
-      toast.error(buildToastMessage(error))
+      toast.error(buildToastMessage(error));
     }
   }
 
   const nextStep = function () {
-    if(currentStage === 3) return
+    if (currentStage === 3) return
     setCurrentStage(step => step + 1);
   }
 
   const previousStep = function () {
-    if(currentStage === 0) return
+    if (currentStage === 0) return
     setCurrentStage(step => step - 1);
   }
 
   const renderStage = () => {
     switch (currentStage) {
       case 0:
-        return <BasicInfoStage previousStep={previousStep} nextStep={nextStep} form={form} />;
+        return <BasicInfoStage
+          nextStep={nextStep}
+          form={form}
+        />;
       case 1:
-        return <AddressStage previousStep={previousStep} nextStep={nextStep} form={form} />;
+        return <AddressStage
+          previousStep={previousStep}
+          nextStep={nextStep}
+          form={form}
+        />;
       case 2:
-        return <AmenitiesFinanceStage previousStep={previousStep} nextStep={nextStep} form={form} />;
+        return <AmenitiesFinanceStage
+          previousStep={previousStep}
+          nextStep={nextStep}
+          form={form}
+        />;
       case 3:
-        return <MediaStage previousStep={previousStep} nextStep={nextStep} form={form} />;
+        return <MediaStage
+          previousStep={previousStep}
+          nextStep={onSubmit}
+          form={form}
+        />;
       default:
         return null;
     }
   };
-
-  const isLastStage = currentStage === STAGES.length - 1;
 
   return (
     <Dialog>
@@ -108,28 +112,9 @@ export default function CreatePropertyModal({
             Step {currentStage + 1} of {STAGES.length}
           </DialogDescription>
         </DialogHeader>
-          <div
-            className="space-y-4"
-          >
-            {renderStage()}
-            <div className="flex justify-between pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                disabled={currentStage === 0}
-                onClick={() => setCurrentStage((prev) => prev - 1)}
-              >
-                Back
-              </Button>
-              {isLastStage
-                ? <Button onClick={form.handleSubmit(onSubmit)}>
-                  Create Property
-                </Button>
-                : <Button onClick={() => setCurrentStage((prev) => prev + 1)}>
-                  Next
-                </Button>}
-            </div>
-          </div>
+        <div className="space-y-4">
+          {renderStage()}
+        </div>
       </DialogContent>
     </Dialog>
   );

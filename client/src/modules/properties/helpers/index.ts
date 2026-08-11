@@ -14,7 +14,7 @@ export const basicInfoFormSchema = z.object({
 export const addressFormSchema = z.object({
   address: z.object({
     street1: z.string().trim().min(1, "Street address is required"),
-    street2: z.string().trim().nullable(),
+    street2: z.string().trim(),
     city: z.string().trim().min(1, "City is required"),
     state: z.string().trim().min(1, "State is required"),
     zipCode: z.string().trim().min(1, "Zip code is required"),
@@ -23,8 +23,7 @@ export const addressFormSchema = z.object({
       type: z.literal("Point"),
       coordinates: z
         .array(z.number())
-        .length(2, "Coordinates must contain exactly [longitude, latitude]")
-        .nullable(),
+        .length(2, "Coordinates must contain exactly [longitude, latitude]"),
     }),
   }),
 })
@@ -52,4 +51,7 @@ export const createPropertyFormSchema = basicInfoFormSchema
   .merge(mediaFormSchema);
 
 export type BasicInfoFormSchemaType = z.infer<typeof basicInfoFormSchema>
+export type AddressInfoFormSchemaType = z.infer<typeof addressFormSchema>
+export type AmenitiesFinanceFormSchemaType = z.infer<typeof amenitiesFinanceFormSchema>
+export type MediaFormSchemaType = z.infer<typeof mediaFormSchema>
 export type CreatePropertyFormValues = z.infer<typeof createPropertyFormSchema>;

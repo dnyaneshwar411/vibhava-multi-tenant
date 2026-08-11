@@ -1,4 +1,5 @@
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
@@ -14,12 +15,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { UseFormReturn } from "react-hook-form";
-import { CreatePropertyFormValues } from "../helpers/index";
+import { useForm, UseFormReturn } from "react-hook-form";
+import { amenitiesFinanceFormSchema, AmenitiesFinanceFormSchemaType, CreatePropertyFormValues } from "../helpers/index";
 import { AMENITIES, CURRENCIES } from "../configs/index";
+import { Button } from "@/components/ui/button";
+import { useMemo } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function AmenitiesFinanceStage({
-  form,
+  form: defaultForm,
   previousStep,
   nextStep
 }: {
@@ -27,8 +31,24 @@ export function AmenitiesFinanceStage({
   nextStep: any,
   form: UseFormReturn<CreatePropertyFormValues>;
 }) {
+  const defaultFormState = useMemo(() => defaultForm.getValues(), [])
+
+  const form = useForm<AmenitiesFinanceFormSchemaType>({
+    resolver: zodResolver(amenitiesFinanceFormSchema),
+    mode: "onChange",
+    defaultValues: {
+      amenities: defaultFormState.amenities,
+      finance: defaultFormState.finance
+    }
+  });
+
+  async function goToNextStep(data: AmenitiesFinanceFormSchemaType) {
+    defaultForm.setValues(data)
+    nextStep(defaultFormState);
+  }
+
   return (
-    <div className="space-y-4">
+    <Form {...form}>
       <FormField
         control={form.control}
         name="amenities"
@@ -50,10 +70,10 @@ export function AmenitiesFinanceStage({
                             return checked
                               ? field.onChange([...(field.value || []), amenity])
                               : field.onChange(
-                                  field.value?.filter(
-                                    (value) => value !== amenity
-                                  )
-                                );
+                                field.value?.filter(
+                                  (value) => value !== amenity
+                                )
+                              );
                           }}
                         />
                       </FormControl>
@@ -124,6 +144,19 @@ export function AmenitiesFinanceStage({
           )}
         />
       </div>
-    </div>
+      <div className="flex justify-end gap-4 pt-4">
+        <Button
+          type="button"
+          variant="outline"
+          className="min-w-[100px]"
+          onClick={previousStep}
+        >
+          Back
+        </Button>
+        <Button className="min-w-[100px]" onClick={form.handleSubmit(goToNextStep)}>
+          Save
+        </Button>
+      </div>
+    </Form>
   );
 }

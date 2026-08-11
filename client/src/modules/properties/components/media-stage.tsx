@@ -1,4 +1,5 @@
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
@@ -6,13 +7,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UseFormReturn } from "react-hook-form";
-import { CreatePropertyFormValues } from "../helpers/index";
+import { useForm, UseFormReturn } from "react-hook-form";
+import { CreatePropertyFormValues, mediaFormSchema, MediaFormSchemaType } from "../helpers/index";
 import { ImagePreviewer } from "@/components/common/image-previewer";
 import ImageUpload from "@/modules/file-upload/components/image-upload";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo } from "react";
+import { Button } from "@/components/ui/button";
 
 export function MediaStage({
-  form,
+  form: defaultForm,
   previousStep,
   nextStep
 }: {
@@ -20,17 +24,32 @@ export function MediaStage({
   nextStep: any,
   form: UseFormReturn<CreatePropertyFormValues>;
 }) {
+  const defaultFormState = useMemo(() => defaultForm.getValues(), [])
+
+  const form = useForm<MediaFormSchemaType>({
+    resolver: zodResolver(mediaFormSchema),
+    mode: "onChange",
+    defaultValues: {
+      media: defaultFormState.media
+    }
+  });
+
+
+  async function goToNextStep(data: MediaFormSchemaType) {
+    defaultForm.setValues(data)
+    nextStep(data);
+  }
   return (
-    <div className="space-y-4">
-      <ImageUpload 
-        fieldLabel="Primary Image" 
-        fieldName="media.primaryImage" 
-        formControl={form.control} 
+    <Form {...form}>
+      <ImageUpload
+        fieldLabel="Primary Image"
+        fieldName="media.primaryImage"
+        formControl={form.control}
       />
-      <ImageUpload 
-        fieldLabel="Cover Image" 
-        fieldName="media.coverImage" 
-        formControl={form.control} 
+      <ImageUpload
+        fieldLabel="Cover Image"
+        fieldName="media.coverImage"
+        formControl={form.control}
       />
       <FormField
         control={form.control}
@@ -67,6 +86,19 @@ export function MediaStage({
           </FormItem>
         )}
       />
-    </div>
+
+      <div className="flex justify-between pt-4">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={previousStep}
+        >
+          Back
+        </Button>
+        <Button onClick={form.handleSubmit(goToNextStep)}>
+          Next
+        </Button>
+      </div>
+    </Form>
   );
 }

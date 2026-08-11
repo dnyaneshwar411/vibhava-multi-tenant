@@ -35,10 +35,10 @@ export default function LoginPage() {
               <AlertCircle className="h-6 w-6" />
             </div>
             <CardTitle className="text-xl font-semibold tracking-tight">
-              Workspace Required
+              Organization Required
             </CardTitle>
             <CardDescription className="text-balance">
-              You cannot log in directly from the main directory. Please use your company's dedicated workspace URL.
+              You cannot log in directly from the main directory. Please use your company's dedicated organization URL.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4 pt-4">
@@ -65,7 +65,7 @@ function LoginForm() {
   const form = useForm<LoginSchemaInput>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: ""
     },
     mode: "onChange",
@@ -74,7 +74,7 @@ function LoginForm() {
 
   const loginUser = async function (data: LoginSchemaInput) {
     try {
-      const response = await fetch("/api/login/workspace", {
+      const response = await fetch("/api/login/organization", {
         method: "POST",
         body: JSON.stringify(data)
       });
@@ -104,9 +104,9 @@ function LoginForm() {
                           Login to your account
                         </p>
                       </div>
-                      <FormField control={form.control} name="email" render={({ field }) => (
+                      <FormField control={form.control} name="username" render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Workspace Title</FormLabel>
+                          <FormLabel>Organization Title</FormLabel>
                           <FormControl><Input placeholder="Acme Corp" {...field} /></FormControl>
                           <FormMessage />
                         </FormItem>

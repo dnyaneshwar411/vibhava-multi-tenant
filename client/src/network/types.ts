@@ -19,6 +19,7 @@ export type HTTPRequestOptionsType = {
   query?: Record<string, string>;
   body?: BodyKey | Blob | FormData | URLSearchParams | ReadableStream;
   early?: boolean
+  multiPartRequest?: boolean
 };
 
 export type APIInterfaceRequest = Exclude<HTTPRequestOptionsType, "method">;

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { rootDomain } from '@/config/constants';
 import { cookies } from 'next/headers';
 
-const unAuthWorkspaceRoutes = ["/login"]
+const unAuthTenantRoutes = ["/login"]
 
 function extractSubdomain(request: NextRequest): string | null {
   const url = request.url;
@@ -44,22 +44,23 @@ export default async function middleware(request: NextRequest) {
   const access = cookiesList.get("access")?.value;
 
   if (subdomain) {
-    if (pathname.startsWith('/admin')) {
+    const path = pathname.split("/")
+    if (path.includes('admin')) {
       return NextResponse.redirect(new URL('/', request.url));
     }
 
-    const unAuthorized = unAuthWorkspaceRoutes.includes(pathname)
+    const unAuthorized = unAuthTenantRoutes.includes(pathname)
 
     if (!access && !unAuthorized) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    const workspace = cookiesList.get("workspace")?.value
-    if (subdomain !== workspace && !unAuthorized) {
+    const organization = cookiesList.get("organization")?.value
+    if (subdomain !== organization && !unAuthorized) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    if (subdomain === workspace && pathname === "/login" && access) {
+    if (subdomain === organization && pathname === "/login" && access) {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 

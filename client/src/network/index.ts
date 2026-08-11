@@ -63,27 +63,16 @@ export const makeRequest = async function (
   );
   const cookieList = await cookies()
   const requestHeaders = await buildRequestHeaders()
-  // console.log(requestHeaders)
-  // console.log({
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "Cookie": cookieList.toString(),
-  //       ...requestHeaders,
-  //       ...options.headers,
-  //     },
-  //     method: options.method,
-  //     body: JSON.stringify(options.body),
-  //     "credentials": "include",
-  //   })
+
   const response = await fetch(url, {
     headers: {
-      "Content-Type": "application/json",
       "Cookie": cookieList.toString(),
       ...requestHeaders,
       ...options.headers,
+      ...(options.multiPartRequest ? {} : { "Content-Type": "application/json" })
     },
     method: options.method,
-    body: JSON.stringify(options.body),
+    body: options.multiPartRequest ? options.body as any : JSON.stringify(options.body),
     "credentials": "include",
   });
   if (options.early) return response
@@ -118,7 +107,6 @@ export const HTTPRequest = async function (
     {
       headers: {
         authorization: `Bearer ${refreshToken}`,
-        "Content-Type": "application/json",
         ...options.headers,
       },
       method: "POST",

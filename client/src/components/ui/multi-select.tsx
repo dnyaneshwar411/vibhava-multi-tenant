@@ -15,8 +15,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "./checkbox";
 import { Input } from "./input";
+import { Button } from "./button";
 
-export interface Option {
+export type Option<T = unknown> = T & {
   label: string;
   value: string;
 }
@@ -109,13 +110,21 @@ export function MultiSelect({
 
       {open && (
         <div className="relative mt-2">
+          <Button
+            size="xs"
+            className="absolute translate-x-1/3 -translate-y-1/3 top-0 right-0 z-100"
+            variant="destructive"
+            onClick={() => setOpen(false)}
+          >
+            <X />
+          </Button>
           <div className="absolute top-0 z-50 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in fade-in-0 zoom-in-95">
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
-              <Input
+              {/* <Input
                 className="border-0 border-b-1"
                 placeholder="Search..."
-              />
+              /> */}
               <CommandGroup className="max-h-64 overflow-auto">
                 {options.map((option) => {
                   return (

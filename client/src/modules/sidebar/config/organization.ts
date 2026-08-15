@@ -14,6 +14,7 @@ import {
   History,
   Building,
   CircleUserRound,
+  DollarSign,
 } from "lucide-react";
 import { OrgSidebarSection } from "../types/organization";
 
@@ -81,7 +82,7 @@ export const sidebarData: OrgSidebarSection[] = [
     resourceGroup: "/administration",
     children: [
       { title: "Users", type: "RESOURCE", scopes: ["user:read"],icon: UserCog, href: "/administration/users" },
-      { title: "Memberships", type: "RESOURCE", scopes: ["organization:membership:manage"],icon: UserPlus, href: "/administration/memberships" },
+      { title: "Memberships", type: "RESOURCE", scopes: ["organization:membership:manage"],icon: DollarSign, href: "/administration/memberships" },
       { title: "Audit Logs", type: "RESOURCE", scopes: ["user:read"],icon: History, href: "/administration/audit-logs" },
     ],
   },
@@ -93,7 +94,7 @@ export const sidebarData: OrgSidebarSection[] = [
     resourceGroup: "/settings",
     children: [
       { title: "Organization", type: "RESOURCE", scopes: ["organization:read"], icon: Building, href: "/settings/organization" },
-      { title: "User Profile", type: "RESOURCE", scopes: [], icon: CircleUserRound, href: "/settings/profile" },
+      { title: "Profile", type: "RESOURCE", scopes: [], icon: CircleUserRound, href: "/settings/profile" },
     ]
   },
 ];

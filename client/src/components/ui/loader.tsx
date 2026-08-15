@@ -1,11 +1,6 @@
 "use client"
 import { Loader2, Terminal } from "lucide-react"
 
-interface TableSkeletonProps {
-  rows?: number
-  columns?: number
-}
-
 interface FullLoaderProps {
   message?: string
   variant?: "default" | "full-page"

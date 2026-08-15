@@ -6,14 +6,14 @@ export const createPropertyDefaultValue: CreatePropertyFormValues = {
   status: "Active",
   address: {
     street1: "",
-    street2: null,
+    street2: "",
     city: "",
     state: "",
     zipCode: "",
     country: "India",
     location: {
       type: "Point",
-      coordinates: null,
+      coordinates: [0, 0],
     },
   },
   amenities: [],

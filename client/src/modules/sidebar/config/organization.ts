@@ -93,8 +93,21 @@ export const sidebarData: OrgSidebarSection[] = [
     type: "SECTION",
     resourceGroup: "/settings",
     children: [
-      { title: "Organization", type: "RESOURCE", scopes: ["organization:read"], icon: Building, href: "/settings/organization" },
       { title: "Profile", type: "RESOURCE", scopes: [], icon: CircleUserRound, href: "/settings/profile" },
+      { 
+        title: "Organization", 
+        type: "RESOURCE-NESTED", 
+        scopes: ["organization:read"],
+         icon: Building,
+         resourceType: "/settings/organization",
+         children: [
+          { title: "Profile", href: "/settings/organization" },
+          { title: "Landing", href: "/settings/organization/pages/landing" },
+          { title: "About", href: "/settings/organization/pages/about" },
+          { title: "Terms & Conditions", href: "/settings/organization/pages/terms-conditions" },
+          { title: "Privacy Policy", href: "/settings/organization/pages/privacy-policy" },
+         ]
+       },
     ]
   },
 ];

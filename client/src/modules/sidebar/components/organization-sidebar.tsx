@@ -1,6 +1,6 @@
 "use client";
 import { Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
-import { OrganizationSidebarContents } from "./organization-sidebar-header";
+import { OrganizationSidebarContents } from "./organization-sidebar-contents";
 import Image from "next/image";
 import { useGlobalStore } from "@/providers/store-provider";
 import OrganizationSidebarFooter  from "./organization-sidebar-footer";

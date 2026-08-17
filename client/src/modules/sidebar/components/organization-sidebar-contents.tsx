@@ -143,9 +143,9 @@ function SidebarNavMainSubItem({ item }: {
         id={`nav-sub-button-${item.title.toLowerCase().replace(/\s+/g, '-')}`}
         className={cn(
           "rounded-xs text-sm font-medium px-3 transition-colors hover:opacity-100 hover:font-medium font-light cursor-pointer",
-          pathname.startsWith(item.href) ? "bg-secondary! text-primary-foreground!" : "opacity-60"
+          pathname === item.href ? "bg-secondary! text-primary-foreground!" : "opacity-60"
         )}
-        render={<a href={item.href}>{item.title}</a>}
+        render={<Link href={item.href}>{item.title}</Link>}
       />
     </SidebarMenuSubItem>
   );

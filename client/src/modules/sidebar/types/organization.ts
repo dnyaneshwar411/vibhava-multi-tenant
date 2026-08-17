@@ -13,7 +13,7 @@ export type OrgSidebarResourceNested = {
   title: string;
   icon: LucideIcon;
   scopes: string[];
-  resourceType: "/financials/reports";
+  resourceType: "/financials/reports" | "/settings/organization";
   children: {
     title: string;
     href: string;

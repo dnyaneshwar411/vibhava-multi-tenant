@@ -17,6 +17,7 @@ export const uploadImageHelper = async function (
       },
       multiPartRequest: true
     })
+    if (response.code !== 200) throw new Error(response.message)
     return { success: true, data: response.data, message: response.message || "Successfull" }
   } catch (error: any) {
     return {

@@ -26,7 +26,7 @@ export default function Page() {
   }
 
   const dashboardPayload = data.data;
-console.log(data)
+
   if (dashboardPayload.role === "User" || dashboardPayload.role === "Operator") {
     return <StaffDashboard metrics={dashboardPayload.metrics || {}} />
   }

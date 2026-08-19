@@ -56,7 +56,7 @@ export default function Page() {
     limit: 10,
     status: "",
   });
-console.log(query, debouncedQuery, pagination)
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between flex-wrap gap-4 border bg-card/50 p-5">

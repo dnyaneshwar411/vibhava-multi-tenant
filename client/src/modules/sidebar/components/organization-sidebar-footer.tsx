@@ -33,7 +33,7 @@ export default function OrganizationSidebarFooter() {
   const { isMobile } = useSidebar()
   const { actor: user } = useGlobalStore(state => state)
   const [open, setOpen] = useState(false);
-console.log(user)
+
   return (
     <SidebarFooter className="border-t-1">
       <LogoutSession open={open} setOpen={setOpen} />

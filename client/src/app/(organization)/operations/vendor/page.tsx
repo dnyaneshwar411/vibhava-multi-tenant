@@ -1,79 +1,117 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import {
-  BadgeCheck,
-  Building2,
-  Mail,
-  Search,
-  ArrowUpRight,
-  Trash2,
-  Truck,
-  Wrench,
-} from "lucide-react";
-import Link from "next/link";
-
-import useFetch from "@/hooks/useFetch";
-import { useDebounce } from "@/hooks/useDebounce";
+import { SetStateAction, useState } from "react";
 import { ErrorState } from "@/components/ui/error";
 import { ComponentLoader } from "@/components/ui/loader";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import useFetch from "@/hooks/useFetch";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
+  Search,
+  ExternalLink,
+  Wrench,
+  Mail,
+  Phone,
+  MapPin,
+} from "lucide-react";
 import AdvancedPagination from "@/components/common/advanced-pagination";
-import CreateVendor from "@/modules/vendor/components/create-vendor";
-import { DeleteVendor } from "@/modules/vendor/components/delete-vendor";
-import { buttonVariants } from "@/components/ui/button";
+import { useDebounce } from "@/hooks/useDebounce";
+import { wordInitials } from "@/lib/helpers";
+import Link from "next/link";
+import VendorFilterOptions from "@/modules/vendor/components/vendor-filter-options";
+import EmptyState from "@/components/common/empty-state";
+import AddVendor from "@/modules/vendor/components/add-vendor";
+// import VendorFilterOptions from "@/modules/vendor/components/vendor-filter-options";
+// import AddVendor from "@/modules/vendor/components/add-vendor";
 
-type VendorRow = {
+interface Address {
+  street1: string;
+  street2?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+}
+
+interface Vendor {
   _id: string;
-  name?: string;
-  email?: string;
-  status?: string;
-  tradeCategory?: string;
-  createdBy?: string;
-  isDeleted?: boolean;
-};
+  organization: string;
+  name: string;
+  countryCode: number;
+  mobileNumber: number;
+  email: string;
+  status: "Active" | "Pending Approval" | "Suspended" | "Archived" | string;
+  tradeCategory: string;
+  address: Address;
+  createdBy: string;
+  avatar?: string;
+}
 
 export default function Page() {
+  const [query, setQuery] = useState("");
+  const debouncedQuery = useDebounce(query, 300);
   const [pagination, setPagination] = useState({
-    query: "",
     page: 1,
     limit: 10,
+    status: "",
   });
+console.log(query, debouncedQuery, pagination)
+  return (
+    <div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between flex-wrap gap-4 border bg-card/50 p-5">
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-lg font-bold tracking-tight">Vendors Directory</h1>
+          </div>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            Manage service providers, trade categories, and contractor contact records.
+          </p>
+        </div>
 
-  const debouncedQuery = useDebounce(pagination.query);
+        <div className="flex items-center gap-2">
+          <div className="relative w-full md:w-80">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+            <Input
+              placeholder="Search vendor name, email, phone, or trade..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="pl-9 h-8 text-xs rounded-none border-muted focus-visible:ring-0 focus-visible:border-foreground"
+            />
+          </div>
+          <AddVendor />
+          <VendorFilterOptions
+            pagination={pagination}
+            setPagination={setPagination}
+          />
+        </div>
+      </div>
+      <Container
+        pagination={{
+          ...pagination,
+          query: debouncedQuery
+        }}
+        setPagination={setPagination}
+      />
+    </div>
+  );
+}
 
-  const { isLoading, data, error, mutate } = useFetch("/api/v1/vendor", {
-    query: debouncedQuery,
-    page: pagination.page.toString(),
-    limit: pagination.limit.toString(),
-  });
+function Container({
+  pagination,
+  setPagination,
+}: {
+  pagination: Record<string, any>;
+  setPagination: SetStateAction<any>;
+}) {
+  const { isLoading, data, error, mutate } = useFetch("/api/v1/vendor", pagination);
 
-  const vendors: VendorRow[] = useMemo(() => data?.data ?? [], [data]);
+  const vendors: Vendor[] = data?.data;
   const paginationData = data?.pagination;
-
-  const activeCount = vendors.filter((vendor) => vendor.status === "Active").length;
-  const inactiveCount = vendors.filter((vendor) => vendor.status !== "Active").length;
-  const tradeCategories = new Set(vendors.map((vendor) => vendor.tradeCategory).filter(Boolean));
 
   if (isLoading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="border bg-card/50 p-12 flex items-center justify-center min-h-[450px]">
         <ComponentLoader />
       </div>
     );
@@ -81,10 +119,10 @@ export default function Page() {
 
   if (error || data?.code !== 200) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="border bg-card/50 p-6 flex items-center justify-center min-h-[450px]">
         <ErrorState
-          title={data?.message || "Vendor Sync Error"}
-          description="The backend returned an invalid response or the request failed."
+          title={data?.message || "Vendor Directory Sync Failure"}
+          description="Failed to pull live record state from cluster."
           reset={() => mutate()}
         />
       </div>
@@ -92,166 +130,85 @@ export default function Page() {
   }
 
   return (
-    <div className="flex w-full flex-col gap-6 p-4 md:p-6">
-      <div className="rounded-lg border bg-card p-5">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-semibold tracking-tight">Vendors</h1>
-              <Badge variant="secondary" className="font-normal">
-                {paginationData?.total ?? 0} total
-              </Badge>
+    <div className="border border-t-0 bg-card/50">
+      {vendors.length === 0 && <EmptyState />}
+      {vendors.length > 0 && <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+        {vendors?.map((vendor) => (
+          <div
+            key={vendor._id}
+            className="border bg-background p-4 flex flex-col justify-between gap-3 text-xs"
+          >
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-center gap-3">
+                <Avatar className="h-9 w-9 rounded-none border">
+                  <AvatarImage src={vendor.avatar} alt={vendor.name} />
+                  <AvatarFallback className="rounded-none text-xs">
+                    {wordInitials(vendor.name)}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="font-semibold text-foreground">{vendor.name}</h3>
+                  <div className="flex items-center gap-1 text-muted-foreground mt-0.5">
+                    <Mail className="h-3 w-3 shrink-0" />
+                    <span className="truncate max-w-[160px]">{vendor.email}</span>
+                  </div>
+                </div>
+              </div>
+              {/* <VendorStatusBadge status={vendor.status} /> */}
             </div>
-            <p className="max-w-2xl text-sm text-muted-foreground">
-              Track service vendors, their trade categories, and operational status.
-            </p>
-          </div>
 
-          <div className="relative w-full lg:w-80">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              placeholder="Search vendors"
-              value={pagination.query}
-              onChange={(e) =>
-                setPagination((prev) => ({
-                  ...prev,
-                  query: e.target.value,
-                  page: 1,
-                }))
-              }
-              className="pl-9"
-            />
-          </div>
+            <div className="space-y-1.5 text-muted-foreground pt-1">
+              <div className="flex items-center gap-1.5">
+                <Phone className="h-3 w-3 shrink-0" />
+                <span>
+                  +{vendor.countryCode} {vendor.mobileNumber}
+                </span>
+              </div>
+              {vendor.address && (
+                <div className="flex items-center gap-1.5 truncate">
+                  <MapPin className="h-3 w-3 shrink-0" />
+                  <span className="truncate">
+                    {vendor.address.city}, {vendor.address.state}
+                  </span>
+                </div>
+              )}
+            </div>
 
-          <CreateVendor>
-            <span className={buttonVariants({ variant: "default" })}>
-              Create Vendor
-            </span>
-          </CreateVendor>
-        </div>
-
-        <div className="mt-5 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-md border bg-background p-3">
-            <p className="text-xs uppercase tracking-wide text-muted-foreground">Active</p>
-            <div className="mt-2 flex items-center gap-2">
-              <BadgeCheck className="size-4 text-muted-foreground" />
-              <span className="text-lg font-semibold">{activeCount}</span>
+            <div className="flex items-center justify-between pt-2 border-t border-border/60 text-muted-foreground">
+              <div className="flex items-center gap-1.5">
+                <Wrench className="h-3 w-3" />
+                <span className="font-medium text-foreground">{vendor.tradeCategory}</span>
+              </div>
+              <Link
+                href={`/operations/vendor/${vendor._id}`}
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "icon",
+                  className: "h-6 w-6 rounded-none",
+                })}
+              >
+                <ExternalLink className="h-3 w-3" />
+              </Link>
             </div>
           </div>
-          <div className="rounded-md border bg-background p-3">
-            <p className="text-xs uppercase tracking-wide text-muted-foreground">Inactive</p>
-            <div className="mt-2 flex items-center gap-2">
-              <Truck className="size-4 text-muted-foreground" />
-              <span className="text-lg font-semibold">{inactiveCount}</span>
-            </div>
-          </div>
-          <div className="rounded-md border bg-background p-3">
-            <p className="text-xs uppercase tracking-wide text-muted-foreground">Categories</p>
-            <div className="mt-2 flex items-center gap-2">
-              <Wrench className="size-4 text-muted-foreground" />
-              <span className="text-lg font-semibold">{tradeCategories.size}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+        ))}
+      </div>}
 
-      {vendors.length === 0 ? (
-        <div className="flex min-h-[55vh] items-center justify-center">
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <Building2 />
-              </EmptyMedia>
-              <EmptyTitle>No vendors found</EmptyTitle>
-              <EmptyDescription>
-                Create vendors through the backend flow and they will show up here.
-              </EmptyDescription>
-            </EmptyHeader>
-          </Empty>
-        </div>
-      ) : (
-        <div className="overflow-hidden rounded-lg border bg-card">
-          <Table className="min-w-max">
-            <TableHeader className="sticky top-0 z-10 bg-background">
-              <TableRow>
-                <TableHead className="w-[280px]">Vendor</TableHead>
-                <TableHead>Trade</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Created by</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {vendors.map((vendor) => (
-                <TableRow key={vendor._id}>
-                  <TableCell>
-                    <div className="space-y-1">
-                      <div className="font-medium text-foreground">{vendor.name || "Unnamed vendor"}</div>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Mail className="size-3.5" />
-                        <span className="truncate">{vendor.email || "—"}</span>
-                      </div>
-                    </div>
-                  </TableCell>
-
-                  <TableCell>
-                    <Badge variant="outline" className="font-normal">
-                      {vendor.tradeCategory || "—"}
-                    </Badge>
-                  </TableCell>
-
-                  <TableCell>
-                    <Badge
-                      variant={vendor.status === "Active" ? "secondary" : "outline"}
-                      className="capitalize font-normal"
-                    >
-                      {vendor.status || "Unknown"}
-                    </Badge>
-                  </TableCell>
-
-                  <TableCell>
-                    <div className="text-sm text-muted-foreground">
-                      {vendor.createdBy || "—"}
-                    </div>
-                  </TableCell>
-
-                  <TableCell className="text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <Link
-                        href={`/operations/vendor/${vendor._id}`}
-                        className={buttonVariants({ variant: "outline", size: "sm" })}
-                      >
-                        View <ArrowUpRight className="ml-1 size-4" />
-                      </Link>
-                      <DeleteVendor vendorId={vendor._id} vendorName={vendor.name}>
-                        <span
-                          className={buttonVariants({
-                            variant: "destructive",
-                            size: "sm",
-                          })}
-                        >
-                          <Trash2 className="mr-1 size-4" />
-                          Delete
-                        </span>
-                      </DeleteVendor>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+      {paginationData && paginationData.total > 0 && (
+        <div className="p-3 border-t bg-card/30">
+          <AdvancedPagination
+            page={pagination.page}
+            limit={pagination.limit}
+            total={paginationData.total}
+            onPageChange={(page) =>
+              setPagination((prev: any) => ({ ...prev, page }))
+            }
+            onLimitChange={(limit) =>
+              setPagination((prev: any) => ({ ...prev, limit, page: 1 }))
+            }
+          />
         </div>
       )}
-
-      <AdvancedPagination
-        page={pagination.page}
-        limit={pagination.limit}
-        total={paginationData?.total ?? 0}
-        onPageChange={(page) => setPagination((prev) => ({ ...prev, page }))}
-        onLimitChange={(limit) =>
-          setPagination((prev) => ({ ...prev, limit, page: 1 }))
-        }
-      />
     </div>
   );
 }

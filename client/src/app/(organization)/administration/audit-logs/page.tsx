@@ -4,12 +4,9 @@ import { ErrorState } from "@/components/ui/error"
 import { ComponentLoader } from "@/components/ui/loader"
 import useFetch from "@/hooks/useFetch"
 import { copyText } from "@/lib/helpers"
-import TenantProfileDetails from "@/modules/tenant/components/tenant-profile-details"
-import UserProfileDetails from "@/modules/user/components/user-profile-details"
-import VendorProfileDetails from "@/modules/vendor/components/vendor-profile-details"
 
 export default function Page() {
-  const { isLoading, data, error, mutate } = useFetch("/api/v1/auth/me")
+  const { isLoading, data, error, mutate } = useFetch("/api/v1/")
 
   if (isLoading) {
     return (
@@ -29,20 +26,6 @@ export default function Page() {
         />
       </div>
     )
-  }
-
-  const actorModel = data?.actorModel
-
-  if(actorModel === "User") {
-    return <UserProfileDetails user={data.data} />
-  }
-
-  if (actorModel === "Tenant") {
-    return <TenantProfileDetails tenant={data.data} />
-  }
-
-  if (actorModel === "Vendor") {
-    return <VendorProfileDetails vendor={data.data} />
   }
 
   return (

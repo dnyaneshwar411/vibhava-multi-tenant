@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { getUpdateUserDefaultValues } from "../config/update-user-default-value";
-import { updateUserSchema } from "../helpers/update-schema";
+import { UpdateUserInput, updateUserSchema } from "../helpers/update-schema";
 import type { UserDetailsForForm, UpdateUserFormValues } from "../types";
 
 const USER_STATUSES = ["Active", "Inactive", "Suspended"] as const;
@@ -36,13 +36,13 @@ export function UpdateUser({
   const [open, setOpen] = useState(false);
   const defaultValues = getUpdateUserDefaultValues(user);
 
-  const form = useForm<UpdateUserFormValues>({
+  const form = useForm<UpdateUserInput>({
     resolver: zodResolver(updateUserSchema),
     defaultValues,
     mode: "all",
   });
 
-  async function onSubmit(values: UpdateUserFormValues) {
+  async function onSubmit(values: UpdateUserInput) {
     try {
       const response = await api.put(`/api/v1/user/${user._id}`, {
         body: {
@@ -50,7 +50,7 @@ export function UpdateUser({
           mobileNumber: values.mobileNumber ? Number(values.mobileNumber) : undefined,
           countryCode: values.countryCode ? Number(values.countryCode) : undefined,
           status: values.status,
-        },
+        } as any,
       });
 
       if (response.code !== 200) throw new Error(response.message);
@@ -71,7 +71,7 @@ export function UpdateUser({
         if (value) form.reset(defaultValues);
       }}
     >
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Edit user</DialogTitle>

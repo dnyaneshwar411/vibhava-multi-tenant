@@ -20,8 +20,7 @@ export default function AddTenantBasicInfo({ form: defaultForm, nextStep }: {
     resolver: zodResolver(tenantCreationOverview),
     mode: "onChange",
     defaultValues: {
-      firstName: defaultValues.firstName,
-      lastName: defaultValues.lastName,
+      name: defaultValues.name,
       email: defaultValues.email,
       countryCode: defaultValues.countryCode,
       mobileNumber: defaultValues.mobileNumber,
@@ -38,35 +37,19 @@ export default function AddTenantBasicInfo({ form: defaultForm, nextStep }: {
     <Form {...form}>
       <FieldGroup>
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-3">
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormItem className="space-y-1">
-                  <FormLabel className="text-xs font-semibold">First Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John" className="h-9 rounded-none text-xs" {...field} />
-                  </FormControl>
-                  <FormMessage className="text-[10px]" />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormItem className="space-y-1">
-                  <FormLabel className="text-xs font-semibold">Last Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Doe" className="h-9 rounded-none text-xs" {...field} />
-                  </FormControl>
-                  <FormMessage className="text-[10px]" />
-                </FormItem>
-              )}
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="space-y-1">
+                <FormLabel className="text-xs font-semibold">First Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="John" className="h-9 rounded-none text-xs" {...field} />
+                </FormControl>
+                <FormMessage className="text-[10px]" />
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={form.control}

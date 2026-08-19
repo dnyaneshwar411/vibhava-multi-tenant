@@ -102,10 +102,10 @@ export const sidebarData: OrgSidebarSection[] = [
          resourceType: "/settings/organization",
          children: [
           { title: "Profile", href: "/settings/organization" },
-          { title: "Landing", href: "/settings/organization/pages/landing" },
-          { title: "About", href: "/settings/organization/pages/about" },
-          { title: "Terms & Conditions", href: "/settings/organization/pages/terms-conditions" },
-          { title: "Privacy Policy", href: "/settings/organization/pages/privacy-policy" },
+          // { title: "Landing", href: "/settings/organization/pages/landing" },
+          // { title: "About", href: "/settings/organization/pages/about" },
+          // { title: "Terms & Conditions", href: "/settings/organization/pages/terms-conditions" },
+          // { title: "Privacy Policy", href: "/settings/organization/pages/privacy-policy" },
          ]
        },
     ]

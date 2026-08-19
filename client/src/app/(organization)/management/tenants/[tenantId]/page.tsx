@@ -26,6 +26,7 @@ import TenantDetailsManageScopes from "@/modules/tenant/components/tenant-detail
 import { useTabsContentNavigation } from "@/hooks/useTabsContentNavigation";
 import UpdateTenant from "@/modules/tenant/components/update-tenant";
 import DeleteTenant from "@/modules/tenant/components/delete-tenant";
+import { wordInitials } from "@/lib/helpers";
 
 export default function TenantDetailsPage() {
   const { tenantId } = useParams();
@@ -53,8 +54,8 @@ export default function TenantDetailsPage() {
 
   const tenant = data.data
 
-  const fullName = `${tenant.firstName} ${tenant.lastName}`;
-  const initials = `${tenant.firstName?.[0] || ""}${tenant.lastName?.[0] || ""}`;
+  const fullName = tenant.name;
+  const initials = wordInitials(tenant.name);
 
   const formatDate = (dateString: string) => {
     if (!dateString) return "N/A";

@@ -26,15 +26,15 @@ export default function Page() {
   }
 
   const dashboardPayload = data.data;
-
+console.log(data)
   if (dashboardPayload.role === "User" || dashboardPayload.role === "Operator") {
-    return <StaffDashboard metrics={dashboardPayload.metrics} />
+    return <StaffDashboard metrics={dashboardPayload.metrics || {}} />
   }
   if (dashboardPayload.role === "Vendor") {
-    return <VendorDashboard metrics={dashboardPayload.metrics} />
+    return <VendorDashboard metrics={dashboardPayload.metrics || {}} />
   }
   if (dashboardPayload.role === "Tenant") {
-    return <TenantDashboard metrics={dashboardPayload.metrics} />
+    return <TenantDashboard metrics={dashboardPayload.metrics || {}} />
   }
 
   return <div className="p-6">Unknown dashboard role</div>;

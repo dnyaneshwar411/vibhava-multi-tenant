@@ -52,3 +52,24 @@ export type VendorDetailsForForm = {
     country?: VendorCountry;
   };
 };
+
+export type Vendor = {
+  _id: string;
+  name?: string;
+  email?: string;
+  status?: string;
+  tradeCategory?: string;
+  countryCode?: string;
+  mobileNumber?: string;
+  organization?: string;
+  createdBy?: string;
+  address?: {
+    street1?: string;
+    street2?: string;
+    city?: string;
+    state?: string;
+    zipCode?: string;
+    country?: string;
+  };
+  isDeleted?: boolean;
+}

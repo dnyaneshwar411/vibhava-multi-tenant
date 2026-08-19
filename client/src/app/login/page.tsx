@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import useDomain from "@/hooks/useDomain"
 import Image from "next/image"
-import { AlertCircle, ArrowLeft } from "lucide-react"
+import { AlertCircle, ArrowLeft, Building2, User, UserCheck } from "lucide-react"
 import { rootDomain } from "@/config/constants"
 import { useForm } from "react-hook-form"
 import { loginSchema, LoginSchemaInput } from "@/validation-schemas/login"
@@ -22,6 +22,7 @@ import { buildToastMessage } from "@/lib/catchAsync"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function LoginPage() {
   const { isSubdomain } = useDomain();
@@ -65,12 +66,16 @@ function LoginForm() {
   const form = useForm<LoginSchemaInput>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
+      user: "User", // Default: User, Tenant, Vendor
       username: "",
       password: ""
     },
     mode: "onChange",
   })
   const router = useRouter();
+
+  // Watch current selected user role to dynamic UI updates if needed
+  const selectedRole = form.watch("user");
 
   const loginUser = async function (data: LoginSchemaInput) {
     try {
@@ -91,7 +96,7 @@ function LoginForm() {
   return (
     <div className="flex min-h-svh !bg-[#121212] flex-col items-center justify-center bg-muted p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-4xl">
-        <div className={"flex flex-col gap-6"} >
+        <div className={"flex flex-col gap-6"}>
           <Card className="overflow-hidden p-0">
             <CardContent className="grid p-0 md:grid-cols-2">
               <div className="p-6 md:p-8">
@@ -100,38 +105,90 @@ function LoginForm() {
                     <FieldGroup>
                       <div className="flex flex-col items-center gap-2 text-center">
                         <h1 className="text-2xl font-bold capitalize">Welcome back</h1>
-                        <p className="text-balance text-muted-foreground">
-                          Login to your account
+                        <p className="text-balance text-muted-foreground text-sm">
+                          Select your role and log in to your account
                         </p>
                       </div>
-                      <FormField control={form.control} name="username" render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Organization Title</FormLabel>
-                          <FormControl><Input placeholder="Acme Corp" {...field} /></FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )} />
-                      <FormField control={form.control} name="password" render={({ field }) => (
-                        <FormItem>
-                          <div className="flex items-center">
-                            <FormLabel>Password</FormLabel>
-                            <Link
-                              href="#"
-                              className="ml-auto text-sm underline-offset-2 hover:underline"
+
+                      {/* User Role Selection Tabs */}
+                      <FormField
+                        control={form.control}
+                        name="user"
+                        render={({ field }) => (
+                          <FormItem className="w-full">
+                            <Tabs
+                              value={field.value}
+                              onValueChange={field.onChange}
+                              className="w-full"
                             >
-                              Forgot your password?
-                            </Link>
-                          </div>
-                          <FormControl><Input placeholder="********" type="password" {...field} /></FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )} />
+                              <TabsList className="grid w-full grid-cols-3">
+                                <TabsTrigger value="User" className="flex items-center gap-1.5 text-xs">
+                                  <User className="h-3.5 w-3.5" />
+                                  User
+                                </TabsTrigger>
+                                <TabsTrigger value="Tenant" className="flex items-center gap-1.5 text-xs">
+                                  <Building2 className="h-3.5 w-3.5" />
+                                  Tenant
+                                </TabsTrigger>
+                                <TabsTrigger value="Vendor" className="flex items-center gap-1.5 text-xs">
+                                  <UserCheck className="h-3.5 w-3.5" />
+                                  Vendor
+                                </TabsTrigger>
+                              </TabsList>
+                            </Tabs>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="username"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              {selectedRole === "Tenant" ? "Tenant Email" : selectedRole === "Vendor" ? "Vendor Email" : "Username / Email"}
+                            </FormLabel>
+                            <FormControl>
+                              <Input placeholder={selectedRole === "Tenant" ? "acme-tenant" : "john.doe@example.com"} {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <div className="flex items-center">
+                              <FormLabel>Password</FormLabel>
+                              <Link
+                                href="#"
+                                className="ml-auto text-sm underline-offset-2 hover:underline"
+                              >
+                                Forgot your password?
+                              </Link>
+                            </div>
+                            <FormControl>
+                              <Input placeholder="********" type="password" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
                       <Field>
-                        <Button type="submit" className="w-full" disabled={form.formState.isSubmitting || loginSuccess}>Login</Button>
+                        <Button type="submit" className="w-full" disabled={form.formState.isSubmitting || loginSuccess}>
+                          Login as {selectedRole}
+                        </Button>
                       </Field>
-                      <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
+
+                      {/* <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                         Or continue with
                       </FieldSeparator>
+
                       <Field className="grid grid-cols-3 gap-4">
                         <Button variant="outline" type="button">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -160,10 +217,7 @@ function LoginForm() {
                           </svg>
                           <span className="sr-only">Login with Meta</span>
                         </Button>
-                      </Field>
-                      <FieldDescription className="text-center">
-                        Don&apos;t have an account? <a href="#">Sign up</a>
-                      </FieldDescription>
+                      </Field> */}
                     </FieldGroup>
                   </form>
                 </Form>

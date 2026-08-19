@@ -23,8 +23,6 @@ import TenantFilterOptions from "@/modules/tenant/components/tenant-filter-optio
 import AddTenant from "@/modules/tenant/components/add-tenant";
 interface Tenant {
   _id: string;
-  firstName?: string;
-  lastName?: string;
   name: string;
   email: string;
   mobileNumber: number;
@@ -92,10 +90,7 @@ function Container({ pagination, setPagination }: {
 }) {
   const { isLoading, data, error, mutate } = useFetch("/api/v1/tenant", pagination);
 
-  const tenants: Tenant[] = data?.data?.map((tenant: Tenant) => ({
-    ...tenant,
-    name: tenant.name || `${tenant.firstName} ${tenant.lastName}`
-  })) ?? [];
+  const tenants: Tenant[] = data?.data
   const paginationData = data?.pagination;
 
   if (isLoading) {

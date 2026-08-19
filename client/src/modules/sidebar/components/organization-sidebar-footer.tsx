@@ -33,7 +33,7 @@ export default function OrganizationSidebarFooter() {
   const { isMobile } = useSidebar()
   const { actor: user } = useGlobalStore(state => state)
   const [open, setOpen] = useState(false);
-
+console.log(user)
   return (
     <SidebarFooter className="border-t-1">
       <LogoutSession open={open} setOpen={setOpen} />
@@ -50,7 +50,7 @@ export default function OrganizationSidebarFooter() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">{wordInitials(user.name)}</AvatarFallback>
+                {/* <AvatarFallback className="rounded-lg">{wordInitials(user.name)}</AvatarFallback> */}
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>

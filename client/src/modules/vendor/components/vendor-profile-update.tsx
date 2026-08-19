@@ -12,8 +12,9 @@ import { useState } from "react";
 import VendorCreationBasicInformation from "./vendor-creation-basic-information";
 import VendorCreationAddress from "./vendor-creation-address";
 import { Vendor } from "../types";
+import VendorCreationPassword from "./vendor-creation-password";
 
-export default function UpdateVendor({ vendor }: {
+export default function VendorProfileUpdate({ vendor }: {
   vendor: Vendor
 }) {
   return (
@@ -60,7 +61,7 @@ function FormContainer({ vendor }: {
             Update {vendor.name}
           </DialogTitle>
           <Badge variant="outline" className="font-mono text-[11px] rounded-none">
-            Step {currentStep + 1} of 2
+            Step {currentStep + 1} of 3
           </Badge>
         </div>
       </DialogHeader>
@@ -71,25 +72,26 @@ function FormContainer({ vendor }: {
           nextStep={nextStep}
           previousStep={previousStep}
           form={form}
-          vendorId={vendor._id}
         />
       </div>
     </div>
   );
 }
 
-function RenderStep({ vendorId, currentStep, nextStep, previousStep, form }: {
+function RenderStep({ currentStep, nextStep, previousStep, form }: {
   currentStep: number;
   nextStep: () => void;
   previousStep: () => void;
   form: UseFormReturn<VendorCreationInput>;
-  vendorId: string
 }) {
   const onSubmit = async function () {
     try {
       const data: VendorCreationInput = form.getValues()
-      const response = await api.put(`/api/v1/vendor/${vendorId}`, {
-        body: data as any
+      const response = await api.put(`/api/v1/auth/profile`, {
+        body: {
+          ...data,
+          type: "Vendor"
+        }
       });
       if (response.code !== 200) throw new Error(response.message)
       toast.success(response.message || "Successfull")
@@ -104,6 +106,12 @@ function RenderStep({ vendorId, currentStep, nextStep, previousStep, form }: {
         form={form}
       />;
     case 1:
+      return <VendorCreationPassword
+        previousStep={previousStep}
+        nextStep={nextStep}
+        form={form}
+      />
+    case 2:
       return <VendorCreationAddress
         previousStep={previousStep}
         onSubmit={onSubmit}
@@ -112,5 +120,4 @@ function RenderStep({ vendorId, currentStep, nextStep, previousStep, form }: {
     default:
       return null;
   }
-  return (<></>)
 }

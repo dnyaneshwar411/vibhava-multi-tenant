@@ -50,8 +50,7 @@ function FormContainer() {
     resolver: zodResolver(tenantCreation),
     mode: "all",
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
       countryCode: "91",
       mobileNumber: "",

@@ -30,6 +30,7 @@ import { ErrorState } from "@/components/ui/error";
 import { toast } from "sonner";
 import { buildToastMessage } from "@/lib/catchAsync";
 import { DeleteLease } from "@/modules/lease/components/delete-lease";
+import { wordInitials } from "@/lib/helpers";
 
 const formatCurrency = (val: number) => 
   new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(val);
@@ -83,7 +84,7 @@ export default function LeaseDetailsPage() {
     );
   }
 
-  const primaryTenantName = `${lease.primaryTenant?.firstName || ""} ${lease.primaryTenant?.lastName || ""}`.trim() || "N/A";
+  const primaryTenantName = lease.primaryTenant?.name?.trim() || "N/A";
   const documentMeta = lease.leaseAgreementDocument?.meta;
   const documentUrl = lease.leaseAgreementDocument?.url;
 
@@ -212,7 +213,7 @@ export default function LeaseDetailsPage() {
             </div>
             <Avatar className="h-10 w-10 rounded-none border">
               <AvatarFallback className="rounded-none bg-primary/5 font-semibold text-xs">
-                {lease.primaryTenant?.firstName?.[0]}{lease.primaryTenant?.lastName?.[0]}
+                {wordInitials(lease.primaryTenant?.name)}
               </AvatarFallback>
             </Avatar>
           </CardContent>
@@ -318,7 +319,7 @@ export default function LeaseDetailsPage() {
                 <CardContent className="p-4 flex items-start gap-4">
                   <Avatar className="h-12 w-12 rounded-none border">
                     <AvatarFallback className="rounded-none font-semibold">
-                      {lease.primaryTenant?.firstName?.[0]}{lease.primaryTenant?.lastName?.[0]}
+                      {wordInitials(lease.primaryTenant?.name)}
                     </AvatarFallback>
                   </Avatar>
                   <div className="space-y-1 text-xs">
@@ -349,11 +350,11 @@ export default function LeaseDetailsPage() {
                         <div className="flex items-center gap-3">
                           <Avatar className="h-9 w-9 rounded-none border">
                             <AvatarFallback className="rounded-none text-xs">
-                              {tenant.firstName?.[0]}{tenant.lastName?.[0]}
+                              {wordInitials(lease.primaryTenant?.name)}
                             </AvatarFallback>
                           </Avatar>
                           <div className="text-xs">
-                            <p className="font-semibold">{tenant.firstName} {tenant.lastName}</p>
+                            <p className="font-semibold">{tenant.name}</p>
                             <p className="text-muted-foreground text-[11px]">{tenant.email}</p>
                           </div>
                         </div>

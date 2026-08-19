@@ -51,9 +51,9 @@ export function TenantDashboard({ metrics }: TenantDashboardProps) {
           <h1 className="text-3xl font-bold tracking-tight">Tenant Portal</h1>
           <p className="text-muted-foreground">Manage your rent payments and report maintenance issues.</p>
         </div>
-        {metrics.outstandingBalance > 0 && (
+        {metrics?.outstandingBalance > 0 && (
           <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium shadow-md">
-            <CreditCard className="mr-2 h-4 w-4" /> Pay Rent (₹{metrics.outstandingBalance})
+            <CreditCard className="mr-2 h-4 w-4" /> Pay Rent (₹{metrics?.outstandingBalance})
           </Button>
         )}
       </div>
@@ -68,38 +68,38 @@ export function TenantDashboard({ metrics }: TenantDashboardProps) {
             <Home className="h-5 w-5 text-muted-foreground" />
           </CardHeader>
           <CardContent className="grid gap-4 mt-2">
-            {metrics.lease ? (
+            {metrics?.lease ? (
               <>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <span className="text-xs text-muted-foreground block">Property</span>
-                    <span className="font-semibold text-sm">{metrics.lease.property}</span>
+                    <span className="font-semibold text-sm">{metrics?.lease?.property}</span>
                   </div>
                   <div>
                     <span className="text-xs text-muted-foreground block">Unit Number</span>
-                    <span className="font-semibold text-sm">{metrics.lease.unitNumber}</span>
+                    <span className="font-semibold text-sm">{metrics?.lease?.unitNumber}</span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 border-t pt-4">
                   <div>
                     <span className="text-xs text-muted-foreground block">Start Date</span>
-                    <span className="text-sm font-medium">{formatDate(metrics.lease.startDate)}</span>
+                    <span className="text-sm font-medium">{formatDate(metrics?.lease?.startDate)}</span>
                   </div>
                   <div>
                     <span className="text-xs text-muted-foreground block">End Date</span>
-                    <span className="text-sm font-medium">{formatDate(metrics.lease.endDate)}</span>
+                    <span className="text-sm font-medium">{formatDate(metrics?.lease?.endDate)}</span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 border-t pt-4">
                   <div>
                     <span className="text-xs text-muted-foreground block">Rent Amount</span>
-                    <span className="text-lg font-bold text-emerald-600">₹{metrics.lease.rentAmount.toLocaleString()}/mo</span>
+                    <span className="text-lg font-bold text-emerald-600">₹{metrics?.lease?.rentAmount.toLocaleString()}/mo</span>
                   </div>
                   <div>
                     <span className="text-xs text-muted-foreground block">Payment Due</span>
-                    <span className="text-sm font-medium">Day {metrics.lease.paymentDueDay} of every month</span>
+                    <span className="text-sm font-medium">Day {metrics?.lease?.paymentDueDay} of every month</span>
                   </div>
                 </div>
               </>
@@ -117,8 +117,8 @@ export function TenantDashboard({ metrics }: TenantDashboardProps) {
           <CardContent className="space-y-4">
             <div className="py-4 text-center">
               <span className="text-xs text-muted-foreground block uppercase font-semibold">Outstanding</span>
-              <span className={`text-4xl font-extrabold ${metrics.outstandingBalance > 0 ? "text-red-500" : "text-emerald-500"}`}>
-                ₹{metrics.outstandingBalance.toLocaleString()}
+              <span className={`text-4xl font-extrabold ${metrics?.outstandingBalance > 0 ? "text-red-500" : "text-emerald-500"}`}>
+                ₹{metrics?.outstandingBalance?.toLocaleString()}
               </span>
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground justify-center border-t pt-4">
@@ -140,19 +140,19 @@ export function TenantDashboard({ metrics }: TenantDashboardProps) {
               <span className="text-sm font-medium flex items-center gap-2">
                 <Wrench className="h-4 w-4 text-amber-500" /> Open Tickets
               </span>
-              <Badge variant="destructive">{metrics.maintenance.open}</Badge>
+              <Badge variant="destructive">{metrics?.maintenance?.open}</Badge>
             </div>
             <div className="flex justify-between items-center border-t pt-3">
               <span className="text-sm font-medium flex items-center gap-2">
                 <Wrench className="h-4 w-4 text-blue-500" /> In Progress
               </span>
-              <Badge>{metrics.maintenance.inProgress}</Badge>
+              <Badge>{metrics?.maintenance?.inProgress}</Badge>
             </div>
             <div className="flex justify-between items-center border-t pt-3">
               <span className="text-sm font-medium flex items-center gap-2">
                 <Wrench className="h-4 w-4 text-emerald-500" /> Completed
               </span>
-              <Badge variant="link">{metrics.maintenance.completed}</Badge>
+              <Badge variant="link">{metrics?.maintenance?.completed}</Badge>
             </div>
           </CardContent>
         </Card>
@@ -163,7 +163,7 @@ export function TenantDashboard({ metrics }: TenantDashboardProps) {
             <CardDescription>Your payment and charging history</CardDescription>
           </CardHeader>
           <CardContent>
-            {metrics.recentTransactions.length > 0 ? (
+            {metrics?.recentTransactions?.length > 0 ? (
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -174,7 +174,7 @@ export function TenantDashboard({ metrics }: TenantDashboardProps) {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {metrics.recentTransactions.map((tx) => (
+                  {metrics?.recentTransactions?.map((tx) => (
                     <TableRow key={tx.id}>
                       <TableCell className="font-medium text-xs">{formatDate(tx.date)}</TableCell>
                       <TableCell className="text-xs">{tx.type}</TableCell>

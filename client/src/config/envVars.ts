@@ -1,3 +1,4 @@
 export const ENV = {
-  API_ENDPOINT: process.env.NEXT_PUBLIC_BASE_URL
+  API_ENDPOINT: process.env.NEXT_PUBLIC_BASE_URL,
+  RAZORPAY_KEY: process.env.NEXT_PUBLIC_RAZORPAY_KEY
 }

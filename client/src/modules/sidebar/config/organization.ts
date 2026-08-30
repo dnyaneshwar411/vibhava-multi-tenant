@@ -15,6 +15,7 @@ import {
   Building,
   CircleUserRound,
   DollarSign,
+  CreditCard,
 } from "lucide-react";
 import { OrgSidebarSection } from "../types/organization";
 
@@ -82,6 +83,7 @@ export const sidebarData: OrgSidebarSection[] = [
     resourceGroup: "/administration",
     children: [
       { title: "Users", type: "RESOURCE", scopes: ["user:read"],icon: UserCog, href: "/administration/users" },
+      { title: "Payment Gateway", type: "RESOURCE", scopes: ["payment-gateway:read"],icon: CreditCard, href: "/administration/payment-gateway" },
       { title: "Memberships", type: "RESOURCE", scopes: ["organization:membership:manage"],icon: DollarSign, href: "/administration/memberships" },
       { title: "Audit Logs", type: "RESOURCE", scopes: ["user:read"],icon: History, href: "/administration/audit-logs" },
     ],

@@ -101,7 +101,7 @@ export default function LeaseDetailsPage() {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 space-y-6">
+    <div className="min-h-screen p-4 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b">
         <div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">

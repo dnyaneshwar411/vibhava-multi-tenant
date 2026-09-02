@@ -15,8 +15,11 @@ const buildRequestHeaders = async function () {
     headersList.get("referer") ||
     headersList.get("x-forwarded-host") ||
     ""
+
+  const userAgent = headersList.get('user-agent');
   return {
-    origin: ensureProtocol(protocol, origin)
+    origin: ensureProtocol(protocol, origin),
+    'User-Agent': userAgent || '',
   }
 }
 

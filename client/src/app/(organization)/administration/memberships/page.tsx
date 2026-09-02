@@ -125,7 +125,6 @@ export default function MembershipPage() {
 
   return (
     <div className="p-4">
-      {/* SaaS Page Header */}
       <div className="flex flex-col gap-4 border-b pb-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
           <div className="flex items-center gap-3">
@@ -140,13 +139,10 @@ export default function MembershipPage() {
         </div>
         <div className="flex items-center gap-3">
           <AddOrganizationMembership />
-          <Button>Add Membership</Button>
         </div>
       </div>
 
-      {/* Hero Stats Grid */}
       <div className="grid grid-cols-1 gap-0 border-t border-l md:grid-cols-2 lg:grid-cols-4">
-        {/* Tier */}
         <div className="border-r border-b p-6 space-y-2">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-semibold uppercase tracking-wider">Current Tier</span>
@@ -166,7 +162,6 @@ export default function MembershipPage() {
           </p>
         </div>
 
-        {/* Billing Cycle */}
         <div className="border-r border-b p-6 space-y-2">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-semibold uppercase tracking-wider">Cadence</span>
@@ -176,7 +171,6 @@ export default function MembershipPage() {
           <p className="text-xs text-muted-foreground">Automated auto-renewal</p>
         </div>
 
-        {/* Current Period Start */}
         <div className="border-r border-b p-6 space-y-2">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-semibold uppercase tracking-wider">Period Start</span>
@@ -186,7 +180,6 @@ export default function MembershipPage() {
           <p className="text-xs text-muted-foreground">Cycle initialized</p>
         </div>
 
-        {/* Current Period End */}
         <div className="border-r border-b p-6 space-y-2">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-semibold uppercase tracking-wider">Next Renewal</span>
@@ -197,7 +190,6 @@ export default function MembershipPage() {
         </div>
       </div>
 
-      {/* Main Table Section */}
       <div className="space-y-4 mt-8">
         <div className="flex items-center justify-between border-b pb-3">
           <div className="flex items-center gap-2">
@@ -253,7 +245,6 @@ export default function MembershipPage() {
           </Table>
         </div>
 
-        {/* Integration of your specified AdvancedPagination component */}
         <div className="pt-2">
           <AdvancedPagination
             page={pagination.page}

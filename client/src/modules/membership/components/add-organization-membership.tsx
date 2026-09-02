@@ -25,15 +25,23 @@ export default function AddOrganizationMembership() {
   const [selectedTier, setSelectedTier] = useState<Tier>("Starter");
   const [selectedCycle, setSelectedCycle] = useState<BillingCycle>("Monthly");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [razorpayOrder, setRazorpayOrder] = useState({})
+  const [orders, setOrders] = useState<Record<string, any>>({})
+
+  const orderKey = `${selectedTier}_${selectedCycle}`
+  const razorpayOrder = orders[orderKey] || null
+
+  const handleTierChange = (tier: Tier) => {
+    setSelectedTier(tier)
+  }
+
+  const handleCycleChange = (cycle: BillingCycle) => {
+    setSelectedCycle(cycle)
+  }
 
   const handleSubmit = async function () {
     try {
       setIsSubmitting(true)
-      const payload = {
-        tier: selectedTier,
-        billingCycle: selectedCycle,
-      }
+      const currentKey = `${selectedTier}_${selectedCycle}`
 
       const response = await api.post("/api/v1/memberships", {
         body: {
@@ -46,7 +54,10 @@ export default function AddOrganizationMembership() {
         throw new Error(response.message)
       }
 
-      setRazorpayOrder(response.order)
+      setOrders((prev) => ({
+        ...prev,
+        [currentKey]: response.order
+      }))
       setIsSubmitting(false)
     } catch (error) {
       toast.error(buildToastMessage(error))
@@ -85,7 +96,7 @@ export default function AddOrganizationMembership() {
                   <button
                     key={tier}
                     type="button"
-                    onClick={() => setSelectedTier(tier)}
+                    onClick={() => handleTierChange(tier)}
                     className={cn(
                       "relative flex flex-col justify-between border p-4 text-left transition-all rounded-none",
                       isSelected
@@ -130,7 +141,7 @@ export default function AddOrganizationMembership() {
                   <button
                     key={cycle}
                     type="button"
-                    onClick={() => setSelectedCycle(cycle)}
+                    onClick={() => handleCycleChange(cycle)}
                     className={cn(
                       "relative flex items-center justify-between border p-4 text-left transition-all rounded-none",
                       isSelected
@@ -161,8 +172,7 @@ export default function AddOrganizationMembership() {
           </Alert>
         </div>
 
-        <CreateRazorpayOrder options={razorpayOrder} />
-
+        {/* If order is created, we render CreateRazorpayOrder or use its trigger inside DialogFooter */}
         <DialogFooter className="flex gap-2">
           <Button
             type="button"
@@ -172,14 +182,29 @@ export default function AddOrganizationMembership() {
           >
             Cancel
           </Button>
-          <Button
-            type="button"
-            className="rounded-none shadow-none min-w-[140px]"
-            disabled={isSubmitting}
-            onClick={handleSubmit}
-          >
-            {isSubmitting ? "Processing..." : "Confirm Membership"}
-          </Button>
+          {razorpayOrder?.id ? (
+            <CreateRazorpayOrder
+              options={razorpayOrder}
+              onSuccess={function () {
+                setOrders((prev) => {
+                  const updated = { ...prev }
+                  delete updated[orderKey]
+                  return updated
+                })
+                setOpen(false)
+                toast.success("You're all set! Give us a moment to finish setting up your account.")
+              }}
+            />
+          ) : (
+            <Button
+              type="button"
+              className="rounded-none shadow-none min-w-[140px]"
+              disabled={isSubmitting}
+              onClick={handleSubmit}
+            >
+              {isSubmitting ? "Processing..." : "Confirm Membership"}
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

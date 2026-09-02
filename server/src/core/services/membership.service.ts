@@ -15,9 +15,9 @@ export default class MembershipService {
     const pricing = config.pricing[duration][currency];
     if (pricing.discount.available) {
       const discountPrice = (pricing.amount) / (pricing.discount.quantity * 100)
-      return pricing.amount - discountPrice
+      return Math.ceil(pricing.amount - discountPrice) * 100
     }
-    return pricing.amount;
+    return Math.ceil(pricing.amount) * 100;
   }
 
   static async createMembership(
@@ -47,7 +47,8 @@ export default class MembershipService {
         resource: "ORGANIZATION_MEMBERSHIP",
         duration: options.duration,
         tier: options.tier,
-        actor: String(userId)
+        actor: String(userId),
+        organizationId: String(organization?.organization)
       }
     }
 

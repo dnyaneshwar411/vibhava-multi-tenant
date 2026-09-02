@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { CONSTANTS } from "../../config/constants.js";
+import { CONSTANTS } from "../../../config/constants.js";
 import { imageSchema } from "./common.schemas.js";
 
 const documentMetaSchema = new Schema({
@@ -42,7 +42,7 @@ const documentSchema = new Schema({
   },
   entityId: {
     type: Schema.Types.ObjectId,
-    required: true,
+    // required: true,
     index: true,
   },
   status: {

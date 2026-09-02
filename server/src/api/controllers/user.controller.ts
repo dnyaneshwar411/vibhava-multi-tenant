@@ -3,14 +3,16 @@ import httpStatus from "http-status";
 import catchAsync from "../utils/catchAsync.js";
 import UserRepository from "../../infrastructure/database/repositories/user.repository.js";
 import { ApiError } from "../utils/apiError.js";
-import { buildPaginationFilters, PaginationQueryOptions } from "../../common/utils/pagination.js";
+import { buildPaginationFilters, PaginationOptions, PaginationQueryOptions } from "../../common/utils/pagination.js";
 import UserService from "../../core/services/user.service.js";
+import { CONSTANTS_TYPE } from "../../common/types/index.js";
+import AuditLogService from "../../core/services/auditLog.service.js";
 
 export default class UserController {
   static getUsers = catchAsync(
     async (req: Request, res: Response): Promise<void> => {
-      const pagination = buildPaginationFilters<{}, { total?: number }>(req.query as PaginationQueryOptions);
-      const { users, total } = await UserRepository.paginate(req.organization!, pagination);
+      const pagination = buildPaginationFilters<{}, { total?: number, status: CONSTANTS_TYPE["USER_STATUS"] }>(req.query as PaginationQueryOptions);
+      const { users, total } = await UserRepository.paginate(req.organization!, pagination!);
       pagination.total = total;
       res.status(httpStatus.OK).json({ code: httpStatus.OK, data: users, pagination });
     },
@@ -18,8 +20,13 @@ export default class UserController {
 
   static createUser = catchAsync(
     async (req: Request, res: Response): Promise<void> => {
-      const { success, message, data} = await UserService.create(req.organization!, req.body);
+      const { success, message, data } = await UserService.create(req.organization!, req.body);
       if (!success) throw new ApiError(httpStatus.BAD_REQUEST, message || "Bad Request")
+      AuditLogService.addLogMeta(req, {
+        action: "CREATE",
+        resource: "User",
+        resourceId: data._id,
+      })
       res
         .status(httpStatus.CREATED)
         .json({
@@ -54,6 +61,11 @@ export default class UserController {
         req.body,
       );
       if (!user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+      AuditLogService.addLogMeta(req, {
+        action: "UPDATE",
+        resource: "User",
+        resourceId: user._id,
+      })
       res
         .status(httpStatus.OK)
         .json({ code: httpStatus.OK, message: "User updated" });
@@ -65,6 +77,11 @@ export default class UserController {
       const { userId } = req.params as { userId: string };
       const user = await UserRepository.delete(req.organization!, userId);
       if (!user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+      AuditLogService.addLogMeta(req, {
+        action: "DELETE",
+        resource: "User",
+        resourceId: user._id,
+      })
       res
         .status(httpStatus.OK)
         .json({ code: httpStatus.OK, message: "User deleted" });
@@ -75,8 +92,15 @@ export default class UserController {
     async (req: Request, res: Response): Promise<void> => {
       const { userId } = req.params as { userId: string };
       const { scopes } = req.body;
-      const { success, message } = await UserRepository.assignScopes(req.organization!, userId, scopes, req.organizationOwner!, req.user);
+      const { success, message, updates} = await UserRepository.assignScopes(req.organization!, userId, scopes, req.organizationOwner!, req.user);
       if (!success) throw new ApiError(httpStatus.BAD_REQUEST, message || "Bad Request");
+      if (updates) {
+        AuditLogService.addLogMeta(req, {
+          action: "UPDATE",
+          resource: "Scope",
+          resourceId: updates?._id,
+        })
+      }
       res
         .status(httpStatus.OK)
         .json({ code: httpStatus.OK, message: "Scopes assigned" });
@@ -87,8 +111,15 @@ export default class UserController {
     async (req: Request, res: Response): Promise<void> => {
       const { userId } = req.params as { userId: string };
       const { scopes } = req.body;
-      const { success, message } = await UserRepository.unassignScopes(req.organization!, userId, scopes, req.organizationOwner!, req.user);
+      const { success, message, updates } = await UserRepository.unassignScopes(req.organization!, userId, scopes, req.organizationOwner!, req.user);
       if (!success) throw new ApiError(httpStatus.BAD_REQUEST, message || "Bad Request");
+      if (updates) {
+        AuditLogService.addLogMeta(req, {
+          action: "UPDATE",
+          resource: "Scope",
+          resourceId: updates?._id,
+        })
+      }
       res
         .status(httpStatus.OK)
         .json({ code: httpStatus.OK, message: "Scopes unassigned" });

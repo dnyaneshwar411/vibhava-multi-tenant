@@ -9,6 +9,8 @@ import { v1Router } from "./api/routes/index.js";
 import helmet from "helmet";
 import Logger from "./common/logger/index.js";
 import { env } from "./config/envVars.js";
+import "./infrastructure/database/models/document.model.js";
+import AuditLogService from "./core/services/auditLog.service.js";
 
 const app: Express = express();
 
@@ -56,7 +58,7 @@ app.use("/", function (
   next: NextFunction,
 ) {
   const timeStart = performance.now();
-  res.on("finish", () => {
+  res.on("finish", async () => {
     const duration = (performance.now() - timeStart).toFixed(2);
     const { method, originalUrl } = req;
     const { statusCode } = res;
@@ -77,6 +79,10 @@ app.use("/", function (
       Logger.warn(message, meta);
     } else {
       Logger.info(message, meta);
+    }
+
+    if (req.addAuditLog) {
+      AuditLogService.create(req)
     }
   });
   next();

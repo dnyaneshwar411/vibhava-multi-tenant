@@ -1,5 +1,7 @@
-import { QueryFilter } from "mongoose";
+import { ObjectIdQueryTypeCasting, QueryFilter } from "mongoose";
 import Membership from "../models/membership.model.js";
+import { PaginationOptions } from "../../../common/utils/pagination.js";
+import MembershipInvoiceRepository from "./membershipInvoice.repository.js";
 
 
 export default class MembershipRepository {
@@ -19,5 +21,24 @@ export default class MembershipRepository {
       }, {
         returnDocument: "after"
       })
+  }
+
+  static async retrieveOrganizationMemberships(
+    organizationId: ObjectIdQueryTypeCasting,
+    filters: PaginationOptions
+  ) {
+    const [membershipConfig, { pagination, invoices }] = await Promise.all([
+      this.model
+        .findOne({ organization: organizationId })
+        .select("-__v -updatedAt -createdAt -entitlements -razorpay -stripe")
+        .lean(),
+      MembershipInvoiceRepository.paginate(organizationId, filters)
+    ])
+
+    return {
+      config: membershipConfig,
+      invoices,
+      pagination,
+    }
   }
 }

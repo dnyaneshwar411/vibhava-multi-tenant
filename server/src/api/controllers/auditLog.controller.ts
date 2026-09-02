@@ -6,7 +6,12 @@ import { buildPaginationFilters, PaginationQueryOptions } from "../../common/uti
 
 export default class AuditLogsController {
   static getLogs = catchAsync(async (req: Request, res: Response) => {
-    const pagination = buildPaginationFilters<{}, { total?: number }>(req.query as PaginationQueryOptions);
+    const query = {
+      ...req.query,
+      ...(req.query.from && { from: new Date(req.query.from as string) }),
+      ...(req.query.to && { to: new Date(req.query.to as string) }),
+    }
+    const pagination = buildPaginationFilters<{}, { total?: number }>(query as PaginationQueryOptions);
     const { logs, total } = await AuditLogRepository.paginate(req.organization!, pagination);
     pagination.total = total;
     res.status(httpStatus.OK).json({ code: httpStatus.OK, data: logs, pagination });

@@ -37,13 +37,11 @@ const maintenanceTicketSchema = new Schema({
   assignedVendor: {
     type: Schema.Types.ObjectId,
     ref: "Vendor",
-    default: null,
     index: true,
   },
   assignedStaff: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    default: null,
   },
 
   // ticketNumber: {

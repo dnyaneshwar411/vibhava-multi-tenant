@@ -9,6 +9,7 @@ const router: Router = Router();
 router
   .route("/tickets")
   .get(
+    validate(MaintenanceSchema.paginate),
     authenticate(["ticket:read:all", "ticket:read:own"]),
     MaintenanceController.getTickets
   )
@@ -56,6 +57,14 @@ router
     authenticate(["ticket:approve"]),
     validate(MaintenanceSchema.feedback),
     MaintenanceController.addFeedback
+  );
+
+router
+  .route("/tickets/:ticketId/status/:status")
+  .patch(
+    validate(MaintenanceSchema.updateStatus),
+    authenticate(["ticket:approve"]),
+    MaintenanceController.updateStatus
   );
 
 export { router as maintenanceRouter };

@@ -26,7 +26,11 @@ router
   .delete(authenticate(["lease:delete"]), LeaseController.deleteLeaseById)
 
 router
-  .route("tenants/invite")
-  .post(authenticate(["tenant:create"]), LeaseController.createTenant)
+  .route("/unit/:unitId")
+  .get(authenticate(["lease:read"]), LeaseController.getLeaseByUnitId)
+
+router
+  .route("/tenants/invite")
+  // .post(authenticate(["tenant:create"]), LeaseController.createTenant)
 
 export { router as leaseRouter }

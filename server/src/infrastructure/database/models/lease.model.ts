@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import { CONSTANTS } from "../../../config/constants.js";
 
 const leaseSchema = new Schema({
@@ -112,19 +112,23 @@ const leaseSchema = new Schema({
   isDeleted: {
     type: Boolean,
     default: false
+  },
+
+  isActive: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true
 });
 
-leaseSchema.index({ organization: 1, status: 1 });
-leaseSchema.index(
-  { unit: 1, status: 1 },
-  { partialFilterExpression: { status: "Active" } }
-);
-leaseSchema.index({ organization: 1, endDate: 1, status: 1 });
-leaseSchema.index({ primaryTenant: 1, status: 1 });
+// leaseSchema.index({ organization: 1, status: 1 });
+// leaseSchema.index({ unit: 1, status: 1 });
+// leaseSchema.index({ organization: 1, endDate: 1, status: 1 });
+// leaseSchema.index({ primaryTenant: 1, status: 1 });
 
 const Lease = model("Lease", leaseSchema);
 
 export default Lease;
+
+// mongoose.set("debug", true)

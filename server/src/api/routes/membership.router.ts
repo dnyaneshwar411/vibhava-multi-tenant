@@ -7,10 +7,10 @@ import MembershipSchema from "../schemas/membership.schema.js";
 const router: Router = Router();
 
 router.route("/")
-  // .get(authenticate(["organization:membership:manage"]), MembershipController.crea)
+  .get(authenticate(["organization:membership:manage"], ["In Active", "Active"]), MembershipController.retrieve)
   .post(
     validate(MembershipSchema.create),
-    authenticate(["organization:membership:manage"]),
+    authenticate(["organization:membership:manage"], ["In Active", "Active"]),
     MembershipController.createMembership
   )
 

@@ -13,5 +13,9 @@ declare namespace Express {
     userType?: USER_TYPE
     userModel?: POSSIBLE_USERS
     user?: IUser
+
+    auditLogContext?: any
+    addAuditLog?: boolean
+    auditLogMeta?: any
   }
 }

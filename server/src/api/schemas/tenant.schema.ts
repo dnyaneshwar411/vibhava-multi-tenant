@@ -1,18 +1,18 @@
 import z from "zod";
 import { CONSTANTS } from "../../config/constants.js";
 import { imageSchema, objectIdSchema } from "./common.schema.js";
+import { TENANT_SCOPES } from "../../config/scopes.js";
 
 export default class TenantSchema {
   static create = z.object({
     body: z.object({
-      firstName: z.string().trim().min(1, "First name is required"),
-      lastName: z.string().trim().min(1, "Last name is required"),
+      name: z.string().trim().min(1, "Name is required"),
       email: z.string().email("Invalid email address").trim(),
       countryCode: z.number().positive().optional(),
       mobileNumber: z.number().positive().optional(),
       avatar: imageSchema.optional(),
       status: z.enum(CONSTANTS.TENANT_STATUS).default("Applicant"),
-      
+
       currentResidence: z.object({
         property: objectIdSchema.optional(),
         unit: objectIdSchema.optional(),
@@ -37,14 +37,13 @@ export default class TenantSchema {
       tenantId: objectIdSchema,
     }).optional(),
     body: z.object({
-      firstName: z.string().trim().min(1).optional(),
-      lastName: z.string().trim().min(1).optional(),
+      name: z.string().trim().min(1).optional(),
       email: z.string().email().trim().optional(),
       countryCode: z.number().positive().optional(),
       mobileNumber: z.number().positive().optional(),
       avatar: imageSchema.optional(),
       status: z.enum(CONSTANTS.TENANT_STATUS).optional(),
-      
+
       currentResidence: z.object({
         property: objectIdSchema.optional(),
         unit: objectIdSchema.optional(),
@@ -59,7 +58,65 @@ export default class TenantSchema {
       }).partial().optional(),
     }),
   });
+
+  static paginate = z.object({
+    params: z.object({
+      unitId: objectIdSchema,
+    })
+  })
+
+  static getUnitTenant = z.object({
+    params: z.object({
+      unitId: objectIdSchema,
+    })
+  })
+
+  static filtering = z.object({
+    query: z.object({
+      status: z
+        .string()
+        .optional()
+        .transform((val) =>
+          val ? val.split(",").map((item) => item.trim()).filter(Boolean) : []
+        )
+        .refine((categories) =>
+          categories.every((cat) =>
+            (CONSTANTS.TENANT_STATUS as readonly string[]).includes(cat)
+          ),
+          { message: `Invalid tenant status provided. Allowed values are: ${CONSTANTS.TENANT_STATUS.join(", ")}`, }
+        )
+    })
+  })
+
+  static tenantId = z.object({
+    params: z.object({
+      tenantId: objectIdSchema
+    })
+  })
+
+  static updateScopes = z.object({
+    body: z.object({
+      scopeMap: z
+        .record(
+          z.enum(TENANT_SCOPES, { message: "Invalid scope key provided" }),
+          z.boolean({
+            message: "Scope value must be a boolean",
+          })
+            .nullable()
+            .optional()
+        )
+        .refine((obj) => Object.keys(obj).length > 0, {
+          message: "At least one scope permission must be provided",
+        })
+        .transform((obj) => {
+          return Object.fromEntries(
+            Object.entries(obj).filter(([_, val]) => typeof val === "boolean")
+          );
+        })
+    })
+  })
 }
 
 export type CreateTenantInput = z.infer<typeof TenantSchema.create>;
 export type UpdateTenantInput = z.infer<typeof TenantSchema.update>;
+export type UnitTenantList = z.infer<typeof TenantSchema.getUnitTenant>

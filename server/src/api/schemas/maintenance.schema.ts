@@ -1,6 +1,6 @@
 import z from "zod";
 import { CONSTANTS } from "../../config/constants.js";
-import { imageSchema, objectIdSchema } from "./common.schema.js";
+import { commaSeparatedEnum, imageSchema, objectIdSchema } from "./common.schema.js";
 
 export default class MaintenanceSchema {
   static create = z.object({
@@ -31,8 +31,8 @@ export default class MaintenanceSchema {
         .default("Anytime"),
 
       attachments: z.array(imageSchema).default([]),
-      
-      estimatedCost: z.number().min(0, "Estimated cost cannot be negative").default(0),
+
+      estimatedCost: z.coerce.number().min(0, "Estimated cost cannot be negative").default(0),
       isBillableToTenant: z.boolean().default(false),
     }),
   });
@@ -73,10 +73,10 @@ export default class MaintenanceSchema {
       scheduledDate: z.coerce.date().nullable().optional(),
       completedAt: z.coerce.date().nullable().optional(),
 
-      estimatedCost: z.number().min(0, "Estimated cost cannot be negative").optional(),
-      actualCost: z.number().min(0, "Actual cost cannot be negative").optional(),
+      estimatedCost: z.coerce.number().min(0, "Estimated cost cannot be negative").optional(),
+      actualCost: z.coerce.number().min(0, "Actual cost cannot be negative").optional(),
       isBillableToTenant: z.boolean().optional(),
-      
+
       ledgerEntry: objectIdSchema.nullable().optional(),
     }),
   });
@@ -90,15 +90,42 @@ export default class MaintenanceSchema {
 
   static complete = z.object({
     body: z.object({
-      actualCost: z.number().min(0, "Actual cost cannot be negative").optional(),
+      actualCost: z.coerce.number().min(0, "Actual cost cannot be negative").optional(),
       isBillableToTenant: z.boolean().optional(),
+    }),
+  });
+
+  static updateStatus = z.object({
+    body: z.object({
+      status: z.enum(CONSTANTS.MAINTENANCE_TICKET_STATUS)
     }),
   });
 
   static feedback = z.object({
     body: z.object({
-      rating: z.number().min(1, "Rating must be at least 1").max(5, "Rating cannot exceed 5"),
+      rating: z.coerce.number().min(1, "Rating must be at least 1").max(5, "Rating cannot exceed 5"),
       comment: z.string().trim().optional(),
+    }),
+  });
+
+  static paginate = z.object({
+    query: z.object({
+      status: commaSeparatedEnum(CONSTANTS.MAINTENANCE_TICKET_STATUS),
+      priority: commaSeparatedEnum(CONSTANTS.MAINTENANCE_TICKET_PRIORITY),
+      category: commaSeparatedEnum(CONSTANTS.VENDOR_TRADE_CATEGORIES),
+
+      propertyId: objectIdSchema.optional(),
+      vendorId: objectIdSchema.optional(),
+      staffId: objectIdSchema.optional(),
+
+      search: z.string().trim().optional(),
+      limit: z
+        .string()
+        .optional()
+        .default("20")
+        .transform((val) => parseInt(val, 10))
+        .pipe(z.number().positive().max(100)),
+      cursor: z.string().optional(),
     }),
   });
 }

@@ -175,6 +175,33 @@ export default class UnitSchema {
       amenities: z.array(z.enum(CONSTANTS.UNIT_AMENITIES)).optional(),
     }),
   });
+
+  static getPropertyUnits = z.object({
+    status: z
+      .string()
+      .optional()
+      .transform((val) =>
+        val ? val.split(",").map((item) => item.trim()).filter(Boolean) : []
+      )
+      .refine((categories) =>
+        categories.every((cat) =>
+          (CONSTANTS.UNIT_STATUS as readonly string[]).includes(cat)
+        ),
+        { message: `Invalid Unit Status provided. Allowed values are: ${CONSTANTS.UNIT_STATUS.join(", ")}`, }
+      ),
+    unitType: z
+      .string()
+      .optional()
+      .transform((val) =>
+        val ? val.split(",").map((item) => item.trim()).filter(Boolean) : []
+      )
+      .refine((categories) =>
+        categories.every((cat) =>
+          (CONSTANTS.UNIT_TYPE as readonly string[]).includes(cat)
+        ),
+        { message: `Invalid Unit Type provided. Allowed values are: ${CONSTANTS.UNIT_TYPE.join(", ")}`, }
+      )
+  })
 }
 
 export type CreateUnitInput = z.infer<typeof UnitSchema.create>;

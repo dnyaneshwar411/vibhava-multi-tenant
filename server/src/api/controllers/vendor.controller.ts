@@ -5,6 +5,7 @@ import VendorRepository from "../../infrastructure/database/repositories/vendor.
 import { buildPaginationFilters, PaginationQueryOptions } from "../../common/utils/pagination.js";
 import VendorService from "../../core/services/vendor.service.js";
 import { ApiError } from "../utils/apiError.js";
+import AuditLogService from "../../core/services/auditLog.service.js";
 export default class VendorController {
   static getVendors = catchAsync(
     async function (req: Request, res: Response) {
@@ -17,12 +18,17 @@ export default class VendorController {
 
   static createVendor = catchAsync(
     async function (req: Request, res: Response) {
-      const { success, message } = await VendorService.create({
+      const { success, message, data } = await VendorService.create({
         ...req.body,
         organization: req.organization!,
         createdBy: req.user._id
       })
       if (!success) throw new ApiError(httpStatus.BAD_REQUEST, message || "")
+      AuditLogService.addLogMeta(req, {
+        action: "CREATE",
+        resource: "Vendor",
+        resourceId: data?.vendor._id
+      })
       res.status(httpStatus.CREATED).json({ code: httpStatus.CREATED, message: "Vendor created successfully" });
     }
   );
@@ -38,7 +44,14 @@ export default class VendorController {
   static updateVendor = catchAsync(
     async function (req: Request, res: Response) {
       const { vendorId } = req.params as { vendorId: string };
-      await VendorRepository.updateOne({ organization: req.organization!, _id: vendorId }, req.body);
+      const vendor = await VendorRepository.updateOne({ organization: req.organization!, _id: vendorId }, req.body);
+      if (vendor) {
+        AuditLogService.addLogMeta(req, {
+          action: "UPDATE",
+          resource: "Vendor",
+          resourceId: vendor._id
+        })
+      }
       res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "Vendor updated successfully" });
     }
   );
@@ -46,7 +59,14 @@ export default class VendorController {
   static deleteVendor = catchAsync(
     async function (req: Request, res: Response) {
       const { vendorId } = req.params as { vendorId: string };
-      await VendorRepository.deleteOne({ organization: req.organization!, _id: vendorId });
+      const vendor = await VendorRepository.deleteOne({ organization: req.organization!, _id: vendorId });
+      if (vendor) {
+        AuditLogService.addLogMeta(req, {
+          action: "DELETE",
+          resource: "Vendor",
+          resourceId: vendor._id
+        })
+      }
       res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "Vendor deleted successfully" });
     }
   );
@@ -62,7 +82,14 @@ export default class VendorController {
   static assignScopes = catchAsync(
     async function (req: Request, res: Response) {
       const { vendorId } = req.params as { vendorId: string };
-      await VendorService.assignScopes(req.organization!, vendorId, req.body, req.organizationOwner!, req.user);
+      const { updates } = await VendorService.assignScopes(req.organization!, vendorId, req.body, req.organizationOwner!, req.user);
+      if (updates) {
+        AuditLogService.addLogMeta(req, {
+          action: "UPDATE",
+          resource: "Scope",
+          resourceId: updates._id
+        })
+      }
       res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "Scopes assigned successfully" });
     }
   );
@@ -70,7 +97,14 @@ export default class VendorController {
   static unassignScopes = catchAsync(
     async function (req: Request, res: Response) {
       const { vendorId } = req.params as { vendorId: string };
-      await VendorService.unassignScopes(req.organization!, vendorId, req.body, req.organizationOwner!, req.user);
+      const { updates } = await VendorService.unassignScopes(req.organization!, vendorId, req.body, req.organizationOwner!, req.user);
+      if (updates) {
+        AuditLogService.addLogMeta(req, {
+          action: "UPDATE",
+          resource: "Scope",
+          resourceId: updates._id
+        })
+      }
       res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "Scopes unassigned successfully" });
     }
   );

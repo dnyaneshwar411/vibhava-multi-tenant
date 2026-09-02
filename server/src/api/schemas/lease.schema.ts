@@ -6,9 +6,11 @@ export default class LeaseSchema {
   // Finance Sub-Schema (Create)
   static createFinanceSchema = z.object({
     rentAmount: z
+      .coerce
       .number({ message: "Base rent amount is required" })
       .min(0, "Rent amount cannot be negative"),
     paymentDueDay: z
+      .coerce
       .number({ message: "Payment due day is required" })
       .int()
       .min(1, "Payment due day must be between 1 and 31")
@@ -34,9 +36,11 @@ export default class LeaseSchema {
   // Security Deposit Sub-Schema (Create)
   static createSecuritySchema = z.object({
     amountRequired: z
+      .coerce
       .number({ message: "Security deposit required amount is required" })
       .min(0, "Amount required cannot be negative"),
     amountPaid: z
+      .coerce
       .number()
       .min(0, "Amount paid cannot be negative")
       .default(0),

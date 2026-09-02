@@ -24,7 +24,11 @@ router
 
 router
   .route("/:propertyId/units")
-  .get(authenticate(["unit:read"]), PropertyController.getAllUnitsByProperty)
+  .get(
+    validate(UnitSchema.getPropertyUnits),
+    authenticate(["unit:read"]),
+    PropertyController.getAllUnitsByProperty
+  )
   .post(validate(UnitSchema.create), authenticate(["unit:create"]), PropertyController.createUnitForProperty)
 
 router

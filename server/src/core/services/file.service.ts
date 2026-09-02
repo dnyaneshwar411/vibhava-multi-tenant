@@ -38,7 +38,7 @@ export default class FileService {
       uploaderModel: uploader.uploaderModel
     }
 
-    const fileDoc = await FileRepository.create(uploadPayload)
+    const fileDoc = await FileRepository.create(uploadPayload as any)
 
     return fileDoc
   }

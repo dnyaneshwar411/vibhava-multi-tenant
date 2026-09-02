@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { authenticate } from "../middlewares/auth.middleware.js";
 import AuditLogsController from "../controllers/auditLog.controller.js";
+import { validate } from "../middlewares/validate.middleware.js";
+import AuditLogSchema from "../schemas/auditLog.schema.js";
 
 const router: Router = Router();
 
 router.route("/")
-  .get(authenticate(["user:read"]), AuditLogsController.getLogs)
+  .get(validate(AuditLogSchema.paginate), authenticate(["user:read"]), AuditLogsController.getLogs)
 
 router.route("/resource/:resourceId")
   .get(authenticate(["user:read"]), AuditLogsController.getResourceLogs)

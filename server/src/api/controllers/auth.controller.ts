@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import catchAsync from "../utils/catchAsync.js";
 import httpStatus from "http-status";
 import { env } from "../../config/envVars.js";
-import ScopeService from "../../core/services/scope.service.js";
 import AuthService from "../../core/services/auth.service.js";
 import { UpdateAuthInput } from "../schemas/auth.schema.js";
 import { USER_MODELS } from "../../common/types/index.js";
@@ -11,6 +10,8 @@ import VendorService from "../../core/services/vendor.service.js";
 import TenantService from "../../core/services/tenant.service.js";
 import { validateTenant } from "../middlewares/auth.middleware.js";
 import { ApiError } from "../utils/apiError.js";
+import ScopeService from "../../core/services/scope.service.js";
+import AuditLogService from "../../core/services/auditLog.service.js";
 
 const userServiceMap: Record<
   USER_MODELS,
@@ -52,6 +53,16 @@ export default class AuthController {
       })
     }
 
+    req.user = data.user
+    req.userModel = req.body.user
+
+    AuditLogService.addLogMeta(req, {
+      action: "LOGIN_SUCCESS",
+      resource: "User",
+      resourceId: data.user._id,
+      description: "Logged In Successfully"
+    })
+
     res.status(httpStatus.OK).json({
       code: httpStatus.OK,
       message: "Logged In Successfully!",
@@ -64,7 +75,7 @@ export default class AuthController {
     res.clearCookie("refresh")
     res
       .status(httpStatus.OK)
-      .json({ code: httpStatus.OK, message: "Logged In Successfully!" });
+      .json({ code: httpStatus.OK, message: "Logged Out Successfully!" });
   });
 
   static refreshToken = catchAsync(async function (
@@ -99,4 +110,16 @@ export default class AuthController {
       message: "Successfully Updated",
     });
   });
+
+  static me = catchAsync(
+    async function (req: Request, res: Response) {
+      const profile = await ScopeService.me(req.user._id);
+      if (!profile) throw new ApiError(httpStatus.NOT_FOUND, "Profile Not Found!");
+      res.status(httpStatus.OK).json({
+        code: httpStatus.OK,
+        data: profile?.actor,
+        actorModel: profile?.actorModel
+      });
+    }
+  )
 }

@@ -51,7 +51,7 @@ export default class VendorService {
       if (!data.scope) throw new Error("Unable to assign scopes to vendor.")
 
       await session.commitTransaction();
-
+      return data
     } catch (error) {
       await session.abortTransaction();
       const errorMessage = error instanceof Error ? error.message : "Something went wrong"

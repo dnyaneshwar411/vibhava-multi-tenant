@@ -86,8 +86,11 @@ export const ALL_SCOPES = [
   'operator:scopes:unassign',
 
   // tbd
-  "organization:membership:manage"
-
+  "organization:membership:manage",
+  "payment-gateway:read",
+  "payment-gateway:create",
+  "payment-gateway:update",
+  "payment-gateway:delete"
 ] as const;
 
 export type Scope = typeof ALL_SCOPES[number];

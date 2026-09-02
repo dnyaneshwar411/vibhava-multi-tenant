@@ -9,8 +9,8 @@ const AuthRepository: IAuth = class implements IAuthInstance {
   static async findByIdWithScopes(userId: string) {
     const data = await this.scopeModel
       .findOne({ actor: userId })
-      .populate("actor", "name organization status role")
-      .populate("organization", "owner subdomain")
+      .populate("actor", "name organization status role email")
+      .populate("organization", "owner subdomain status")
       .lean();
     if (!data)
       return {

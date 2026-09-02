@@ -14,11 +14,14 @@ router.route("/refresh-token").post(AuthController.refreshToken);
 
 router
   .route("/profile")
-  .get(authenticate(["user:read"]), AuthController.profile)
+  .get(authenticate([], ["In Active", "Active"]), AuthController.profile)
   .put(
     validate(AuthSchema.update),
-    authenticate(["user:update:own"]),
+    authenticate([]),
     AuthController.update,
   );
+
+router.route("/me")
+  .get(authenticate([]), AuthController.me)
 
 export { router as authRouter };

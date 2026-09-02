@@ -3,11 +3,11 @@ import { MEMBERSHIP_TIER, MEMBERSHIP_TIER_CONFIG } from "../common/types/payment
 export const MEMBERSHIPS: Record<MEMBERSHIP_TIER, MEMBERSHIP_TIER_CONFIG> = {
   "Starter": {
     pricing: {
-      monthly: {
+      Monthly: {
         INR: { amount: 2000, discount: { available: false, quantity: 0 } },
         USD: { amount: 25, discount: { available: false, quantity: 0 } },
       },
-      yearly: {
+      Annually: {
         INR: { amount: 20000, discount: { available: true, quantity: 16 } },
         USD: { amount: 250, discount: { available: true, quantity: 16 } },
       },
@@ -15,11 +15,11 @@ export const MEMBERSHIPS: Record<MEMBERSHIP_TIER, MEMBERSHIP_TIER_CONFIG> = {
   },
   "Professional": {
     pricing: {
-      monthly: {
+      Monthly: {
         INR: { amount: 10000, discount: { available: false, quantity: 0 } },
         USD: { amount: 125, discount: { available: false, quantity: 0 } },
       },
-      yearly: {
+      Annually: {
         INR: { amount: 100000, discount: { available: true, quantity: 16 } },
         USD: { amount: 1250, discount: { available: true, quantity: 16 } },
       },
@@ -27,11 +27,11 @@ export const MEMBERSHIPS: Record<MEMBERSHIP_TIER, MEMBERSHIP_TIER_CONFIG> = {
   },
   "Enterprise": {
     pricing: {
-      monthly: {
+      Monthly: {
         INR: { amount: 25000, discount: { available: false, quantity: 0 } },
         USD: { amount: 300, discount: { available: false, quantity: 0 } },
       },
-      yearly: {
+      Annually: {
         INR: { amount: 250000, discount: { available: true, quantity: 16 } },
         USD: { amount: 3000, discount: { available: true, quantity: 16 } },
       },
@@ -39,11 +39,11 @@ export const MEMBERSHIPS: Record<MEMBERSHIP_TIER, MEMBERSHIP_TIER_CONFIG> = {
   },
   "Custom": {
     pricing: {
-      monthly: {
+      Monthly: {
         INR: { amount: 0, discount: { available: false, quantity: 0 } }, // Contact Sales
         USD: { amount: 0, discount: { available: false, quantity: 0 } },
       },
-      yearly: {
+      Annually: {
         INR: { amount: 0, discount: { available: false, quantity: 0 } },
         USD: { amount: 0, discount: { available: false, quantity: 0 } },
       },
@@ -51,7 +51,7 @@ export const MEMBERSHIPS: Record<MEMBERSHIP_TIER, MEMBERSHIP_TIER_CONFIG> = {
   },
 };
 
-export const MEMBERSHIP_DURATION = ["monthly", "yearly"];
+export const MEMBERSHIP_DURATION = ["Monthly", "Annually"];
 
 export const MEMBERSHIP_ENTITLEMENTS: Record<MEMBERSHIP_TIER, {
   maxProperties: number;

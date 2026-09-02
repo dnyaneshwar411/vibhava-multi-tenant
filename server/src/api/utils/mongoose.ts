@@ -32,3 +32,20 @@ export const resolveMongoServerErrorMessage = (errorInput: any): string => {
   const cleanFallback = errorMessage.replace(/^MongoServerError:\s*/i, "");
   return cleanFallback || "A database error occurred.";
 };
+
+export const flattenObjectMongooseUpdatePayload = function (obj: Record<string, any>, prefix = ''): Record<string, any> {
+  return Object.keys(obj).reduce((acc: Record<string, any>, key) => {
+    const pre = prefix.length ? `${prefix}.` : '';
+    if (
+      typeof obj[key] === 'object' &&
+      obj[key] !== null &&
+      !Array.isArray(obj[key]) &&
+      !(obj[key] instanceof Date)
+    ) {
+      Object.assign(acc, flattenObjectMongooseUpdatePayload(obj[key], `${pre}${key}`));
+    } else {
+      acc[`${pre}${key}`] = obj[key];
+    }
+    return acc;
+  }, {});
+}

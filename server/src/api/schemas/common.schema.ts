@@ -19,3 +19,10 @@ export const paginationSchema = z.object({
   limit: z.coerce.number().default(1),
   query: z.string().optional(),
 })
+
+export const commaSeparatedEnum = <T extends readonly [string, ...string[]]>(enumValues: T) =>
+  z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",").map((s) => s.trim()) : undefined))
+    .pipe(z.array(z.enum(enumValues)).optional());

@@ -8,8 +8,8 @@ export default class VendorSchema {
       name: z.string().trim().min(1, "Vendor name is required"),
       email: z.string().email("Invalid email address").trim(),
       password: z.string().min(8, "Password must be at least 8 characters"),
-      countryCode: z.number().positive().optional(),
-      mobileNumber: z.number().positive().optional(),
+      countryCode: z.coerce.number().positive().optional(),
+      mobileNumber: z.coerce.number().positive().optional(),
       avatar: imageSchema.optional(),
       status: z.enum(CONSTANTS.VENDOR_STATUS).default("Active"),
       tradeCategory: z.enum(CONSTANTS.VENDOR_TRADE_CATEGORIES, {
@@ -36,8 +36,8 @@ export default class VendorSchema {
     body: z.object({
       name: z.string().trim().min(1).optional(),
       email: z.string().email().trim().optional(),
-      countryCode: z.number().positive().optional(),
-      mobileNumber: z.number().positive().optional(),
+      countryCode: z.coerce.number().positive().optional(),
+      mobileNumber: z.coerce.number().positive().optional(),
       avatar: imageSchema.optional(),
       status: z.enum(CONSTANTS.VENDOR_STATUS).optional(),
       tradeCategory: z.enum(CONSTANTS.VENDOR_TRADE_CATEGORIES).optional(),

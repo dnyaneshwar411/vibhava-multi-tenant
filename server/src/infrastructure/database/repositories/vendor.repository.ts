@@ -1,21 +1,17 @@
 import Vendor from "../models/vendor.model.js";
 import { CreateVendorInput, UpdateVendorInput } from "../../../api/schemas/vendor.schema.js";
-import mongoose, { ClientSession, ObjectIdQueryTypeCasting, QueryFilter, UpdateQuery } from "mongoose";
-import { PaginationOptions } from "../../../common/utils/pagination.js";
+import { ClientSession, ObjectIdQueryTypeCasting, QueryFilter, UpdateQuery } from "mongoose";
 import MaintenanceRepository from "./maintenance.repository.js";
-import Scope from "../models/scopesMap.model.js";
+import S3 from "../../providers/aws/s3.js";
 
 export default class VendorRepository {
   private static model = Vendor;
 
   static async paginate(organizationId: ObjectIdQueryTypeCasting, filters: Record<string, any>) {
     const dbQuery: Record<string, object | string | boolean> = { organization: organizationId };
-    if (typeof filters.query === "string" && filters.query.length > 3) {
-      dbQuery.name = { $regex: filters.query, $options: "i" };
-    }
 
-    if(filters.status) {
-      dbQuery.status = filters.status;
+    if (filters.status && filters.status.length > 3) {
+      dbQuery.status = { $in: filters.status.split(",") };
     }
 
     if(filters.tradeCategory) {
@@ -23,20 +19,36 @@ export default class VendorRepository {
     }
 
     if (filters.searchByLocation && typeof filters.query === "string" && filters.query.length > 3) {
-      dbQuery["address.street1"] = { $regex: filters.query, $options: "i" };
-      dbQuery["address.street2"] = { $regex: filters.query, $options: "i" };
-      dbQuery["address.city"] = { $regex: filters.query, $options: "i" };
-      dbQuery["address.country"] = { $regex: filters.query, $options: "i" };
+      dbQuery.$or = [
+        { name: { $regex: filters.query, $options: "i" } },
+        { "address.street1": { $regex: filters.query, $options: "i" } },
+        { "address.street2": { $regex: filters.query, $options: "i" } },
+        { "address.city": { $regex: filters.query, $options: "i" } },
+        { "address.country": { $regex: filters.query, $options: "i" } },
+      ];
+    } else if (typeof filters.query === "string" && filters.query.length > 3) {
+      dbQuery.name = { $regex: filters.query, $options: "i" };
     }
 
-    const [vendors, total] = await Promise.all([
+    const [vendorsList, total] = await Promise.all([
       this.model
         .find(dbQuery)
         .limit(filters.limitNumber)
         .skip(filters.skip)
+        .select("-__v -isDeleted -updatedAt")
         .lean(),
       this.model.countDocuments(dbQuery)
     ]);
+
+    const vendors = await Promise.all(
+      vendorsList.map(async vendor => ({
+        ...vendor,
+        avatar: await S3.getObjectUrl({
+          isPrivate: vendor.avatar?.private,
+          key: vendor.avatar?.key!
+         })
+      }))
+    )
 
     return {
       vendors,
@@ -45,7 +57,21 @@ export default class VendorRepository {
   }
 
   static async findById(organizationId: ObjectIdQueryTypeCasting, vendorId: string) {
-    return await this.model.findOne({ organization: organizationId, _id: vendorId }).lean();
+    const vendor: any = await this.model
+    .findOne({ organization: organizationId, _id: vendorId })
+    .select("-__v -isDeleted -organization")
+    .lean();
+
+    if(!vendor) return null
+
+    if(vendor?.avatar && vendor.avatar?.key) {
+      vendor.avatar = await S3.getObjectUrl({
+        isPrivate: vendor.avatar.private,
+        key: vendor.avatar.key,
+      })
+    }
+
+    return vendor
   }
 
   static async createWithSession(
@@ -64,7 +90,7 @@ export default class VendorRepository {
   }
 
   static async deleteOne(query: { organization: ObjectIdQueryTypeCasting, _id: string }) {
-    return await this.model.findOneAndDelete(query);
+    return await this.updateOne(query, { isDeleted: true });
   }
 
   static async getPerformance(organizationId: ObjectIdQueryTypeCasting, vendorId: string) {

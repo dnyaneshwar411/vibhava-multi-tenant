@@ -14,7 +14,7 @@ export type MEMBERSHIP_BILLING_CYCLES = typeof CONSTANTS.MEMBERSHIP_BILLING_CYCL
 
 export type MEMBERSHIP_TIER_CONFIG = {
   pricing: Record<
-    "monthly" | "yearly",
+    "Monthly" | "Annually",
     Record<
       "INR" | "USD", {
         amount: number,
@@ -26,7 +26,7 @@ export type MEMBERSHIP_TIER_CONFIG = {
   >
 }
 
-export type MEMBERSHIP_DURATION = "monthly" | "yearly";
+export type MEMBERSHIP_DURATION = "Monthly" | "Annually"
 
 export type CREATE_PAYMENT_SESSION = {
   success: true,

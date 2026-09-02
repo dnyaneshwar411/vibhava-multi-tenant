@@ -5,6 +5,8 @@ const envSchema = zod.object({
   NODE_ENV: zod.string(),
   EXPRESS_PORT: zod.coerce.number().default(1993),
 
+  APPLICATION_CLIENT: zod.string(),
+
   REDIS_URL: zod.string(),
 
   FIREBASE_PROJECT_ID: zod.string(),
@@ -52,6 +54,8 @@ const envSchema = zod.object({
   COMPANY_DEFAULT_RAZORPAY_KEY_ID: zod.string(),
   COMPANY_DEFAULT_RAZORPAY_KEY_SECRET: zod.string(),
   COMPANY_DEFAULT_RAZORPAY_SIGNATURE: zod.string(),
+
+  CIPHER_SECRET_KEY: zod.string(),
 });
 
 const validateEnv = function () {

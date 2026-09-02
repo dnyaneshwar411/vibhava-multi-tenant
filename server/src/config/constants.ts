@@ -1,11 +1,11 @@
 export const CONSTANTS = {
   POSSIBLE_USERS: ["Tenant", "User", "Vendor", "Operator"],
-  
+
   USER_MODELS: ["Tenant", "User", "Vendor"],
   PAYMENT_GATEWAY: ["RAZORPAY", "STRIPE"],
   AVAILABLE_CURRENCY: ["INR"],
   AVAILABLE_COUNTRIES: ["India"],
-  USER_ROLE: ["Tenant", "Staff", "Owner", "Vendor"],
+  USER_ROLE: ["Tenant", "Staff", "Owner", "Vendor", "User"],
 
   ORGANIZATION_STATUS: ["Active", "In Active"],
 
@@ -58,18 +58,20 @@ export const CONSTANTS = {
   ],
 
   MEMBERSHIP_TIER: ["Starter", "Professional", "Enterprise", "Custom"],
-  MEMBERSHIP_STATUS: ["Trialing", "Active", "Past Due", "Canceled", "Unpaid", "Incomplete"],
+  MEMBERSHIP_STATUS: ["Trialing", "In Active", "Active", "Past Due", "Canceled", "Unpaid", "Incomplete"],
   MEMBERSHIP_BILLING_CYCLES: ["Monthly", "Annually", "Custom"],
   MEMBERSHIP_TYPE: ["Subscription Renewal", "Tier Upgrade", "Tier Downgrade", "Add-on Purchase"],
 
-  AUDIT_LOG_ACTOR_MODEL: ["User", "Operator"],
+  AUDIT_LOG_ACTOR_MODEL: ["Tenant", "Vendor", "User", "Operator"],
   AUDIT_LOG_ACTION: [
     "CREATE", "UPDATE", "DELETE", "SOFT_DELETE", "LOGIN_FAILED",
-    "RESTORE", "LOGIN_SUCCESS", "PASSWORD_RESET", "EXPORT_DATA", "OTHER"
+    "RESTORE", "LOGIN_SUCCESS", "PASSWORD_RESET", "EXPORT_DATA",
+    "PURCHASE", "PURCHASE_FAILED", "OTHER",
   ],
   AUDIT_LOG_RESOURCE: [
     "User", "Property", "Unit", "Tenant", "Lease", "LedgerEntry",
-    "MaintenanceTicket", "Vendor", "Subscription", "Document", "Other"
+    "MaintenanceTicket", "Vendor", "Subscription", "Document",
+    "Organization", "Scope", "Other",
   ],
 
   MAINTENANCE_TICKET_PRIORITY: ["Low", "Medium", "High", "Emergency"],
@@ -82,8 +84,11 @@ export const CONSTANTS = {
   FILE_UPLOAD_DIRECTORIES: [
     "profiles/user", "profiles/tenant",
     "profiles/vendor", "profiles/operators",
-    "property/media"
+    "property/media", "documents", "organization/branding",
+    "tickets"
   ],
 
-  PAYMENT_RESOURCES: ["ORGANIZATION_MEMBERSHIP"]
+  PAYMENT_RESOURCES: ["ORGANIZATION_MEMBERSHIP"],
+
+  ORGANIZATION_COMPANY_PAGE: ["langing", "about", "privacy-policy", "terms-conditions"]
 } as const;

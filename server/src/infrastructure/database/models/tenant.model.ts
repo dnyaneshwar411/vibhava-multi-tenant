@@ -9,12 +9,7 @@ const tenantSchema = new Schema({
     required: true,
     index: true,
   },
-  firstName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  lastName: {
+   name: {
     type: String,
     required: true,
     trim: true
@@ -74,13 +69,17 @@ const tenantSchema = new Schema({
       default: true
     },
   },
+  isDeleted: {
+    type: Boolean,
+    default: false
+  }
 }, {
   timestamps: true
 });
 
 tenantSchema.index({ organization: 1, status: 1 });
 tenantSchema.index({ organization: 1, mobileNumber: 1 });
-tenantSchema.index({ organization: 1, firstName: "text", lastName: "text", email: "text" });
+tenantSchema.index({ organization: 1, name: "text", email: "text" });
 
 const Tenant = model("Tenant", tenantSchema);
 

@@ -15,6 +15,14 @@ const membershipInvoiceSchema = new Schema({
     type: String,
     enum: CONSTANTS.MEMBERSHIP_TYPE
   },
+  tier: {
+    type: String,
+    enum: CONSTANTS.MEMBERSHIP_TIER
+  },
+  billingCycle: {
+    type: String,
+    enum: CONSTANTS.MEMBERSHIP_BILLING_CYCLES
+  },
   amount: {
     type: Number,
     required: true

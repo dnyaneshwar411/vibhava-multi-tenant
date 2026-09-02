@@ -1,6 +1,5 @@
 import z from "zod";
-import { CONSTANTS } from "../../config/constants.js";
-import { objectIdSchema } from "./common.schema.js";
+import { imageSchema } from "./common.schema.js";
 
 export default class OrganizationSchema {
   static hexColorSchema = z
@@ -18,8 +17,6 @@ export default class OrganizationSchema {
         .max(100, { message: "Organization name cannot exceed 100 characters" })
         .optional(),
 
-      owner: objectIdSchema.optional(),
-
       meta: z
         .object({
           title: z
@@ -33,24 +30,36 @@ export default class OrganizationSchema {
             .max(160, { message: "Meta description should not exceed 160 characters" })
             .optional(),
           keywords: z.array(z.string().trim()).optional(),
+          ogImage: z.string().trim().optional(),
+          ogTitle: z.string().trim().optional(),
+          ogDescription: z.string().trim().optional(),
+          twitterCardType: z.enum(["summary", "summary_large_image"]).optional(),
+          twitterHandle: z.string().trim().optional(),
+          canonicalUrl: z.string().trim().optional(),
+          noIndex: z.boolean().optional(),
         })
         .optional(),
 
       branding: z
         .object({
-          logoUrl: z
-            .string()
-            .url({ message: "Invalid logo URL format" })
-            .nullable()
+          logo: imageSchema.optional(),
+          darkLogo: imageSchema.optional(),
+          favicon: imageSchema.optional(),
+          banner: imageSchema.optional(),
+          colors: z
+            .object({
+              primary: OrganizationSchema.hexColorSchema.optional(),
+              secondary: OrganizationSchema.hexColorSchema.optional(),
+              accent: OrganizationSchema.hexColorSchema.optional(),
+              background: OrganizationSchema.hexColorSchema.optional(),
+              darkBackground: OrganizationSchema.hexColorSchema.optional(),
+            })
             .optional(),
-          primaryColor: this.hexColorSchema.optional(),
-          secondaryColor: this.hexColorSchema.optional(),
+          emailFooterText: z.string().trim().optional(),
+          supportEmail: z.string().email({ message: "Invalid support email format" }).optional(),
+          supportPhone: z.string().trim().optional(),
         })
         .optional(),
-
-      subscription: objectIdSchema.optional(),
-
-      status: z.enum(CONSTANTS.ORGANIZATION_STATUS).optional(),
     }),
   });
 }

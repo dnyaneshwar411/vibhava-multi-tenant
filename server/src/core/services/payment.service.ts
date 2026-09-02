@@ -7,6 +7,12 @@ import MembershipRepository from "../../infrastructure/database/repositories/mem
 import MembershipInvoiceRepository from "./membershipInvoice.repository.js";
 import { addMonths, endOfDay, startOfDay } from "date-fns";
 import { MEMBERSHIP_ENTITLEMENTS } from "../../config/payment.js";
+import { ObjectIdQueryTypeCasting } from "mongoose";
+import PaymentGatewayRepository from "../../infrastructure/database/repositories/paymentGateway.repository.js";
+import { validateWebhookSignature } from "razorpay/dist/utils/razorpay-utils.js";
+import Stripe from "stripe";
+import OrganizationRepository from "../../infrastructure/database/repositories/organization.repository.js";
+import AuditLogService from "./auditLog.service.js";
 
 export default class PaymentService {
   private static membershipWeight: Record<MEMBERSHIP_TIER, number> = {
@@ -32,8 +38,10 @@ export default class PaymentService {
 
   static async createOrganizationOrder(
     gateway: GATEWAY_OPTIONS,
-    options: Orders.RazorpayOrderCreateRequestBody
+    organizationId: ObjectIdQueryTypeCasting,
+    options: Orders.RazorpayOrderCreateRequestBody,
   ): Promise<CREATE_PAYMENT_SESSION> {
+    // const organizationCredentials = await 
     switch (gateway) {
       case "RAZORPAY": {
         return await RazorpayPaymentGateway.createOrder({ isVibhava: true }, options)
@@ -45,7 +53,7 @@ export default class PaymentService {
   }
 
   private static resolveMembershipPeriodEnd(date: Date, duration: MEMBERSHIP_DURATION) {
-    const months = duration === "monthly" ? 1 : 12
+    const months = duration === "Monthly" ? 1 : 12
     return endOfDay(addMonths(date, months));
   }
 
@@ -65,7 +73,7 @@ export default class PaymentService {
   }
 
   private static resolveBillingCycle(duration: MEMBERSHIP_DURATION): MEMBERSHIP_BILLING_CYCLES {
-    return duration === "monthly"
+    return duration === "Monthly"
       ? "Monthly"
       : "Annually"
   }
@@ -80,10 +88,12 @@ export default class PaymentService {
     const tierChangeType = this.resolveTierChangeType(organizationMembership.tier, payload.notes.tier);
 
     // create a membership invoice in whichever case.
-    await MembershipInvoiceRepository.create({
+    const invoice = await MembershipInvoiceRepository.create({
       organization: payload.notes.organizationId,
       membership: organizationMembership._id,
       type: tierChangeType,
+      tier: payload.notes.tier,
+      billingCycle: payload.notes.duration,
       amount: payload.amount,
       transactionReference: payload.transactionId,
       paymentDetails: payload,
@@ -92,7 +102,9 @@ export default class PaymentService {
 
     // if the membership has expired
     // create a new invoice and update the membership periodStart, periodEnd and add an invoice
-    const updatePayload: Record<string, any> = {}
+    const updatePayload: Record<string, any> = {
+      status: "Active"
+    }
     if (organizationMembership.status !== "Active") {
       updatePayload.currentPeriodStart = startOfDay(new Date());
     } else if (tierChangeType !== "Subscription Renewal") {
@@ -111,10 +123,93 @@ export default class PaymentService {
       )
     }
 
+    const promises = []
+
+    promises.push(
+      OrganizationRepository.updateById(organizationMembership.organization, {
+        status: "Active"
+      })
+    )
+
     if (Object.keys(updatePayload).length > 0) {
-      await MembershipRepository.update({ _id: organizationMembership._id }, updatePayload)
+      promises.push(
+        MembershipRepository.update({ _id: organizationMembership._id }, updatePayload)
+      )
     }
 
+    await Promise.all(promises)
+
+    AuditLogService.addScratch({
+      action: "PURCHASE",
+      resource: "Subscription",
+      resourceId: invoice._id,
+      organization: payload.notes.organization,
+      actorId: payload.notes.actor,
+      actorModel: "User",
+      actorSnapshot: {
+        fullName: "",
+        email: ""
+      },
+      createdAt: new Date()
+    })
     // if the membership is Active and the tiers and not similar just add the invoice
+  }
+
+  private static async validateOrganizationWebhookSignature(
+    gateway: string,
+    webhookSignature: string,
+    credentials: Record<string, string>,
+    stringifiedPayload: string
+  ) {
+    if (!webhookSignature) return false;
+    switch (gateway) {
+      case "RAZORPAY": {
+        return validateWebhookSignature(
+          JSON.stringify(stringifiedPayload),
+          webhookSignature,
+          credentials.razorpaySignature!
+        )
+      }
+      case "STRIPE": {
+        try {
+          Stripe.webhooks.constructEvent(
+            stringifiedPayload,
+            webhookSignature,
+            credentials.stripeSignature!
+          );
+        } finally { return false }
+      }
+      default:
+        return false;
+    }
+  }
+
+  static async handleOrganizationFinance(payload: EventPaymentsType) {
+    const gateway = await PaymentGatewayRepository.findOne({
+      gateway: payload.gateway,
+      organization: payload.organizationId
+    })
+
+    // handle the cases when the gateway is deleted.
+    if (!gateway) return
+
+    const success = await this.validateOrganizationWebhookSignature(
+      payload.gateway,
+      payload.webhookSignature,
+      gateway.credentials,
+      payload.stringifiedPayload
+    );
+    if (!success) return;
+
+    switch (payload.notes.entity) {
+      case "RENT_ROLL": {
+        // implement the rent roll logic here.
+        break;
+      }
+      case "LEDGER": {
+        // implement the ledger logic here.
+        break;
+      }
+    }
   }
 }

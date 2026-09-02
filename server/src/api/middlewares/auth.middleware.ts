@@ -4,6 +4,7 @@ import { ApiError } from "../utils/apiError.js";
 import { env } from "../../config/envVars.js";
 import httpStatus from "http-status";
 import AuthService from "../../core/services/auth.service.js";
+import { CONSTANTS_TYPE } from "../../common/types/index.js";
 
 export const validateTenant: (req: Request) => {
   success: boolean;
@@ -24,7 +25,7 @@ export const validateTenant: (req: Request) => {
   return { success: true, subdomain };
 };
 
-export const authenticate = function (scopes: Scope[] = []) {
+export const authenticate = function (scopes: Scope[] = [], statuses: CONSTANTS_TYPE["ORGANIZATION_STATUS"][] = ["Active"]) {
   return async function (req: Request, res: Response, next: NextFunction) {
     const { success, message, subdomain } = validateTenant(req);
     if (!success || !subdomain)
@@ -52,6 +53,13 @@ export const authenticate = function (scopes: Scope[] = []) {
       throw new ApiError(
         httpStatus.UNAUTHORIZED,
         `Either of - '${scopes.join(", ")}' is required for this action.`,
+      );
+    }
+
+    if (statuses.length > 0 && !statuses.includes(data.organization.status)) {
+      throw new ApiError(
+        httpStatus.UNAUTHORIZED,
+        "Cannot Access the features. Please purchase a membership!",
       );
     }
 

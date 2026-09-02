@@ -204,19 +204,17 @@ const unitSchema = new Schema({
   },
 
   media: {
-    type: new Schema({
-      primaryImage: {
-        type: imageSchema,
-        required: true
-      },
-      coverImage: {
-        type: imageSchema
-      },
-      gallery: {
-        type: [galleryImageSchema],
-        default: []
-      }
-    })
+    primaryImage: {
+      type: imageSchema,
+      required: true
+    },
+    coverImage: {
+      type: imageSchema
+    },
+    gallery: {
+      type: [galleryImageSchema],
+      default: []
+    }
   },
 
   amenities: {

@@ -7,7 +7,7 @@ export default class MembershipSchema {
     body: z.object({
       duration: z.enum(MEMBERSHIP_DURATION),
       tier: z.enum(CONSTANTS.MEMBERSHIP_TIER),
-      currency: z.enum(CONSTANTS.AVAILABLE_CURRENCY)
+      currency: z.enum(CONSTANTS.AVAILABLE_CURRENCY).default("INR")
     })
   })
 }

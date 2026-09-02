@@ -11,15 +11,14 @@ const baseRegistrationSchema = z.object({
   organization: objectIdSchema,
   email: z.string().email("Invalid email address").trim(),
   password: z.string().min(8, "Password must be at least 8 characters long").trim(),
-  countryCode: z.number().positive().optional(),
-  mobileNumber: z.number().positive().optional(),
+  countryCode: z.coerce.number().positive().optional(),
+  mobileNumber: z.coerce.number().positive().optional(),
   avatar: imageZodSchema.optional(),
 });
 
 const createTenantSchema = baseRegistrationSchema.extend({
   type: z.literal("Tenant"),
-  firstName: z.string().min(1, "First name is required").trim(),
-  lastName: z.string().min(1, "Last name is required").trim(),
+  name: z.string().min(1, "Name is required").trim(),
   status: z
     .enum(CONSTANTS.TENANT_STATUS)
     .default("Applicant"),

@@ -84,6 +84,8 @@ const vendorSchema = new Schema({
     type: Boolean,
     default: false
   }
+}, {
+  timestamps: true
 });
 
 const Vendor = model("Vendor", vendorSchema);

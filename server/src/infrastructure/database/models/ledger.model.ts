@@ -115,10 +115,10 @@ const ledgerEntrySchema = new Schema({
   },
   memo: { type: String, trim: true, maxlength: 500 },
 
-  // isDeleted: {
-  //   type: Boolean,
-  //   default: false
-  // }
+  isDeleted: {
+    type: Boolean,
+    default: false
+  }
 }, {
   timestamps: true
 });

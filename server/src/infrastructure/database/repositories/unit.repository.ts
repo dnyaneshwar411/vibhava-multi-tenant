@@ -1,6 +1,7 @@
 import { ObjectIdQueryTypeCasting, QueryFilter } from "mongoose";
 import Unit from "../models/unit.model.js";
 import { CreateUnitInput, UpdateUnitInput } from "../../../api/schemas/unit.schema.js";
+import S3 from "../../providers/aws/s3.js";
 
 export default class UnitRepository {
   private static model = Unit
@@ -21,19 +22,31 @@ export default class UnitRepository {
       property: ObjectIdQueryTypeCasting
     }
   ) {
-    return !!await this.model.create(payload)
+    return await this.model.create(payload)
   }
 
   static async findById(
     organizationId: ObjectIdQueryTypeCasting,
     unitId: ObjectIdQueryTypeCasting
   ) {
-    return await this.model
+    const unit = await this.model
       .findOne({ organization: organizationId, _id: unitId })
       .select("-updatedAt -__v")
       .populate("createdBy", "name avatar countryCode mobileNumber")
       .populate("property", "name propertyType status media.primaryImage")
       .lean()
+    if (!unit) return null;
+    const [primaryImage, coverImage] = await Promise.all([
+      S3.getObjectUrl({ isPrivate: unit.media?.primaryImage?.private, key: unit.media?.primaryImage?.key || "" }),
+      S3.getObjectUrl({ isPrivate: unit.media?.coverImage?.private, key: unit.media?.coverImage?.key || "" }),
+    ])
+    return {
+      ...unit,
+      media: {
+        primaryImage,
+        coverImage
+      }
+    }
   }
 
   static async update(
@@ -41,7 +54,7 @@ export default class UnitRepository {
     unitId: ObjectIdQueryTypeCasting,
     payload: UpdateUnitInput["body"]
   ) {
-    return !! await this.model
+    return await this.model
       .findOneAndUpdate({ organization: organizationId, _id: unitId }, {
         $set: payload
       }, {

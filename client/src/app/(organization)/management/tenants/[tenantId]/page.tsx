@@ -132,12 +132,12 @@ export default function TenantDetailsPage() {
                 +{tenant.countryCode} {tenant.mobileNumber}
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            {tenant.currentResidence && <div className="flex items-center gap-2">
               <Calendar className="h-3.5 w-3.5 text-foreground/70" />
               <span>
                 Move-in Target: {formatDate(tenant.currentResidence.moveInDate)}
               </span>
-            </div>
+            </div>}
           </div>
         </div>
       </div>
@@ -183,7 +183,7 @@ function Container({ tenant }: { tenant: any }) {
         </TabsTrigger>
       </TabsList>
       <TenantDetailsPropertyTab currentResidence={tenant.currentResidence} />
-      <TenantDetailsLeaseTab activeLease={tenant.currentResidence.activeLease} />
+      <TenantDetailsLeaseTab activeLease={tenant.currentResidence?.activeLease} />
       <TenantDetailsCommunicationTab communicationPreferences={tenant.communicationPreferences} />
       <TabsContent value="scopes" className="m-0 focus-visible:outline-none border-t-1">
         <TenantDetailsManageScopes tenantId={tenant._id} />

@@ -1,20 +1,12 @@
 "use client"
-
 import { useState } from "react"
 import {
-  Copy,
-  RefreshCw,
-  Check,
   CreditCard,
-  Building2,
   Calendar,
   Zap,
   ArrowUpRight,
   Receipt,
-  CheckCircle2,
 } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
 import { ErrorState } from "@/components/ui/error"
 import { ComponentLoader } from "@/components/ui/loader"
 import { Badge } from "@/components/ui/badge"

@@ -19,7 +19,7 @@ export default function TenantDetailsCommunicationTab({ communicationPreferences
               Preferred Channel
             </span>
             <Badge variant="secondary" className="font-mono text-xs rounded-none">
-              {communicationPreferences.preferredChannel}
+              {communicationPreferences?.preferredChannel}
             </Badge>
           </div>
 
@@ -27,7 +27,7 @@ export default function TenantDetailsCommunicationTab({ communicationPreferences
             <span className="text-xs text-muted-foreground">
               Email Notifications
             </span>
-            {communicationPreferences.allowEmailNotifications ? (
+            {communicationPreferences?.allowEmailNotifications ? (
               <span className="inline-flex items-center gap-1 text-xs text-emerald-600 font-medium font-mono">
                 <CheckCircle2 className="h-3.5 w-3.5" /> Enabled
               </span>
@@ -42,7 +42,7 @@ export default function TenantDetailsCommunicationTab({ communicationPreferences
             <span className="text-xs text-muted-foreground">
               SMS Notifications
             </span>
-            {communicationPreferences.allowSmsNotifications ? (
+            {communicationPreferences?.allowSmsNotifications ? (
               <span className="inline-flex items-center gap-1 text-xs text-emerald-600 font-medium font-mono">
                 <CheckCircle2 className="h-3.5 w-3.5" /> Enabled
               </span>

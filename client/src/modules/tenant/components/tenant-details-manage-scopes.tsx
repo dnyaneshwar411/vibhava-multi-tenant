@@ -115,7 +115,6 @@ export default function TenantDetailsManageScopes({ tenantId }: { tenantId: stri
       });
       if (response.code !== 200) throw new Error(response.message);
       toast.success(response.message || "Successfull")
-      data.data.scopeMap = scopesMap
     } catch (error) {
       toast.error(buildToastMessage(error));
     }

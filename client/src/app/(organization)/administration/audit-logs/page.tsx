@@ -87,7 +87,7 @@ export default function AuditLogsPage() {
       <AdvancedPagination
         page={pagination.page}
         limit={pagination.limit}
-        total={data?.data?.pagination?.total ?? data?.data?.total ?? 0}
+        total={data?.pagination?.total ?? 0}
         onPageChange={(page) => setPagination((prev) => ({ ...prev, page }))}
         onLimitChange={(limit) =>
           setPagination((prev) => ({ ...prev, limit, page: 1 }))

@@ -8,6 +8,7 @@ const envSchema = zod.object({
   APPLICATION_CLIENT: zod.string(),
 
   REDIS_URL: zod.string(),
+  REDIS_ENABLED: zod.string().transform((val) => val.toLowerCase() === "true"),
 
   FIREBASE_PROJECT_ID: zod.string(),
   FIREBASE_PRIVATE_KEY_ID: zod.string(),

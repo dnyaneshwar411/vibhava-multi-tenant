@@ -106,14 +106,14 @@ export default function ProfitLossStatement() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">
               {currentConfig.title}
             </h1>
-            <Badge variant="outline" className="border-teal-600 text-teal-700 dark:text-teal-400 font-semibold">
+            <Badge variant="outline">
               Role: {role}
             </Badge>
           </div>
-          <p className="mt-1 text-sm text-gray-500">{currentConfig.subtitle}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{currentConfig.subtitle}</p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -122,7 +122,7 @@ export default function ProfitLossStatement() {
             <Printer className="h-4 w-4" />
             Print
           </Button>
-          <Button variant="default" size="sm" onClick={handleExportCSV} className="gap-2 bg-teal-700 hover:bg-teal-800 text-white">
+          <Button variant="default" size="sm" onClick={handleExportCSV} className="gap-2">
             <Download className="h-4 w-4" />
             Export CSV
           </Button>
@@ -130,79 +130,73 @@ export default function ProfitLossStatement() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-l-4 border-l-emerald-600 shadow-sm">
+        <Card className="border">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">{currentConfig.card1}</CardTitle>
-            <div className="rounded-full bg-emerald-100 p-2 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{currentConfig.card1}</CardTitle>
+            <div className="bg-muted p-2 text-foreground">
               <TrendingUp className="h-4 w-4" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            <div className="text-2xl font-bold text-foreground">
               {formatCurrency(summary.totalRevenue)}
             </div>
-            <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+            <p className="mt-1 text-xs text-muted-foreground flex items-center gap-1">
               <ArrowUpRight className="h-3 w-3" /> Income inflow
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-rose-600 shadow-sm">
+        <Card className="border">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">{currentConfig.card2}</CardTitle>
-            <div className="rounded-full bg-rose-100 p-2 text-rose-600 dark:bg-rose-950 dark:text-rose-400">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{currentConfig.card2}</CardTitle>
+            <div className="bg-muted p-2 text-foreground">
               <TrendingDown className="h-4 w-4" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            <div className="text-2xl font-bold text-foreground">
               {formatCurrency(summary.totalExpenses)}
             </div>
-            <p className="mt-1 text-xs text-rose-600 dark:text-rose-400 flex items-center gap-1">
+            <p className="mt-1 text-xs text-muted-foreground flex items-center gap-1">
               <ArrowDownRight className="h-3 w-3" /> Expenditure outflow
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-amber-500 shadow-sm">
+        <Card className="border">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">{currentConfig.card3}</CardTitle>
-            <div className="rounded-full bg-amber-100 p-2 text-amber-600 dark:bg-amber-950 dark:text-amber-400">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{currentConfig.card3}</CardTitle>
+            <div className="bg-muted p-2 text-foreground">
               <DollarSign className="h-4 w-4" />
             </div>
           </CardHeader>
           <CardContent>
-            <div
-              className={`text-2xl font-bold ${
-                (summary.netIncome ?? 0) >= 0
-                  ? "text-emerald-700 dark:text-emerald-400"
-                  : "text-rose-700 dark:text-rose-400"
-              }`}
-            >
+            <div className="text-2xl font-bold text-foreground">
               {formatCurrency(summary.netIncome)}
             </div>
-            <p className="mt-1 text-xs text-gray-500">Net balance after deductions</p>
+            <p className="mt-1 text-xs text-muted-foreground">Net balance after deductions</p>
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-teal-600 shadow-sm">
+        <Card className="border">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">{currentConfig.card4}</CardTitle>
-            <div className="rounded-full bg-teal-100 p-2 text-teal-600 dark:bg-teal-950 dark:text-teal-400">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{currentConfig.card4}</CardTitle>
+            <div className="bg-muted p-2 text-foreground">
               <Receipt className="h-4 w-4" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            <div className="text-2xl font-bold text-foreground">
               {summary.operatingMargin ?? 0}%
             </div>
-            <p className="mt-1 text-xs text-gray-500">Performance ratio</p>
+            <p className="mt-1 text-xs text-muted-foreground">Performance ratio</p>
           </CardContent>
         </Card>
       </div>
 
       {monthlyTrend.length > 0 && (
-        <Card className="shadow-sm">
+        <Card className="border">
           <CardHeader>
             <CardTitle className="text-base font-semibold">Monthly Financial Flow Trend</CardTitle>
             <CardDescription>Visual comparison of revenue, expenses, and net profit over time</CardDescription>
@@ -210,14 +204,14 @@ export default function ProfitLossStatement() {
           <CardContent className="h-72 w-full pt-4">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={monthlyTrend} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-                <XAxis dataKey="month" stroke="#6B7280" fontSize={12} tickLine={false} />
-                <YAxis stroke="#6B7280" fontSize={12} tickLine={false} tickFormatter={(val) => `₹${val}`} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="month" fontSize={12} tickLine={false} />
+                <YAxis fontSize={12} tickLine={false} tickFormatter={(val) => `₹${val}`} />
                 <Tooltip formatter={(value: any) => [formatCurrency(Number(value || 0)), ""]} />
                 <Legend />
-                <Bar dataKey="revenue" name={role === "Vendor" ? "Earnings" : role === "Tenant" ? "Payments" : "Revenue"} fill="#059669" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="expenses" name={role === "Vendor" ? "Pending" : role === "Tenant" ? "Charges" : "Expenses"} fill="#E11D48" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="net" name="Net Amount" fill="#D97706" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="revenue" name={role === "Vendor" ? "Earnings" : role === "Tenant" ? "Payments" : "Revenue"} fill="var(--primary, #000)" />
+                <Bar dataKey="expenses" name={role === "Vendor" ? "Pending" : role === "Tenant" ? "Charges" : "Expenses"} fill="var(--muted-foreground, #666)" />
+                <Bar dataKey="net" name="Net Amount" fill="var(--accent-foreground, #333)" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -226,68 +220,68 @@ export default function ProfitLossStatement() {
 
       {role === "User" && (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <Card className="shadow-sm">
+          <Card className="border">
             <CardHeader>
-              <CardTitle className="text-base font-semibold text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+              <CardTitle className="text-base font-semibold flex items-center gap-2">
                 <TrendingUp className="h-5 w-5" /> Revenue & Income Breakdown
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between border-b pb-2 text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Rent Payments</span>
-                <span className="font-semibold text-gray-900 dark:text-gray-100">{formatCurrency(revBreakdown.rentPayments)}</span>
+                <span className="text-muted-foreground">Rent Payments</span>
+                <span className="font-semibold text-foreground">{formatCurrency(revBreakdown.rentPayments)}</span>
               </div>
               <div className="flex items-center justify-between border-b pb-2 text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Late Fees Collected</span>
-                <span className="font-semibold text-gray-900 dark:text-gray-100">{formatCurrency(revBreakdown.lateFees)}</span>
+                <span className="text-muted-foreground">Late Fees Collected</span>
+                <span className="font-semibold text-foreground">{formatCurrency(revBreakdown.lateFees)}</span>
               </div>
               <div className="flex items-center justify-between border-b pb-2 text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Security Deposits Received</span>
-                <span className="font-semibold text-gray-900 dark:text-gray-100">{formatCurrency(revBreakdown.securityDepositsIn)}</span>
+                <span className="text-muted-foreground">Security Deposits Received</span>
+                <span className="font-semibold text-foreground">{formatCurrency(revBreakdown.securityDepositsIn)}</span>
               </div>
               <div className="flex items-center justify-between pb-2 text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Other Income</span>
-                <span className="font-semibold text-gray-900 dark:text-gray-100">{formatCurrency(revBreakdown.otherIncome)}</span>
+                <span className="text-muted-foreground">Other Income</span>
+                <span className="font-semibold text-foreground">{formatCurrency(revBreakdown.otherIncome)}</span>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="shadow-sm">
+          <Card className="border">
             <CardHeader>
-              <CardTitle className="text-base font-semibold text-rose-700 dark:text-rose-400 flex items-center gap-2">
+              <CardTitle className="text-base font-semibold flex items-center gap-2">
                 <TrendingDown className="h-5 w-5" /> Operating Expense Breakdown
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between border-b pb-2 text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Maintenance & Repairs</span>
-                <span className="font-semibold text-gray-900 dark:text-gray-100">{formatCurrency(expBreakdown.maintenanceExpenses)}</span>
+                <span className="text-muted-foreground">Maintenance & Repairs</span>
+                <span className="font-semibold text-foreground">{formatCurrency(expBreakdown.maintenanceExpenses)}</span>
               </div>
               <div className="flex items-center justify-between border-b pb-2 text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Security Deposit Refunds</span>
-                <span className="font-semibold text-gray-900 dark:text-gray-100">{formatCurrency(expBreakdown.securityDepositRefunds)}</span>
+                <span className="text-muted-foreground">Security Deposit Refunds</span>
+                <span className="font-semibold text-foreground">{formatCurrency(expBreakdown.securityDepositRefunds)}</span>
               </div>
               <div className="flex items-center justify-between border-b pb-2 text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Owner Distributions</span>
-                <span className="font-semibold text-gray-900 dark:text-gray-100">{formatCurrency(expBreakdown.ownerDistributions)}</span>
+                <span className="text-muted-foreground">Owner Distributions</span>
+                <span className="font-semibold text-foreground">{formatCurrency(expBreakdown.ownerDistributions)}</span>
               </div>
               <div className="flex items-center justify-between pb-2 text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Other Expenses</span>
-                <span className="font-semibold text-gray-900 dark:text-gray-100">{formatCurrency(expBreakdown.otherExpenses)}</span>
+                <span className="text-muted-foreground">Other Expenses</span>
+                <span className="font-semibold text-foreground">{formatCurrency(expBreakdown.otherExpenses)}</span>
               </div>
             </CardContent>
           </Card>
         </div>
       )}
 
-      <Card className="shadow-sm">
+      <Card className="border">
         <CardHeader>
           <CardTitle className="text-base font-semibold">Ledger Transaction History</CardTitle>
           <CardDescription>Itemized transaction logs associated with your profile</CardDescription>
         </CardHeader>
         <CardContent>
           {entries.length === 0 ? (
-            <div className="py-8 text-center text-sm text-gray-500">
+            <div className="py-8 text-center text-sm text-muted-foreground">
               No financial ledger transactions found for this account.
             </div>
           ) : (
@@ -313,7 +307,7 @@ export default function ProfitLossStatement() {
                       <TableRow key={entry.id || `entry-${idx}`}>
                         <TableCell className="font-medium">
                           <div>{entry.property || "N/A"}</div>
-                          <div className="text-xs text-gray-500">Unit: {entry.unit || "N/A"}</div>
+                          <div className="text-xs text-muted-foreground">Unit: {entry.unit || "N/A"}</div>
                         </TableCell>
                         <TableCell className="text-sm">{entry.partyName || "N/A"}</TableCell>
                         <TableCell>
@@ -321,25 +315,15 @@ export default function ProfitLossStatement() {
                             {entry.entryType || "General"}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-sm text-gray-500">
+                        <TableCell className="text-sm text-muted-foreground">
                           {formatDate(entry.date)}
                         </TableCell>
                         <TableCell>
-                          <Badge
-                            className={
-                              entry.status === "Posted" || entry.status === "Cleared"
-                                ? "bg-emerald-100 text-emerald-800 border-none dark:bg-emerald-950 dark:text-emerald-300"
-                                : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300"
-                            }
-                          >
+                          <Badge variant="secondary">
                             {entry.status || "Posted"}
                           </Badge>
                         </TableCell>
-                        <TableCell
-                          className={`text-right font-semibold ${
-                            isPositive ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
-                          }`}
-                        >
+                        <TableCell className="text-right font-semibold">
                           {isPositive ? "+" : "-"}{formatCurrency(entry.amount)}
                         </TableCell>
                       </TableRow>

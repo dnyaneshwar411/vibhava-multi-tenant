@@ -67,7 +67,7 @@ export default function ProfitLossFilterOptions({
       <PopoverTrigger>
         <span
           className={cn(
-            "rounded-none h-8 border-muted gap-2 text-xs relative cursor-pointer",
+            "h-8 border-muted gap-2 text-xs relative cursor-pointer",
             buttonVariants({ variant: "outline", size: "sm" })
           )}
         >
@@ -76,7 +76,7 @@ export default function ProfitLossFilterOptions({
           {activeFiltersCount > 0 && (
             <Badge
               variant="secondary"
-              className="h-4 px-1 rounded-none font-mono text-[10px] bg-foreground text-background"
+              className="h-4 px-1 font-mono text-[10px]"
             >
               {activeFiltersCount}
             </Badge>
@@ -86,7 +86,7 @@ export default function ProfitLossFilterOptions({
 
       <PopoverContent
         align="end"
-        className="w-80 rounded-none p-4 space-y-4 border bg-card text-card-foreground shadow-none"
+        className="w-80 p-4 space-y-4 border bg-card text-card-foreground"
       >
         <div className="flex items-center justify-between pb-2 border-b">
           <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
@@ -97,7 +97,7 @@ export default function ProfitLossFilterOptions({
               variant="ghost"
               size="sm"
               onClick={handleReset}
-              className="h-6 px-2 text-[11px] rounded-none text-muted-foreground hover:text-foreground gap-1"
+              className="h-6 px-2 text-[11px] text-muted-foreground hover:text-foreground gap-1"
             >
               <RotateCcw className="h-3 w-3" /> Reset
             </Button>
@@ -113,7 +113,7 @@ export default function ProfitLossFilterOptions({
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="h-8 rounded-none text-xs"
+              className="h-8 text-xs"
             />
           </div>
           <div className="space-y-1.5">
@@ -124,7 +124,7 @@ export default function ProfitLossFilterOptions({
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="h-8 rounded-none text-xs"
+              className="h-8 text-xs"
             />
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function ProfitLossFilterOptions({
           <Button
             size="sm"
             onClick={handleSaveFilters}
-            className="w-full h-8 rounded-none text-xs gap-1.5 bg-teal-700 hover:bg-teal-800 text-white"
+            className="w-full h-8 text-xs gap-1.5"
           >
             <Check className="h-3.5 w-3.5" /> Apply Filters
           </Button>

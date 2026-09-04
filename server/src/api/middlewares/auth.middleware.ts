@@ -25,7 +25,11 @@ export const validateTenant: (req: Request) => {
   return { success: true, subdomain };
 };
 
-export const authenticate = function (scopes: Scope[] = [], statuses: CONSTANTS_TYPE["ORGANIZATION_STATUS"][] = ["Active"]) {
+export const authenticate = function (
+  scopes: Scope[] = [],
+  statuses: CONSTANTS_TYPE["ORGANIZATION_STATUS"][] = ["Active"],
+  allowedUsers?: CONSTANTS_TYPE["POSSIBLE_USERS"][]
+) {
   return async function (req: Request, res: Response, next: NextFunction) {
     const { success, message, subdomain } = validateTenant(req);
     if (!success || !subdomain)
@@ -44,6 +48,10 @@ export const authenticate = function (scopes: Scope[] = [], statuses: CONSTANTS_
     }
 
     if (data.actorModel !== "Operator" && data.organization?.subdomain !== subdomain) {
+      throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid Request!");
+    }
+
+    if (allowedUsers && allowedUsers.length > 0 && !allowedUsers.includes(data.actorModel)) {
       throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid Request!");
     }
 

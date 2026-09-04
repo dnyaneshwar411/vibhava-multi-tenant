@@ -1,6 +1,6 @@
 import { sidebarData } from "../config/organization"
 
-export const resolveSessionScopes = function (scopes: Record<string, boolean>) {
+export const resolveSessionScopes = function (scopes: Record<string, boolean> = {}) {
   return sidebarData
     .map(item => {
       if (Array.isArray(item.children)) {

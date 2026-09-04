@@ -34,7 +34,6 @@ export const authenticate = function (
     const { success, message, subdomain } = validateTenant(req);
     if (!success || !subdomain)
       throw new ApiError(httpStatus.BAD_REQUEST, message || "Bad Request");
-
     const {
       success: tokenValidationSuccess,
       message: tokenValidationMessage,

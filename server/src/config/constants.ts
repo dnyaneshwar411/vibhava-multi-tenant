@@ -90,5 +90,7 @@ export const CONSTANTS = {
 
   PAYMENT_RESOURCES: ["ORGANIZATION_MEMBERSHIP"],
 
-  ORGANIZATION_COMPANY_PAGE: ["langing", "about", "privacy-policy", "terms-conditions"]
+  ORGANIZATION_COMPANY_PAGE: ["langing", "about", "privacy-policy", "terms-conditions"],
+
+  EMAIL_ENTITIES: ["LEASE_CREATED"]
 } as const;

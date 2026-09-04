@@ -54,4 +54,11 @@ export default class TenantRepository {
       // .select("-updatedAt -__v")
       .lean();
   }
+
+  static async resolveForEmails(ids: ObjectIdQueryTypeCasting[]) {
+    return this.model
+      .find({ _id: { $in: ids } })
+      .select("name email mobileNumber")
+      .lean()
+  }
 }

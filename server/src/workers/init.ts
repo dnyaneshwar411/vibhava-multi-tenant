@@ -6,7 +6,8 @@ mongoose
   .connect(env.MONGOOSE_DB_URL)
   .then(() => {
     Logger.info("db connected");
-    import("./worker.js")
+    // import("./worker.js")
+    import("./cron/index.js")
   })
   .catch((error) => {
     Logger.error(error);

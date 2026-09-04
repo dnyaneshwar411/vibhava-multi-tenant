@@ -3,6 +3,7 @@ import { redisConnection } from "../infrastructure/queue/queue.js";
 import PaymentService from "../core/services/payment.service.js";
 import AuditLogService from "../core/services/auditLog.service.js";
 import Logger from "../common/logger/index.js";
+import EmailService from "../infrastructure/providers/email/email.service.js";
 
 const rateLimitOptions = {
   max: 2,
@@ -40,3 +41,10 @@ new Worker(
   },
   { connection: redisConnection, limiter: rateLimitOptions }
 )
+
+new Worker("EMAILS", async function (payload) {
+  await EmailService.process(payload.data)
+}, {
+  connection: redisConnection,
+  limiter: rateLimitOptions
+})

@@ -1,8 +1,9 @@
 import { ObjectIdQueryTypeCasting } from "mongoose"
 import { GATEWAY_OPTIONS } from "../../common/types/payment.js"
 import { CONSTANTS_TYPE } from "../../common/types/index.js"
+import { MailOptions } from "nodemailer/lib/sendmail-transport/index.js"
 
-export type EventTypes = "WEBHOOK_PAYMENTS" | "PAYMENTS" | "AUDIT_LOGS"
+export type EventTypes = "WEBHOOK_PAYMENTS" | "PAYMENTS" | "AUDIT_LOGS" | "EMAILS"
 
 export type EventPaymentsType = {
   type: "WEBHOOK_PAYMENTS"
@@ -41,11 +42,20 @@ export type EventAuditLog = {
   createdAt?: Date
 }
 
+export type EventEmailType = {
+  type: "EMAILS"
+  entity: CONSTANTS_TYPE["EMAIL_ENTITIES"]
+  payload: MailOptions
+}
+
+type EventsAuditLogs = {
+  type: "AUDIT_LOGS",
+  bacthSize: number,
+  logs: EventAuditLog[]
+}
+
 export type EventPayload =
   | EventPaymentsType
-  | {
-    type: "AUDIT_LOGS",
-    bacthSize: number,
-    logs: EventAuditLog[]
-  }
+  | EventEmailType
+  | EventsAuditLogs
   | { type: "PAYMENTS" }

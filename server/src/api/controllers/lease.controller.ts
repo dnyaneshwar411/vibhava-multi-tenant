@@ -7,6 +7,7 @@ import LeaseRepository from "../../infrastructure/database/repositories/lease.re
 import catchAsync from "../utils/catchAsync.js";
 import { ObjectIdQueryTypeCasting } from "mongoose";
 import AuditLogService from "../../core/services/auditLog.service.js";
+import { EventOrchestrator } from "../../core/events/eventBus.js";
 
 export default class LeaseController {
   static async getTenantById(req: Request, res: Response) {
@@ -38,6 +39,7 @@ export default class LeaseController {
     payload.createdBy = req.user._id
     const lease = await LeaseRepository.create(payload)
     if (!lease) throw new ApiError(httpStatus.BAD_REQUEST, "Bad Request")
+    LeaseRepository.notify(req.organization!, lease._id)
     AuditLogService.addLogMeta(req, {
       action: "CREATE",
       resource: "Lease",

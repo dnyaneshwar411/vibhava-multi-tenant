@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer"
 import { env } from "../../../config/envVars.js";
+import { MailOptions } from "nodemailer/lib/sendmail-transport/index.js";
 
 const transporter = nodemailer.createTransport({
   service: env.EMAIL,
@@ -11,11 +12,11 @@ const transporter = nodemailer.createTransport({
   host: env.EMAIL_HOST,
 });
 
-type SendMailType = (payload: Record<string, any>) => Promise<{ success: boolean; error?: any }>;
+type SendMailType = (payload: MailOptions) => Promise<{ success: boolean; error?: any }>;
 
-export const sendMail: SendMailType = async function (options: Record<string, any>) {
+export const sendMail: SendMailType = async function (options: MailOptions) {
   try {
-    const response = await transporter.sendMail(options);
+    await transporter.sendMail(options);
     return { success: true }
   } catch (error) {
     return { success: false, error }

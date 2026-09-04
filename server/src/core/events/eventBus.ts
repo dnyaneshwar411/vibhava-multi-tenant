@@ -1,6 +1,6 @@
 import EventEmitter from "node:events";
 import { EventPayload, EventTypes } from "./types.js";
-import { auditLogsQueue, paymentsWebhookQueue } from "../../infrastructure/queue/queue.js";
+import { auditLogsQueue, emailQueue, paymentsWebhookQueue } from "../../infrastructure/queue/queue.js";
 import { generateJobId } from "./utils.js";
 import Logger from "../../common/logger/index.js";
 import { env } from "../../config/envVars.js";
@@ -26,6 +26,15 @@ class EventOrchestratorImplementation extends EventEmitter {
       if (payload.type !== "AUDIT_LOGS" || !env.REDIS_ENABLED) return
       const jobId = generateJobId("audit", `jobs-batch-${Date.now()}`)
       auditLogsQueue.add(jobId, payload)
+    })
+
+    this.handler("EMAILS", async function (payload: EventPayload) {
+      if (payload.type !== "EMAILS") return
+      const jobId = generateJobId("email", {
+        ...payload.payload,
+        entity: payload.entity
+      })
+      emailQueue.add(jobId, payload)
     })
   }
 

@@ -66,9 +66,7 @@ export default function RentRollStatement() {
   const handlePrint = () => {
     try {
       window.print();
-    } catch (err) {
-      console.error("Print failed", err);
-    }
+    } catch (err) { }
   };
 
   const handleExportCSV = () => {
@@ -118,10 +116,6 @@ export default function RentRollStatement() {
         </div>
 
         <div className="flex items-center gap-2">
-          {role === "Tenant" && (
-            <TenantPayRentModal unitData={units[0]} onPaymentSuccess={() => mutate()} />
-          )}
-
           <RentRollFilterOptions pagination={filters} setPagination={setFilters} />
 
           <Button variant="outline" size="sm" onClick={handlePrint} className="gap-2">

@@ -80,9 +80,7 @@ export default function ProfitLossStatement() {
   const handlePrint = () => {
     try {
       window.print();
-    } catch (err) {
-      console.error("Print action failed", err);
-    }
+    } catch (err) { }
   };
 
   const handleExportCSV = () => {

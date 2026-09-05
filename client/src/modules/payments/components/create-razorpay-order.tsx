@@ -4,12 +4,18 @@ import { buildToastMessage } from "@/lib/catchAsync";
 import { ENV } from "@/config/envVars";
 
 import { Button } from "@/components/ui/button";
+import { useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
 
 export default function CreateRazorpayOrder({
   options,
-  onSuccess
+  credentials,
+  onSuccess,
+  triggerOnLoad = false
 }: {
   options: any
+  credentials?: any
+  triggerOnLoad?: boolean
   onSuccess?: any
 }) {
   const createRazorpayOrder = async function () {
@@ -20,7 +26,7 @@ export default function CreateRazorpayOrder({
       }
 
       const config = {
-        key: ENV.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
+        key: credentials.razorpayKeyId || ENV.RAZORPAY_KEY,
         name: "Manu Arora Pvt Ltd",
         currency: options.currency,
         amount: options.amount,
@@ -30,11 +36,7 @@ export default function CreateRazorpayOrder({
         handler: function () {
           if (typeof onSuccess === "function") onSuccess()
         },
-        prefill: {
-          name: "Manu Arora",
-          email: "manuarorawork@gmail.com",
-          contact: "9999999999",
-        },
+        ...(options.prefill && { prefill: options.prefill }),
       };
 
       const paymentObject = new window.Razorpay(config);
@@ -44,6 +46,13 @@ export default function CreateRazorpayOrder({
       toast.error(buildToastMessage(error));
     }
   }
+  const btn = useRef<HTMLButtonElement | null>(null)
+
+  useEffect(function () {
+    if (options.id && triggerOnLoad && btn.current) {
+      btn.current.click()
+    }
+  }, [triggerOnLoad, options])
 
   if (!options?.id) {
     return (
@@ -52,7 +61,12 @@ export default function CreateRazorpayOrder({
   }
 
   return (
-    <Button type="button" className="rounded-none shadow-none min-w-[140px]" onClick={createRazorpayOrder}>
+    <Button
+      ref={btn}
+      type="button"
+      className={cn("rounded-none shadow-none min-w-[140px]", triggerOnLoad && "hidden")}
+      onClick={createRazorpayOrder}
+    >
       Pay Now
     </Button>
   )

@@ -37,7 +37,10 @@ export default function CreateLeaseDocument({
   const handleSubmit = async function (data: LeaseCreationDocumentInput) {
     const toastId = toast.loading("Uploading Document")
     try {
-      if(!file) return
+      if(!file) {
+        toast.dismiss(toastId)
+        throw new Error("Please select a lease document")
+      }
       const payload = new FormData()
       payload.append("property", defaultValues.property);
       payload.append("title", `Standard Lease Agreement ${format(new Date(), "yyyy")}`);

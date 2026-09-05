@@ -39,7 +39,5 @@ export const exportToCSV = (filename: string, headers: string[], rows: (string |
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  } catch (error) {
-    console.error("CSV Export failed", error);
-  }
+  } catch (error) { }
 };

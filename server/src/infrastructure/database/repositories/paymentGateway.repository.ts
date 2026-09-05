@@ -7,6 +7,7 @@ export default class PaymentGatewayRepository {
   private static model = PaymentGateway;
 
   private static decipherCredentials(gateway: any) {
+    if (!gateway) return gateway
     if (gateway.type === "RAZORPAY") {
       return ({
         ...gateway,
@@ -21,6 +22,7 @@ export default class PaymentGatewayRepository {
       return ({
         ...gateway,
         credentials: {
+          publishableKey: Cipher.decrypt(gateway.credentials?.publishableKey),
           stripeKeyId: Cipher.decrypt(gateway.credentials?.stripeKeyId),
           stripeSignature: Cipher.decrypt(gateway.credentials?.stripeSignature),
         }

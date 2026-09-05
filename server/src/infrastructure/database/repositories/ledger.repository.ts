@@ -1,6 +1,6 @@
 import LedgerEntry from "../models/ledger.model.js";
 import { CreateLedgerInput, UpdateLedgerInput } from "../../../api/schemas/ledger.schema.js";
-import { ObjectIdQueryTypeCasting } from "mongoose";
+import { ObjectIdQueryTypeCasting, QueryFilter } from "mongoose";
 import { PaginationOptions } from "../../../common/utils/pagination.js";
 
 export default class LedgerRepository {
@@ -55,5 +55,16 @@ export default class LedgerRepository {
 
   static async rentRoll(organizationId: ObjectIdQueryTypeCasting) {
     return { success: true };
+  }
+
+  static async exists(filters: QueryFilter<{}>) {
+    return await this.model.exists(filters)
+  }
+
+  static async latestPayableRent(filters: QueryFilter<{}>) {
+    return await this.model
+      .findOne(filters, { sort: { "period.startDate": -1 }, })
+      .select("period")
+      .lean()
   }
 }

@@ -28,10 +28,37 @@ export type MEMBERSHIP_TIER_CONFIG = {
 
 export type MEMBERSHIP_DURATION = "Monthly" | "Annually"
 
+export type PaymentOrderSession = Orders.RazorpayOrder | Stripe.Response<Stripe.Checkout.Session>
+
 export type CREATE_PAYMENT_SESSION = {
   success: true,
+  message?: string
   order: Orders.RazorpayOrder | Stripe.Response<Stripe.Checkout.Session>,
+  credentials?: any
 } | {
   success: false,
-  message: string
+  message: string,
+  order?: Orders.RazorpayOrder | Stripe.Response<Stripe.Checkout.Session>,
+  credentials?: any
 }
+
+export type OrganizationFinanceRentRollNotes = {
+  entity: "RENT_ROLL",
+  leaseId: string,
+  startDate: string
+}
+
+export type OrganizationFinanceNotes =
+  {
+    resource: "ORGANIZATION_FINANCE",
+    organizationId: string,
+    actor: string
+  } &
+  OrganizationFinanceRentRollNotes
+
+export type OrganizationOrderArgs = {
+  organizationId: string;
+} & (
+  | { gateway: "RAZORPAY"; options: Orders.RazorpayOrderCreateRequestBody }
+  | { gateway: "STRIPE"; options: Stripe.Checkout.SessionCreateParams }
+);

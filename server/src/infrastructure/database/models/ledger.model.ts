@@ -104,6 +104,20 @@ const ledgerEntrySchema = new Schema({
     }
   },
 
+  period: {
+    startDate: {
+      type: Date,
+    },
+    endDate: {
+      type: Date,
+    },
+    billingCycle: {
+      type: String,
+      enum: CONSTANTS.LEASE_BILLING_CYCLE,
+      default: "Monthly",
+    },
+  },
+
   lines: {
     type: [transactionLineSchema],
     required: true,

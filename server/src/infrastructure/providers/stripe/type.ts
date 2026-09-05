@@ -1,6 +1,9 @@
 export type StripeClientArgs = {
   isVibhava: false
-  credentials: string
+  credentials: {
+    publishableKey: string
+    stripeKeyId: string
+  }
 } | {
   isVibhava: true
 }

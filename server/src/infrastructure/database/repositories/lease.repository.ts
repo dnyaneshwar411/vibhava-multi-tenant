@@ -8,6 +8,18 @@ import EmailService from "../../providers/email/email.service.js";
 export default class LeaseRepository {
   private static model = Lease;
 
+  static async findOne(query: QueryFilter<{}>) {
+    return await this
+      .model
+      .findOne(query)
+      .select("startDate endDate property finance leaseType")
+      .populate("property", "name")
+      .populate("unit", "unitType unitNumber")
+      .populate("primaryTenant", "name email mobileNumber countryCode")
+      .populate("coTenants", "name email mobileNumber countryCode")
+      .lean();
+  }
+
   static async organizationLeasesPaginate(
     organizationId: ObjectIdQueryTypeCasting,
     filters: PaginationOptions & {

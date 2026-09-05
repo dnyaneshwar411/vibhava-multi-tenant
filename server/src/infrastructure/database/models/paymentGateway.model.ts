@@ -14,7 +14,7 @@ const paymentGatewaySchema = new Schema({
     type: Schema.Types.Mixed,
     default: {}
     /**
-     * STRIPE = { stripeKeyId: "", stripeSignature: "" }
+     * STRIPE = { publishableKey: "", stripeKeyId: "", stripeSignature: "" }
      * RAZORPAY = { razorpayKeyId: "", razorpayKeySecret: "", razorpaySignature: "" }
      */
   }

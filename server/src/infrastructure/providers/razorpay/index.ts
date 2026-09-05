@@ -25,14 +25,22 @@ export default class RazorpayPaymentGateway {
   ): Promise<{
     success: false,
     message: string,
+    credentials?: any
   } | {
     success: true,
     order: Orders.RazorpayOrder
+    credentials?: any
   }> {
     try {
       const client = this.buildConfig(gatewayOptions);
       const order = await client.orders.create(orderOptions);
-      return { success: true, order };
+      return {
+        success: true,
+        order,
+        ...(!gatewayOptions.isVibhava && {
+          credentials: gatewayOptions.credentials
+        })
+      };
     } catch (error: any) {
       let message = "Payment processing failed. Please try again later.";
       if (error.error) {

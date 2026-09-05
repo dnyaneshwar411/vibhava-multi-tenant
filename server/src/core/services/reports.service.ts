@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { ObjectIdQueryTypeCasting, Types } from "mongoose";
 import LedgerEntry from "../../infrastructure/database/models/ledger.model.js";
 import Unit from "../../infrastructure/database/models/unit.model.js";
 import Lease from "../../infrastructure/database/models/lease.model.js";
@@ -6,6 +6,14 @@ import Tenant from "../../infrastructure/database/models/tenant.model.js";
 import Vendor from "../../infrastructure/database/models/vendor.model.js";
 import { ApiError } from "../../api/utils/apiError.js";
 import httpStatus from "http-status";
+import LedgerRepository from "../../infrastructure/database/repositories/ledger.repository.js";
+import LeaseRepository from "../../infrastructure/database/repositories/lease.repository.js";
+import PaymentService from "./payment.service.js";
+import { addMonths, addWeeks, addYears, setDate, startOfDay } from "date-fns";
+import { OrganizationFinanceRentRollNotes, PaymentOrderSession } from "../../common/types/payment.js";
+import { PayRentInput } from "../../api/schemas/reports.schema.js";
+import PaymentGatewayRepository from "../../infrastructure/database/repositories/paymentGateway.repository.js";
+import { ALL_STRIPE_PAYMENT_METHOD_TYPES } from "../../infrastructure/providers/stripe/config.js";
 
 const safeNumber = (val: any, fallback: number = 0): number => {
   if (val === null || val === undefined || isNaN(Number(val))) return fallback;
@@ -944,5 +952,242 @@ export default class ReportsService {
         limitNumber,
       },
     };
+  }
+
+  static ledgerStartDate(date: string) {
+    return startOfDay(date).toString()
+  }
+
+  static resolvePaymentDueDate(
+    lease: any,
+    ledgerEntry: any
+  ) {
+    const paymentDueDate = lease.finance.paymentDueDay || 1
+    if (!ledgerEntry) {
+      const date = setDate(new Date(lease.startDate), paymentDueDate)
+      return date
+    };
+
+    const lastPaidDate = safeDate(ledgerEntry.period.startDate) || new Date();
+    switch (lease.finance.billingCycle) {
+      case "Bi-Weekly":
+        return addWeeks(lastPaidDate, 2);
+      case "Quarterly":
+        return setDate(addMonths(lastPaidDate, 3), paymentDueDate);
+      case "Annually":
+        return setDate(addYears(lastPaidDate, 1), paymentDueDate);
+    }
+    return setDate(addMonths(lastPaidDate, 1), paymentDueDate);
+  }
+
+  static resolvePaymentCycleEndDate(date: Date, lease: any) {
+    switch (lease.finance.billingCycle) {
+      case "Bi-Weekly":
+        return addWeeks(date, 2);
+      case "Quarterly":
+        return addMonths(date, 3);
+      case "Annually":
+        return addYears(date, 1);
+      }
+    return addMonths(date, 1)
+  }
+
+  static async resolveUnitUpcomingRent(
+    organizationId: ObjectIdQueryTypeCasting,
+    unitId: ObjectIdQueryTypeCasting,
+    tenantId: ObjectIdQueryTypeCasting,
+  ): Promise<{
+    success: false,
+    message: string,
+    data?: any
+  } | {
+    success: true,
+    message?: string,
+    data: any
+  }> {
+    // 2. if the rent is not paid resolve the next payable rent.
+    const lease = await LeaseRepository.findOne({
+      organization: organizationId,
+      status: "Active",
+      isDeleted: false,
+      unit: unitId,
+      $or: [
+        { primaryTenant: tenantId },
+        { coTenants: tenantId }
+      ]
+    })
+    if (!lease) return {
+      success: false,
+      message: "No Lease Created"
+    }
+
+    const [ledgerEntry, gateways] = await Promise.all([
+      LedgerRepository.exists({
+        organization: organizationId,
+        unit: unitId,
+        status: "Cleared",
+        entryType: "Rent Charge",
+      }),
+      PaymentGatewayRepository.find({ organization: organizationId })
+    ])
+
+    const nextDueDate = this.resolvePaymentDueDate(lease, ledgerEntry);
+    const nextCycleEndDate = this.resolvePaymentCycleEndDate(nextDueDate, lease)
+
+    return {
+      success: true,
+      data: {
+        rentDetails: {
+          ...lease,
+          nextDueDate,
+          nextCycleEndDate,
+          rentAmount: lease.finance?.rentAmount,
+          paymentDueDay: lease.finance?.paymentDueDay,
+          billingCycle: lease.finance?.billingCycle,
+          finance: undefined
+        },
+        gateway: gateways.map(gateway => gateway.type)
+      }
+    }
+  }
+
+  static buildRentOrderConfig(
+    organizationId: ObjectIdQueryTypeCasting,
+    lease: any,
+    actor: ObjectIdQueryTypeCasting,
+    payload: PayRentInput["body"]
+  ) {
+    const amount = (lease.finance?.rentAmount || 100) * 100
+    const notes = {
+      resource: "ORGANIZATION_FINANCE",
+      organizationId: String(organizationId),
+      entity: "RENT_ROLL",
+      leaseId: String(lease._id),
+      actor: String(actor),
+      startDate: this.ledgerStartDate(payload.startDate)
+    } as OrganizationFinanceRentRollNotes
+    
+    switch (payload.gateway) {
+      case "RAZORPAY":
+        return {
+          amount,
+          currency: "INR",
+          notes
+        }
+      case "STRIPE":
+        return {
+          mode: 'payment',
+          ui_mode: "embedded_page",
+          redirect_on_completion: "never",
+          // payment_method_types: ALL_STRIPE_PAYMENT_METHOD_TYPES,
+          line_items: [
+            {
+              price_data: {
+                currency: 'inr',
+                product_data: {
+                  name: `Rent Payment - ${lease.unit.unitNumber}, ${lease.property.name || "Property"}`,
+                  description: 'Make a payment',
+                },
+                unit_amount: amount,
+              },
+              quantity: 1,
+            },
+          ],
+          metadata: notes,
+        }
+      default: 
+        throw new Error("Invalid Gateway Selected!")
+    }
+  }
+
+  static resolveOrderResponse(gateway: PayRentInput["body"]["gateway"], order: any, credentials: any) {
+    switch (gateway) {
+      case "RAZORPAY":
+        return {
+          credentials,
+          order: {
+            gateway,
+            currency: order.currency,
+            amount: order.amount,
+            order_id: order.id,
+          },
+        }
+      default:
+        return {
+          credentials,
+          order: {
+            gateway,
+            clientSecret: order.client_secret
+          },
+        }
+      }
+  }
+
+  static async createRentOrder(
+    organizationId: ObjectIdQueryTypeCasting,
+    unitId: ObjectIdQueryTypeCasting,
+    tenantId: ObjectIdQueryTypeCasting,
+    payload: PayRentInput["body"]
+  ): Promise<{
+    success: false,
+    message: string,
+    order?: any
+    credentials?: any
+  } | {
+    success: true,
+    message?: string,
+    order: any
+    credentials: any
+  }> {
+    // 1. check if the rent is paid for that particular date, if yes error saying this rent was already paid.
+    const rentPaidCheck = await LedgerRepository.exists({
+      organization: organizationId,
+      unit: unitId,
+      status: "Cleared",
+      entryType: "Rent Charge",
+      period: {
+        startDate: this.ledgerStartDate(payload.startDate)
+      }
+    })
+    if (rentPaidCheck) return {
+      success: false,
+      message: "Rent Is Already paid For this cycle"
+    }
+
+    // 2. fetch the data to create the rent details and all, build the options for the same.
+    const lease = await LeaseRepository.findOne({
+      organization: organizationId,
+      status: "Active",
+      isDeleted: false,
+      unit: unitId,
+      $or: [
+        { primaryTenant: tenantId },
+        { coTenants: tenantId }
+      ]
+    })
+    if (!lease) return {
+      success: false,
+      message: "No such lease found"
+    }
+
+    const config = this.buildRentOrderConfig(organizationId, lease, tenantId, payload)
+
+    const { success, ...session } = await PaymentService.createOrganizationOrder({
+      organizationId: String(organizationId),
+      gateway: payload.gateway as any,
+      options: config
+    }!)
+
+    if (!success) return {
+      success: false,
+      message: session.message!
+    }
+
+    const orderResponse = this.resolveOrderResponse(payload.gateway, session.order, session.credentials)
+
+    return {
+      success: true,
+      ...orderResponse
+    }
   }
 }

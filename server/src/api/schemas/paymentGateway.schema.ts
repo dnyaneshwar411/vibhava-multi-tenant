@@ -19,6 +19,7 @@ const encryptedString = z.string().trim().min(1).transform(transformAndEncryptCr
 
 export default class PaymentGatewaySchema {
   static rawStripeCredentialsSchema = z.object({
+    publishableKey: z.string().trim().min(1),
     stripeKeyId: z.string().trim().min(1),
     stripeSignature: z.string().trim().min(1),
   }).strict();
@@ -30,6 +31,7 @@ export default class PaymentGatewaySchema {
   }).strict();
 
   static stripeCredentialsSchema = z.object({
+    publishableKey: encryptedString,
     stripeKeyId: encryptedString,
     stripeSignature: encryptedString,
   }).strict();

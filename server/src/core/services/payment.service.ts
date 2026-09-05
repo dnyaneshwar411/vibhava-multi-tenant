@@ -1,5 +1,9 @@
 import { Orders } from "razorpay/dist/types/orders.js";
-import { CREATE_PAYMENT_SESSION, GATEWAY_OPTIONS, MEMBERSHIP_BILLING_CYCLES, MEMBERSHIP_DURATION, MEMBERSHIP_TIER, MEMBERSHIP_TIER_CHANGE_TYPE } from "../../common/types/payment.js";
+import {
+  CREATE_PAYMENT_SESSION, GATEWAY_OPTIONS, MEMBERSHIP_BILLING_CYCLES,
+  MEMBERSHIP_DURATION, MEMBERSHIP_TIER, MEMBERSHIP_TIER_CHANGE_TYPE,
+  OrganizationOrderArgs
+} from "../../common/types/payment.js";
 import RazorpayPaymentGateway from "../../infrastructure/providers/razorpay/index.js";
 import StripePaymentGateway from "../../infrastructure/providers/stripe/index.js";
 import { EventPaymentsType } from "../events/types.js";
@@ -37,17 +41,33 @@ export default class PaymentService {
   }
 
   static async createOrganizationOrder(
-    gateway: GATEWAY_OPTIONS,
-    organizationId: ObjectIdQueryTypeCasting,
-    options: Orders.RazorpayOrderCreateRequestBody,
+    { gateway, organizationId, options }: OrganizationOrderArgs
   ): Promise<CREATE_PAYMENT_SESSION> {
-    // const organizationCredentials = await 
+    const paymentGateway = await PaymentGatewayRepository.findOne({
+      organization: organizationId,
+      type: gateway,
+      // isDeleted: false
+    })
+    if (!paymentGateway) return {
+      success: false,
+      message: `Payment Gateway - [${gateway}] is Not configured`
+    }
+
     switch (gateway) {
       case "RAZORPAY": {
-        return await RazorpayPaymentGateway.createOrder({ isVibhava: true }, options)
+        return await RazorpayPaymentGateway.createOrder({
+          isVibhava: false,
+          credentials: {
+            key_id: paymentGateway.credentials.razorpayKeyId,
+            key_secret: paymentGateway.credentials.razorpayKeySecret,
+          }
+        }, options)
       }
       case "STRIPE": {
-        return await StripePaymentGateway.createOrder({ isVibhava: true }, options)
+        return await StripePaymentGateway.createOrder({
+          isVibhava: false,
+          credentials: paymentGateway.credentials
+        }, options)
       }
     }
   }

@@ -2,6 +2,7 @@ import { ObjectIdQueryTypeCasting, QueryFilter } from "mongoose";
 import Operator from "../models/operator.model.js";
 import Scope from "../models/scopesMap.model.js";
 import S3 from "../../providers/aws/s3.js";
+import { hashString } from "../../../common/utils/hash.js";
 
 export default class OperatorRepository {
   private static operatorModel = Operator;
@@ -40,6 +41,7 @@ export default class OperatorRepository {
   }
 
   static async update(operatorId: ObjectIdQueryTypeCasting, payload: any) {
+    if (payload.password) payload.password = await hashString(payload.password);
     return await this.operatorModel.findByIdAndUpdate(
       operatorId,
       { $set: payload },

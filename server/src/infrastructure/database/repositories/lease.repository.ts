@@ -3,7 +3,7 @@ import Lease from "../models/lease.model.js";
 import { PaginationOptions } from "../../../common/utils/pagination.js";
 import { CreateLeaseInput, UpdateLeaseInput } from "../../../api/schemas/lease.schema.js";
 import S3 from "../../providers/aws/s3.js";
-import EmailService from "../../providers/email/email.service.js";
+import { EventOrchestrator } from "../../../core/events/eventBus.js";
 
 export default class LeaseRepository {
   private static model = Lease;
@@ -144,7 +144,7 @@ export default class LeaseRepository {
   static async notify(organizationId: ObjectIdQueryTypeCasting, leaseId: ObjectIdQueryTypeCasting) {
     const lease = await this.getOrganizationLeaseById(organizationId, leaseId)
     if (!lease) return
-    EmailService.process({
+    EventOrchestrator.publish("EMAILS", {
       type: "EMAILS",
       entity: "LEASE_CREATED",
       payload: {

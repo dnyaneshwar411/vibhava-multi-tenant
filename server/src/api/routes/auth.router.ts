@@ -24,4 +24,10 @@ router
 router.route("/me")
   .get(authenticate([]), AuthController.me)
 
+router.route("/password/reset")
+  .post(validate(AuthSchema.passwordReset), AuthController.passwordReset)
+
+router.route("/password/verify")
+  .post(validate(AuthSchema.passwordVerify), AuthController.passwordVerify)
+
 export { router as authRouter };

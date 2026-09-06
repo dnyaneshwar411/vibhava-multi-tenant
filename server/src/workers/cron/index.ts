@@ -11,5 +11,5 @@ import Logger from "../../common/logger/index.js";
  * via email
  */
 cron.schedule("* * * * *", function () {
-  Logger.info("CONDITION HIT")
+  // Logger.info("CONDITION HIT")
 })

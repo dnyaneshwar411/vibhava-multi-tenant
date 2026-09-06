@@ -1,9 +1,11 @@
 import { CONSTANTS_TYPE } from "../../../common/types/index.js";
 import { EventEmailType } from "../../../core/events/types.js";
-import { TemplateLeaseCreated } from "./templates/lease_created.js";
+import { TemplateLeaseCreated } from "./templates/leaseCreated.js";
 import { format, parseISO, isValid } from "date-fns";
 import { sendMail } from "./mailer.js";
 import { env } from "../../../config/envVars.js";
+import { TemplatePasswordReset } from "./templates/passwordReset.js";
+import { EventOrchestrator } from "../../../core/events/eventBus.js";
 
 export default class EmailService {
   private static injectConditional(template: string, key: string, value: string | null) {
@@ -23,7 +25,7 @@ export default class EmailService {
     return (isValid(dateStr) && dateStr) ? format(dateStr, "MMM dd, yyyy") : null;
   };
 
-  private static buildLeaseCreatedTemplate(type: CONSTANTS_TYPE["EMAIL_ENTITIES"], payload?: any) {
+  private static buildLeaseCreatedTemplate(payload?: any) {
     try {
       if (!payload) return TemplateLeaseCreated;
 
@@ -78,18 +80,32 @@ export default class EmailService {
     } catch (error) { }
   }
 
+  private static buildPasswordResetTemplate(payload: any): string {
+    if (!payload) return TemplatePasswordReset;
+    const mobileNumber = payload.mobileNumber
+      ? `${payload.countryCode ? `+${payload.countryCode} ` : ""}${payload.mobileNumber}`
+      : null;
+    let template = TemplatePasswordReset
+      .replace(/{{userName}}/g, payload.name || "User")
+      .replace("{{otp}}", String(payload.otp || "------"));
+    template = this.injectConditional(template, "mobileNumber", mobileNumber);
+    return template;
+  }
+
   private static buildEmailHTML(type: CONSTANTS_TYPE["EMAIL_ENTITIES"], payload?: any) {
     switch (type) {
       case "LEASE_CREATED": {
-        return this.buildLeaseCreatedTemplate(type, payload)
+        return this.buildLeaseCreatedTemplate(payload)
       }
+      case "PASSWORD_RESET":
+        return this.buildPasswordResetTemplate(payload)
       default:
         return "";
     }
   }
 
   private static resolveFrom(from?: string) {
-    return `${from} ${env.EMAIL_USER || env.EMAIL_FROM}`
+    return `${from || env.EMAIL_USER || env.EMAIL_FROM}`
   }
 
   static async process(payload: EventEmailType) {

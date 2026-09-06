@@ -92,5 +92,11 @@ export const CONSTANTS = {
 
   ORGANIZATION_COMPANY_PAGE: ["langing", "about", "privacy-policy", "terms-conditions"],
 
-  EMAIL_ENTITIES: ["LEASE_CREATED"]
+  EMAIL_ENTITIES: [
+    "LEASE_CREATED", "PASSWORD_RESET",
+  ],
+
+  OTP_ENTITIES: [
+    "PASSWORD_RESET"
+  ]
 } as const;

@@ -1,7 +1,7 @@
 import { ObjectIdQueryTypeCasting } from "mongoose";
-import { LoginAuthInput } from "../../api/schemas/auth.schema.js";
-import { POSSIBLE_USERS, USER_TYPE } from "../../common/types/index.js";
-import { validateHash } from "../../common/utils/hash.js";
+import { LoginAuthInput, PasswordResetInput, PasswordVerifyInput } from "../../api/schemas/auth.schema.js";
+import { CONSTANTS_TYPE, POSSIBLE_USERS, USER_TYPE } from "../../common/types/index.js";
+import { hashString, validateHash } from "../../common/utils/hash.js";
 import AuthRepository from "../../infrastructure/database/repositories/auth.repository.js";
 import OperatorRepository from "../../infrastructure/database/repositories/operator.repository.js";
 import TenantRepository from "../../infrastructure/database/repositories/tenant.repository.js";
@@ -10,6 +10,13 @@ import VendorRepository from "../../infrastructure/database/repositories/vendor.
 import TokenService from "./token.service.js";
 import ScopeService from "./scope.service.js";
 import S3 from "../../infrastructure/providers/aws/s3.js";
+import { EventOrchestrator } from "../events/eventBus.js";
+import { randomInt } from "node:crypto";
+import OTPRepository from "../../infrastructure/database/repositories/otp.service.js";
+import { addMinutes } from "date-fns";
+import TenantService from "./tenant.service.js";
+import UserService from "./user.service.js";
+import VendorService from "./vendor.service.js";
 
 type AuthLogin = {
   success: false; data?: any; message: string
@@ -24,6 +31,27 @@ type SubdomainValidation = {
 }
 
 export default class AuthService {
+  private static PASSWORD_EXPIRATION = 10;
+
+  private static readonly actorUpdaters: Record<
+    CONSTANTS_TYPE["POSSIBLE_USERS"],
+    (id: ObjectIdQueryTypeCasting, data: any, payload?: any) => Promise<any>
+  > = {
+      Tenant: (id: ObjectIdQueryTypeCasting, data: any) => TenantService.updateById(id as string, data),
+      User: (id: ObjectIdQueryTypeCasting, data: any) => UserService.updateById(id as string, data),
+      Vendor: (id: ObjectIdQueryTypeCasting, data: any) => VendorService.updateById(id as string, data),
+      Operator: (id: ObjectIdQueryTypeCasting, data: any) => OperatorRepository.update(id, data),
+    };
+
+  private static async updateActor(
+    actorId: ObjectIdQueryTypeCasting,
+    updateData: Record<string, any>,
+    payload: { actorModel: CONSTANTS_TYPE["POSSIBLE_USERS"]; [key: string]: any }
+  ) {
+    const updater = this.actorUpdaters[payload.actorModel];
+    return await updater(actorId, updateData, payload);
+  }
+  
   static async validateWithToken(token: string): Promise<
     {
       success: boolean,
@@ -272,6 +300,95 @@ export default class AuthService {
       case "Operator": {
         return await this.loginOperator(credentials);
       }
+    }
+  }
+
+  static async actorExists(payload: { user: CONSTANTS_TYPE["POSSIBLE_USERS"], username: string }) {
+    switch (payload.user) {
+      case "User":
+        return await UserRepository.getUserFilter({ email: payload.username })
+      case "Tenant":
+        return await TenantRepository.getTenantFilter({ email: payload.username })
+        case "Vendor":
+        return await VendorRepository.getVendorFilter({ email: payload.username })
+        // case "Operator":
+        // return await VendorRepository.getOperatorFilter({ email: payload.username })
+      default:
+        return null;
+    }
+  }
+
+  private static generatePasswordResetOTP(length: number = 4): number {
+    const min = Math.pow(10, length - 1);
+    const max = Math.pow(10, length) - 1;
+    return randomInt(min, max + 1)
+  }
+
+  static async passwordReset(payload: PasswordResetInput["body"]) {
+    const actor = await this.actorExists(payload)
+    if (!actor) return {
+      success: false,
+      message: "User Not Found!"
+    }
+
+    const otp = this.generatePasswordResetOTP();
+
+    await OTPRepository.create({
+      actor: actor._id,
+      actorModel: payload.user,
+      entity: "PASSWORD_RESET",
+      otp,
+      expiresAt: addMinutes(new Date(), this.PASSWORD_EXPIRATION)
+    })
+
+    EventOrchestrator.publish("EMAILS", {
+      type: "EMAILS",
+      entity: "PASSWORD_RESET",
+      payload: {
+        to: actor.email,
+        subject: "Security Alert: Verification Code to Reset Password",
+        name: actor.name,
+        mobileNumber: actor.mobileNumber,
+        countryCode: actor.countryCode,
+        otp,
+      }
+    })
+    return { success: true }
+  }
+
+  static async passwordVerify(payload: PasswordVerifyInput["body"]) {
+    const actor = await this.actorExists(payload)
+    if (!actor) return {
+      success: false,
+      message: "User Not Found!"
+    }
+
+    const otp = await OTPRepository.findOne({
+      actor: actor._id,
+      actorModel: payload.user,
+      entity: "PASSWORD_RESET",
+    })
+
+    if (!otp) return {
+      success: false,
+      message: "OTP Expired, Please try again later!"
+    }
+
+    if (otp.otp !== payload.otp) return {
+      success: false,
+      message: "Invalid OTP provided"
+    }
+
+
+    await Promise.all([
+      this.updateActor(actor._id, { password: payload.password }, {
+        actorModel: payload.user
+      }),
+      OTPRepository.deleteOne(otp._id)
+    ])
+
+    return {
+      success: true
     }
   }
 }

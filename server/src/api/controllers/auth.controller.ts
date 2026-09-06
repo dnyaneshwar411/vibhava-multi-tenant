@@ -122,4 +122,21 @@ export default class AuthController {
       });
     }
   )
+
+  static passwordReset = catchAsync(
+    async function (req: Request, res: Response) {
+      // validate if the user exists add to the email queue with proper payload
+      const { success, message } = await AuthService.passwordReset(req.body)
+      if (!success) throw new ApiError(httpStatus.BAD_REQUEST, message || "Please try again Later!")
+      res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "OTP Sent Successfully on your email." })
+    }
+  )
+
+  static passwordVerify = catchAsync(
+    async function (req: Request, res: Response) {
+      const { success, message } = await AuthService.passwordVerify(req.body)
+      if (!success) throw new ApiError(httpStatus.BAD_REQUEST, message || "Please try again Later!")
+      res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "Password updated successfully!" })
+    }
+  )
 }

@@ -104,7 +104,25 @@ export default class AuthSchema {
       updateVendorSchema,
     ])
   })
+
+  static passwordReset = z.object({
+    body: z.object({
+      user: z.enum(CONSTANTS.POSSIBLE_USERS).default("User"),
+      username: z.string().email("Invalid email address."),
+    })
+  })
+
+  static passwordVerify = z.object({
+    body: z.object({
+      user: z.enum(CONSTANTS.POSSIBLE_USERS).default("User"),
+      username: z.string().email("Invalid email address."),
+      password: z.string().min(6, "Password must be at least 6 characters."),
+      otp: z.number().gte(1000).lte(9999)
+    })
+  })
 }
 
 export type UpdateAuthInput = z.infer<typeof AuthSchema.update>;
 export type LoginAuthInput = z.infer<typeof AuthSchema.login>;
+export type PasswordResetInput = z.infer<typeof AuthSchema.passwordReset>
+export type PasswordVerifyInput = z.infer<typeof AuthSchema.passwordVerify>

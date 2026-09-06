@@ -45,7 +45,9 @@ export type EventAuditLog = {
 export type EventEmailType = {
   type: "EMAILS"
   entity: CONSTANTS_TYPE["EMAIL_ENTITIES"]
-  payload: MailOptions
+  payload: MailOptions & (
+    any
+  )
 }
 
 type EventsAuditLogs = {

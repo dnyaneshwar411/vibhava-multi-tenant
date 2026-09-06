@@ -2,7 +2,6 @@ import { Worker } from "bullmq";
 import { redisConnection } from "../infrastructure/queue/queue.js";
 import PaymentService from "../core/services/payment.service.js";
 import AuditLogService from "../core/services/auditLog.service.js";
-import Logger from "../common/logger/index.js";
 import EmailService from "../infrastructure/providers/email/email.service.js";
 
 const rateLimitOptions = {
@@ -15,7 +14,6 @@ new Worker(
   async function (payload: any) {
     // implement the functionality to validate the request with the signature sent in the
     // header against the webhook secret of vibhava or the respective organization
-    Logger.info("PROCESSIING JOB \n\n", payload.data);
     const notes = payload.data.notes || {}
     switch (notes.resource) {
       case "ORGANIZATION_MEMBERSHIP": {

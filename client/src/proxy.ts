@@ -46,7 +46,6 @@ export default async function middleware(request: NextRequest) {
   const access = cookiesList.get("access")?.value;
 
   if (subdomain) {
-    console.log(pathname)
     if (allowedTenantPaths.includes(pathname)) return NextResponse.next()
 
     const path = pathname.split("/")

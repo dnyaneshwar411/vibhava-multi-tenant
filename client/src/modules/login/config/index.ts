@@ -1,0 +1,1 @@
+export const POSSIBLE_USERS = ["User", "Tenant", "Vendor", "Operator"];

@@ -23,6 +23,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import ForgotPassword from "@/modules/login/components/forgot-password"
 
 export default function LoginPage() {
   const { isSubdomain } = useDomain();
@@ -164,12 +165,13 @@ function LoginForm() {
                           <FormItem>
                             <div className="flex items-center">
                               <FormLabel>Password</FormLabel>
-                              <Link
+                              <ForgotPassword defaultValues={form.getValues()} />
+                              {/* <Link
                                 href="#"
                                 className="ml-auto text-sm underline-offset-2 hover:underline"
                               >
-                                Forgot your password?
-                              </Link>
+                                
+                              </Link> */}
                             </div>
                             <FormControl>
                               <Input placeholder="********" type="password" {...field} />

@@ -4,6 +4,7 @@ import { PaginationOptions } from "../../../common/utils/pagination.js";
 import { CreateLeaseInput, UpdateLeaseInput } from "../../../api/schemas/lease.schema.js";
 import S3 from "../../providers/aws/s3.js";
 import { EventOrchestrator } from "../../../core/events/eventBus.js";
+import Logger from "../../../common/logger/index.js";
 
 export default class LeaseRepository {
   private static model = Lease;

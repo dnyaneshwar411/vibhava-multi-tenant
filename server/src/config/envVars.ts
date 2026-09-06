@@ -41,6 +41,7 @@ const envSchema = zod.object({
   LOGER_API_META: zod.string().transform((val) => val.toLowerCase() === "true"),
 
   CLIENT_BASE_HOSTNAME: zod.string(),
+  APP_SUPPORT_EMAIL: zod.string(),
 
   JWT_ACCESS_EXPIRATION: zod.coerce.number(),
   JWT_REFRESH_EXPIRATION: zod.coerce.number(),

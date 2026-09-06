@@ -17,6 +17,8 @@ import { addMinutes } from "date-fns";
 import TenantService from "./tenant.service.js";
 import UserService from "./user.service.js";
 import VendorService from "./vendor.service.js";
+import Logger from "../../common/logger/index.js";
+import { env } from "../../config/envVars.js";
 
 type AuthLogin = {
   success: false; data?: any; message: string
@@ -46,12 +48,12 @@ export default class AuthService {
   private static async updateActor(
     actorId: ObjectIdQueryTypeCasting,
     updateData: Record<string, any>,
-    payload: { actorModel: CONSTANTS_TYPE["POSSIBLE_USERS"]; [key: string]: any }
+    payload: { actorModel: CONSTANTS_TYPE["POSSIBLE_USERS"];[key: string]: any }
   ) {
     const updater = this.actorUpdaters[payload.actorModel];
     return await updater(actorId, updateData, payload);
   }
-  
+
   static async validateWithToken(token: string): Promise<
     {
       success: boolean,
@@ -309,10 +311,10 @@ export default class AuthService {
         return await UserRepository.getUserFilter({ email: payload.username })
       case "Tenant":
         return await TenantRepository.getTenantFilter({ email: payload.username })
-        case "Vendor":
+      case "Vendor":
         return await VendorRepository.getVendorFilter({ email: payload.username })
-        // case "Operator":
-        // return await VendorRepository.getOperatorFilter({ email: payload.username })
+      // case "Operator":
+      // return await VendorRepository.getOperatorFilter({ email: payload.username })
       default:
         return null;
     }
@@ -390,5 +392,51 @@ export default class AuthService {
     return {
       success: true
     }
+  }
+
+  private static resolveOrgClientURL(subdomain: string) {
+    return `https://${subdomain}.${env.CLIENT_BASE_HOSTNAME}`
+  }
+
+  private static getActorOnboardingSubject(actorModel: string, organizationName?: string): string {
+    const org = organizationName || "Your Organization";
+    switch (actorModel) {
+      case "User":
+        return `Welcome to ${org} - Set Up Your Account`;
+      case "Tenant":
+        return `Welcome to Your Tenant Portal - ${org}`;
+      case "Vendor":
+        return `Vendor Onboarding - Set Up Your Access for ${org}`;
+      case "Operator":
+        return `Vibhava Operator Access Granted - Complete Your Setup`;
+      default:
+        return `Welcome to ${org}`;
+    }
+  }
+
+  static async actorOnboardingMail(actor: ObjectIdQueryTypeCasting) {
+    const profile: any = await ScopeService.getProfile(actor, "");
+    const orgLogo = await S3.getObjectUrl({
+      isPrivate: profile?.organization?.branding?.logo?.private,
+      key: profile?.organization?.branding?.logo?.key,
+    })
+
+    const orgBaseURL = this.resolveOrgClientURL(profile?.organization?.subdomain)
+
+    EventOrchestrator.publish("EMAILS", {
+      type: "EMAILS",
+      entity: "ACTOR_ONBOARDING",
+      payload: {
+        to: profile?.actor?.email,
+        subject: this.getActorOnboardingSubject(profile.actorModel, profile?.organization?.name),
+        actor: profile.actorModel,
+        recipientName: profile?.actor?.name,
+        countryCode: profile?.actor?.countryCode,
+        mobileNumber: profile?.actor?.mobileNumber,
+        organizationName: profile?.organization?.name,
+        organizationLogo: orgLogo,
+        loginUrl: `${orgBaseURL}/login`,
+      }
+    })
   }
 }

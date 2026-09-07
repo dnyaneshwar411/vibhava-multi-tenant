@@ -103,11 +103,11 @@ export const sidebarData: OrgSidebarSection[] = [
          icon: Building,
          resourceType: "/settings/organization",
          children: [
-          { title: "Profile", href: "/settings/organization" },
-          // { title: "Landing", href: "/settings/organization/pages/landing" },
-          // { title: "About", href: "/settings/organization/pages/about" },
-          // { title: "Terms & Conditions", href: "/settings/organization/pages/terms-conditions" },
-          // { title: "Privacy Policy", href: "/settings/organization/pages/privacy-policy" },
+           { title: "Profile", href: "/settings/organization" },
+           { title: "Pages", href: "/settings/organization/pages/" },
+          //  { title: "About", href: "/settings/organization/pages/about" },
+          //  { title: "Terms & Conditions", href: "/settings/organization/pages/terms-conditions" },
+          //  { title: "Privacy Policy", href: "/settings/organization/pages/privacy-policy" },
          ]
        },
     ]

@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 const unAuthTenantRoutes = ["/login"]
 
-const allowedTenantPaths = ["/", "/about", "/contact", "/privacy-policy", "/terms-conditions"]
+const allowedTenantPaths = ["/", "/c/about", "/c/contact", "/c/privacy-policy", "/c/terms-conditions"]
 
 function extractSubdomain(request: NextRequest): string | null {
   const url = request.url;
@@ -46,7 +46,9 @@ export default async function middleware(request: NextRequest) {
   const access = cookiesList.get("access")?.value;
 
   if (subdomain) {
-    if (allowedTenantPaths.includes(pathname)) return NextResponse.next()
+    if (allowedTenantPaths.includes(pathname)) {
+      return NextResponse.next()
+    }
 
     const path = pathname.split("/")
     if (path.includes('admin')) {

@@ -98,9 +98,9 @@ export default function Page() {
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <CreateLease>
-            <span className={buttonVariants({ variant: "default" })}>
+            {/* <span className={buttonVariants({ variant: "default" })}>
               Create Lease
-            </span>
+            </span> */}
           </CreateLease>
           <LeaseFilterOptions
             pagination={pagination}

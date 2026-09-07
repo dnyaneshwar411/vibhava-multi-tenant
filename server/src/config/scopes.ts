@@ -90,7 +90,10 @@ export const ALL_SCOPES = [
   "payment-gateway:read",
   "payment-gateway:create",
   "payment-gateway:update",
-  "payment-gateway:delete"
+  "payment-gateway:delete",
+
+  "organization:pages:manage"
+
 ] as const;
 
 export type Scope = typeof ALL_SCOPES[number];
@@ -159,6 +162,7 @@ export const USER_SCOPES = [
   'document:create',
   'document:read',
   'document:delete',
+  "organization:pages:manage",
 ] as const;
 
 export const OPERATOR_SCOPES = [

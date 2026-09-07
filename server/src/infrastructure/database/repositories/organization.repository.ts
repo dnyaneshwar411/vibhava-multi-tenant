@@ -4,6 +4,7 @@ import { flattenObjectMongooseUpdatePayload } from "../../../api/utils/mongoose.
 import S3 from "../../providers/aws/s3.js";
 import Organization from "../models/organization.model.js";
 import { CONSTANTS_TYPE } from "../../../common/types/index.js";
+import CompanyPageRepository from "./companyPage.repository.js";
 
 export default class OrganizationRepository {
   private static model = Organization;
@@ -15,8 +16,8 @@ export default class OrganizationRepository {
       key: image.key
     });
   };
-  
-static async findById(organizationId: string) {
+
+  static async findById(organizationId: string) {
     const organization: any = await this.model
       .findById(organizationId)
       .select("-updatedAt -subscription")
@@ -58,5 +59,27 @@ static async findById(organizationId: string) {
     }, { returnDocument: "after" })
     if (!organizationDoc) return { success: false, message: "Invalid Request" }
     return { success: true }
+  }
+
+  static async retrieveCompanyPageType(subdomain: string, type: CONSTANTS_TYPE["ORGANIZATION_COMPANY_PAGE"]) {
+    const organization = await this.model
+      .findOne({ subdomain })
+      .select("_id")
+      .lean()
+    if (!organization) return {
+      successs: false,
+      message: "Organization Not Found"
+    }
+
+    const page = await CompanyPageRepository.retrieveCompanyPageType(organization._id, type)
+    if (!page || !page.html) return {
+      successs: false,
+      message: "Page Not configured"
+    }
+
+    return {
+      success: true,
+      html: page?.html
+    }
   }
 }

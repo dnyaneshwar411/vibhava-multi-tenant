@@ -15,5 +15,16 @@ router.route("/")
     OrganizationController.updateOrganization
   )
 
+router.route("/pages")
+  .get(authenticate(["organization:pages:manage"]), OrganizationController.retrieveCompanyPages)
+  .post(
+    validate(OrganizationSchema.updateCompanyPages),
+    authenticate(["organization:pages:manage"]),
+    OrganizationController.updateCompanyPage
+  )
+
+router.route("/pages/html/:type")
+  .get(OrganizationController.retrieveCompanyPageType)
+
 
 export { router as organizationRouter }

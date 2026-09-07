@@ -90,7 +90,7 @@ export const CONSTANTS = {
 
   PAYMENT_RESOURCES: ["ORGANIZATION_MEMBERSHIP"],
 
-  ORGANIZATION_COMPANY_PAGE: ["langing", "about", "privacy-policy", "terms-conditions"],
+  ORGANIZATION_COMPANY_PAGE: ["landing", "about", "contact", "privacy-policy", "terms-conditions"],
 
   EMAIL_ENTITIES: [
     "LEASE_CREATED", "PASSWORD_RESET", "ACTOR_ONBOARDING", "RENT_PAYMENT_SUCCESS",

@@ -1,5 +1,6 @@
 import z from "zod";
 import { imageSchema } from "./common.schema.js";
+import { CONSTANTS } from "../../config/constants.js";
 
 export default class OrganizationSchema {
   static hexColorSchema = z
@@ -62,6 +63,18 @@ export default class OrganizationSchema {
         .optional(),
     }),
   });
+
+  static updateCompanyPages = z.object({
+    body: z.object({
+      pages: z.array(
+        z.object({
+          page: z.enum(CONSTANTS.ORGANIZATION_COMPANY_PAGE, { message: `Page should be either of - ${CONSTANTS.ORGANIZATION_COMPANY_PAGE.join(", ")}` }),
+          html: z.string({ message: "HTML is mandatory" })
+        })
+      )
+    })
+  })
 }
 
 export type UpdateOrganizationInput = z.infer<typeof OrganizationSchema.update>;
+export type UpdateOrganizationPagesInput = z.infer<typeof OrganizationSchema.updateCompanyPages>

@@ -4,6 +4,9 @@ import catchAsync from "../utils/catchAsync.js";
 import OrganizationRepository from "../../infrastructure/database/repositories/organization.repository.js";
 import { ApiError } from "../utils/apiError.js";
 import AuditLogService from "../../core/services/auditLog.service.js";
+import CompanyPageRepository from "../../infrastructure/database/repositories/companyPage.repository.js";
+import { CONSTANTS_TYPE } from "../../common/types/index.js";
+import { validateTenant } from "../middlewares/auth.middleware.js";
 
 export default class OrganizationController {
   static retrieve = catchAsync(
@@ -24,6 +27,33 @@ export default class OrganizationController {
         resourceId: req.organization,
       })
       res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "Successfully Updated" });
+    }
+  )
+
+  static retrieveCompanyPages = catchAsync(
+    async function (req: Request, res: Response) {
+      const data = await CompanyPageRepository.retrieveOrganiationPages(req.organization!)
+      res.status(httpStatus.OK).json({ code: httpStatus.OK, data })
+    }
+  )
+
+  static updateCompanyPage = catchAsync(
+    async function (req: Request, res: Response) {
+      await CompanyPageRepository.updateOrganiationPages(req.organization!, req.body)
+      res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "Successfull" })
+    }
+  )
+
+  static retrieveCompanyPageType = catchAsync(
+    async function (req: Request, res: Response) {
+      const { success: validRequest, subdomain } = validateTenant(req);
+      if (!validRequest) throw new ApiError(httpStatus.NOT_FOUND, "Not Available");
+
+      const { type } = req.params as { type: CONSTANTS_TYPE["ORGANIZATION_COMPANY_PAGE"] };
+      const { success, message, html } = await OrganizationRepository.retrieveCompanyPageType(subdomain!, type)
+      if (!success) throw new ApiError(httpStatus.NOT_FOUND, message || "Not Available");
+
+      res.status(httpStatus.OK).json({ code: httpStatus.OK, data: html })
     }
   )
 }

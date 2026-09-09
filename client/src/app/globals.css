@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -9,7 +8,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-lora);
+  --font-serif: var(--font-lora);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -39,6 +39,17 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+
+  --color-gold: #D4AF37;
+  --color-gold-dim: rgba(212, 175, 55, 0.5);
+  --color-gold-muted: rgba(212, 175, 55, 0.19);
+  --color-gold-soft: rgba(212, 175, 55, 0.08);
+  --color-teal: #004D40;
+  --color-ink: #0A0F1A;
+  --color-ink-deep: #060A12;
+  --color-ink-card: #0F172A;
+  --color-ink-border: #1A2332;
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -46,6 +57,40 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --animate-pulse-soft: pulse-soft 3s ease-in-out infinite;
+  --animate-shimmer: shimmer 3s linear infinite;
+  --animate-scan-line: scan-line 6s ease-in-out infinite;
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes scan-line {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(2000%); opacity: 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 :root {
@@ -72,7 +117,7 @@
   --chart-3: oklch(0.646 0.222 41.116);
   --chart-4: oklch(0.553 0.195 38.402);
   --chart-5: oklch(0.47 0.157 37.304);
-  --radius: 0.625rem;
+  --radius: 0.25rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
   --sidebar-primary: oklch(0.586 0.253 17.585);
@@ -132,4 +177,85 @@
 
 button {
   cursor: pointer;
+}
+
+/* ---- Vibhava design-system utilities (merged) ---- */
+
+@utility font-serif {
+  font-family: var(--font-lora), Georgia, serif;
+}
+
+@utility text-gold {
+  color: #D4AF37;
+}
+
+@utility text-teal {
+  color: #004D40;
+}
+
+@utility gold-glow {
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.25),
+    0 0 40px -10px rgba(212, 175, 55, 0.2);
+}
+
+@utility gold-glow-hover {
+  transition: box-shadow 0.5s ease, border-color 0.5s ease;
+  &:hover {
+    border-color: rgba(212, 175, 55, 0.35);
+    box-shadow:
+      0 0 0 1px rgba(212, 175, 55, 0.3),
+      0 0 50px -10px rgba(212, 175, 55, 0.25);
+  }
+}
+
+@utility grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+@utility grid-bg-fine {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@utility ambient-gold {
+  background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+}
+
+@utility ambient-teal {
+  background: radial-gradient(ellipse at center, rgba(0, 77, 64, 0.12) 0%, transparent 60%);
+}
+
+@utility mask-fade-b {
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+@utility mask-fade-edges {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0F1A;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a2332;
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2a3342;
+}
+
+::selection {
+  background: rgba(212, 175, 55, 0.2);
+  color: #fff;
 }

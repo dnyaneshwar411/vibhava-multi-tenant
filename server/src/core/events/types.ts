@@ -3,7 +3,8 @@ import { GATEWAY_OPTIONS } from "../../common/types/payment.js"
 import { CONSTANTS_TYPE } from "../../common/types/index.js"
 import { MailOptions } from "nodemailer/lib/sendmail-transport/index.js"
 
-export type EventTypes = "WEBHOOK_PAYMENTS" | "PAYMENTS" | "AUDIT_LOGS" | "EMAILS"
+export type EventTypes = "WEBHOOK_PAYMENTS" | "PAYMENTS" | "AUDIT_LOGS"
+  | "EMAILS" | "ISRPages"
 
 export type EventPaymentsType = {
   type: "WEBHOOK_PAYMENTS"
@@ -56,8 +57,14 @@ type EventsAuditLogs = {
   logs: EventAuditLog[]
 }
 
+type EventISRPages = {
+  type: "ISRPages",
+  organization: ObjectIdQueryTypeCasting,
+}
+
 export type EventPayload =
   | EventPaymentsType
   | EventEmailType
   | EventsAuditLogs
+  | EventISRPages
   | { type: "PAYMENTS" }

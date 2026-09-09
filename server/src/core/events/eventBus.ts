@@ -1,6 +1,6 @@
 import EventEmitter from "node:events";
 import { EventPayload, EventTypes } from "./types.js";
-import { auditLogsQueue, emailQueue, paymentsWebhookQueue } from "../../infrastructure/queue/queue.js";
+import { auditLogsQueue, emailQueue, isrQueue, paymentsWebhookQueue } from "../../infrastructure/queue/queue.js";
 import { generateJobId } from "./utils.js";
 import Logger from "../../common/logger/index.js";
 import { env } from "../../config/envVars.js";
@@ -35,6 +35,15 @@ class EventOrchestratorImplementation extends EventEmitter {
         entity: payload.entity
       })
       emailQueue.add(jobId, payload)
+    })
+
+    this.handler("ISRPages", async function (payload: EventPayload) {
+      if (payload.type !== "ISRPages") return
+      const jobId = generateJobId("isrPages", {
+        organization: payload.organization,
+        date: new Date().toString()
+      });
+      isrQueue.add(jobId, payload);
     })
   }
 

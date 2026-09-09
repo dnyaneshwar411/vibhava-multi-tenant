@@ -19,3 +19,4 @@ export const retryAndBackOff: JobsOptions = {
 export const paymentsWebhookQueue = new Queue("PAYMENT_WEBHOOK", { connection: redisConnection });
 export const auditLogsQueue = new Queue("AUDIT_LOGS", { connection: redisConnection });
 export const emailQueue = new Queue("EMAILS", { connection: redisConnection });
+export const isrQueue = new Queue("ISR", { connection: redisConnection });

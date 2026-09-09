@@ -25,6 +25,10 @@ router.route("/pages")
 
 router.route("/pages/html/:type")
   .get(OrganizationController.retrieveCompanyPageType)
+  .post(
+    authenticate(["organization:pages:manage"]),
+    OrganizationController.updateCompanyPageType
+  )
 
 
 export { router as organizationRouter }

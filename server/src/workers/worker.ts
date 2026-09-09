@@ -3,6 +3,7 @@ import { redisConnection } from "../infrastructure/queue/queue.js";
 import PaymentService from "../core/services/payment.service.js";
 import AuditLogService from "../core/services/auditLog.service.js";
 import EmailService from "../infrastructure/providers/email/email.service.js";
+import ISRService from "../core/services/isr.service.js";
 
 const rateLimitOptions = {
   max: 2,
@@ -46,3 +47,13 @@ new Worker("EMAILS", async function (payload) {
   connection: redisConnection,
   limiter: rateLimitOptions
 })
+
+new Worker(
+  "ISR",
+  async function (payload: any) {
+    if (payload.data) {
+      await ISRService.processRevalidationWebhook(payload.data)
+    }
+  },
+  { connection: redisConnection, limiter: rateLimitOptions }
+)

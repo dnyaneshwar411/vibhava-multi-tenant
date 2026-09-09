@@ -7,6 +7,7 @@ import AuditLogService from "../../core/services/auditLog.service.js";
 import CompanyPageRepository from "../../infrastructure/database/repositories/companyPage.repository.js";
 import { CONSTANTS_TYPE } from "../../common/types/index.js";
 import { validateTenant } from "../middlewares/auth.middleware.js";
+import { EventOrchestrator } from "../../core/events/eventBus.js";
 
 export default class OrganizationController {
   static retrieve = catchAsync(
@@ -40,6 +41,10 @@ export default class OrganizationController {
   static updateCompanyPage = catchAsync(
     async function (req: Request, res: Response) {
       await CompanyPageRepository.updateOrganiationPages(req.organization!, req.body)
+      EventOrchestrator.publish("ISRPages", {
+        type: "ISRPages",
+        organization: req.organization!
+      })
       res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "Successfull" })
     }
   )
@@ -54,6 +59,12 @@ export default class OrganizationController {
       if (!success) throw new ApiError(httpStatus.NOT_FOUND, message || "Not Available");
 
       res.status(httpStatus.OK).json({ code: httpStatus.OK, data: html })
+    }
+  )
+
+  static updateCompanyPageType = catchAsync(
+    async function (req: Request, res: Response) {
+      res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "Successfull" })
     }
   )
 }

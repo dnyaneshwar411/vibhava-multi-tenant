@@ -58,6 +58,7 @@ const envSchema = zod.object({
   COMPANY_DEFAULT_RAZORPAY_SIGNATURE: zod.string(),
 
   CIPHER_SECRET_KEY: zod.string(),
+  ISR_CIPHER_SECRET: zod.string(),
 });
 
 const validateEnv = function () {

@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 export type JobNamespace = 'webhook-payment' | 'payment' | 'maintenance'
-  | 'audit' | 'lease-parsing' | "email";
+  | 'audit' | 'lease-parsing' | "email" | "isrPages";
 
 /**
  * Generates a deterministic, unique jobId.

@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rootDomain } from '@/config/constants';
 import { cookies } from 'next/headers';
+import { notFound } from 'next/navigation';
 
 const unAuthTenantRoutes = ["/login"]
 
 const allowedTenantPaths = ["/", "/c/about", "/c/contact", "/c/privacy-policy", "/c/terms-conditions"]
+
+const notAllowedTenantPaths = ["/about", "/contact", "/privacy", "/terms"]
 
 function extractSubdomain(request: NextRequest): string | null {
   const url = request.url;
@@ -46,8 +49,13 @@ export default async function middleware(request: NextRequest) {
   const access = cookiesList.get("access")?.value;
 
   if (subdomain) {
+    console.log(pathname, subdomain)
     if (allowedTenantPaths.includes(pathname)) {
       return NextResponse.next()
+    }
+
+    if (notAllowedTenantPaths.includes(pathname)) {
+      return NextResponse.redirect(new URL("/not-found", request.url))
     }
 
     const path = pathname.split("/")

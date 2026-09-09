@@ -1,4 +1,4 @@
-import { resolveOrigin } from "@/lib/server";
+import { resolveTenant } from "@/lib/server";
 import Loader from "@/modules/isr/components/loader";
 import NotFound from "@/modules/isr/components/not-found";
 import { fetchCompanyPage } from "@/modules/isr/helpers/company-pages";
@@ -13,7 +13,7 @@ export default function Page() {
 
 async function Container() {
   const headersList = await headers()
-  const origin = resolveOrigin(headersList)
+  const origin = resolveTenant(headersList)
   const aboutPage = await fetchCompanyPage(origin, "about")
   if (!aboutPage.data) return <NotFound />
   return <main dangerouslySetInnerHTML={{ __html: aboutPage.data }}></main>

@@ -13,3 +13,7 @@ export const safeDate = function (val: any): Date | null {
   const d = new Date(val);
   return isNaN(d.getTime()) ? null : d;
 };
+
+export const normalizeMongooseDoc = function (doc: any) {
+  return doc.toObject ? doc.toObject() : doc
+}

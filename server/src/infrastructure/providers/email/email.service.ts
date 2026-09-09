@@ -1,6 +1,6 @@
 import { CONSTANTS_TYPE } from "../../../common/types/index.js";
 import { EventEmailType } from "../../../core/events/types.js";
-import { TemplateLeaseCreated } from "./templates/leaseCreated.js";
+import { TemplateLeaseCreated, TemplateLeaseExpiration } from "./templates/leaseCreated.js";
 import { format, isValid } from "date-fns";
 import { sendMail } from "./mailer.js";
 import { env } from "../../../config/envVars.js";
@@ -10,7 +10,7 @@ import {
   TemplateUserOnboarding, TemplateVendorOnboarding
 } from "./templates/actorOnboarding.js";
 import { TemplateRentPaymentSuccess } from "./templates/rentPaymentSuccess.js";
-import { TemplateOrgOnboardingSuccess } from "./templates/organizationOnboarding.js";
+import { TemplateOrgMembershipExpiration, TemplateOrgOnboardingSuccess } from "./templates/organizationOnboarding.js";
 import { TemplateMembershipOverdue, TemplateMembershipRenewalReminder } from "./templates/membershipReminder.js";
 
 export default class EmailService {
@@ -327,6 +327,88 @@ export default class EmailService {
       .replace("{{supportEmail}}", payload.supportEmail || "support@yourplatform.com");
   }
 
+  private static buildLeaseExpirationTemplate(payload: any): string {
+    if (!payload) return TemplateLeaseExpiration;
+
+    const orgName = payload.organizationName || payload.property?.name || "Our Platform";
+
+    const logoBlock = payload.organizationLogo
+      ? `<img src="${payload.organizationLogo}" alt="${orgName} Logo" style="max-height: 48px; width: auto; margin-bottom: 24px;" />`
+      : "";
+
+    const startDate = payload.startDate
+      ? new Date(payload.startDate).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })
+      : "N/A";
+
+    const endDate = payload.endDate
+      ? new Date(payload.endDate).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })
+      : "N/A";
+
+    const pt = payload.primaryTenant;
+    const primaryTenantInfo = pt
+      ? `${pt.name} (${pt.email || "No email"}${pt.mobileNumber ? `, +${pt.countryCode || 91} ${pt.mobileNumber}` : ""})`
+      : "N/A";
+
+    let coTenantsBlock = "";
+    if (Array.isArray(payload.coTenants) && payload.coTenants.length > 0) {
+      const coTenantList = payload.coTenants
+        .map((ct: any) => `${ct.name} (${ct.email}${ct.mobileNumber ? `, +${ct.countryCode || 1} ${ct.mobileNumber}` : ""})`)
+        .join("<br/>");
+
+      coTenantsBlock = `
+      <tr>
+        <td style="padding: 4px 0; font-weight: 500; vertical-align: top;">Co-Tenant(s):</td>
+        <td style="padding: 4px 0;">${coTenantList}</td>
+      </tr>
+    `;
+    }
+
+    return TemplateLeaseExpiration
+      .replace(/{{organizationName}}/g, orgName)
+      .replace("{{organizationLogoBlock}}", logoBlock)
+      .replace("{{recipientName}}", payload.recipientName || pt?.name || "Valued Tenant")
+      .replace(/{{propertyName}}/g, payload.property?.name || "N/A")
+      .replace(/{{unitNumber}}/g, payload.unit?.unitNumber || "N/A")
+      .replace("{{leaseType}}", payload.leaseType || "N/A")
+      .replace("{{startDate}}", startDate)
+      .replace(/{{endDate}}/g, endDate)
+      .replace("{{primaryTenantInfo}}", primaryTenantInfo)
+      .replace("{{coTenantsBlock}}", coTenantsBlock)
+      .replace("{{portalUrl}}", payload.portalUrl || payload.loginUrl || "#");
+  }
+
+  private static buildOrgMembershipExpirationTemplate(payload: any): string {
+    if (!payload) return TemplateOrgMembershipExpiration;
+
+    const orgName = payload.organization?.name || "Your Organization";
+
+    const logoBlock = payload.organizationLogo
+      ? `<img src="${payload.organizationLogo}" alt="${orgName} Logo" style="max-height: 48px; width: auto; margin-bottom: 24px;" />`
+      : "";
+
+    const periodStart = payload.currentPeriodStart
+      ? new Date(payload.currentPeriodStart).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })
+      : "N/A";
+
+    const periodEnd = payload.currentPeriodEnd
+      ? new Date(payload.currentPeriodEnd).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })
+      : "N/A";
+
+    const billingUrl = payload.billingUrl || (payload.organization?.subdomain
+      ? `https://${payload.organization.subdomain}.yourplatform.com/admin/billing`
+      : "https://yourplatform.com/admin/billing");
+
+    return TemplateOrgMembershipExpiration
+      .replace(/{{organizationName}}/g, orgName)
+      .replace("{{organizationLogoBlock}}", logoBlock)
+      .replace("{{recipientName}}", payload.recipientName || payload.organization?.owner?.email || "Organization Admin")
+      .replace("{{tier}}", payload.tier || "Standard")
+      .replace("{{currentPeriodStart}}", periodStart)
+      .replace(/{{currentPeriodEnd}}/g, periodEnd)
+      .replace("{{billingUrl}}", billingUrl)
+      .replace("{{supportEmail}}", payload.supportEmail || "support@yourplatform.com");
+  }
+
   private static buildEmailHTML(type: CONSTANTS_TYPE["EMAIL_ENTITIES"], payload?: any) {
     switch (type) {
       case "LEASE_CREATED": 
@@ -343,6 +425,10 @@ export default class EmailService {
         return this.buildMembershipRenewalTemplate(payload)
       case "MEMBERSHIP_OVERDUE":
         return this.buildMembershipOverdueTemplate(payload)
+      case "LEASE_EXPIRATION":
+        return this.buildLeaseExpirationTemplate(payload)
+        case "ORGANIZATION_MEMBERSHIP_EXPIRATION":
+        return this.buildOrgMembershipExpirationTemplate(payload);
       default:
         return "";
     }

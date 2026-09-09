@@ -145,3 +145,101 @@ export const TemplateOrgOnboardingSuccess = `
 </body>
 </html>
 `;
+
+export const TemplateOrgMembershipExpiration = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Organization Membership Expired</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f5f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #333333; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f5f7; padding: 40px 0;">
+    <tr>
+      <td align="center">
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+          
+          <!-- Header -->
+          <tr>
+            <td style="padding: 40px 40px 20px 40px; text-align: left;">
+              {{organizationLogoBlock}}
+              <div style="display: inline-block; background-color: #fee2e2; color: #991b1b; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">
+                Membership Status Update
+              </div>
+              <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #111827; line-height: 1.3;">
+                Your Organization Membership Has Expired
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding: 0 40px 30px 40px; font-size: 15px; line-height: 1.6; color: #4b5563;">
+              <p style="margin-top: 0;">Hi <strong>{{recipientName}}</strong>,</p>
+              
+              <p>The <strong>{{tier}}</strong> membership plan for <strong>{{organizationName}}</strong> reached its expiration date on <strong>{{currentPeriodEnd}}</strong>.</p>
+
+              <!-- Expiration Overview Box -->
+              <div style="background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 20px; margin: 24px 0;">
+                <p style="margin: 0 0 12px 0; font-weight: 600; color: #991b1b; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">
+                  Subscription Details
+                </p>
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="font-size: 14px; color: #7f1d1d;">
+                  <tr>
+                    <td style="padding: 4px 0; font-weight: 500; width: 160px;">Organization:</td>
+                    <td style="padding: 4px 0; font-weight: 600; color: #111827;">{{organizationName}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 4px 0; font-weight: 500;">Membership Tier:</td>
+                    <td style="padding: 4px 0; font-weight: 600; color: #111827;">{{tier}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 4px 0; font-weight: 500;">Period Start:</td>
+                    <td style="padding: 4px 0;">{{currentPeriodStart}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 4px 0; font-weight: 500;">Expired On:</td>
+                    <td style="padding: 4px 0; font-weight: 700; color: #dc2626;">{{currentPeriodEnd}}</td>
+                  </tr>
+                </table>
+              </div>
+
+              <p style="color: #374151;">
+                <strong>To avoid system interruptions:</strong><br/>
+                Please renew your organization plan to restore access to administrative tools, tenant management, and platform analytics.
+              </p>
+
+              <!-- Renewal CTA Button -->
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin: 28px 0;">
+                <tr>
+                  <td align="center" style="border-radius: 6px; background-color: #dc2626;">
+                    <a href="{{billingUrl}}" target="_blank" style="display: inline-block; padding: 12px 28px; font-size: 15px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 6px;">
+                      Renew Membership Now
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="font-size: 13px; color: #6b7280; margin-bottom: 0;">
+                If you have questions regarding billing or need help selecting a plan, please contact support at <strong>{{supportEmail}}</strong>.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 24px 40px; background-color: #f9fafb; border-top: 1px solid #f3f4f6; text-align: center; font-size: 12px; color: #9ca3af;">
+              <p style="margin: 0;">
+                Sent on behalf of <strong>{{organizationName}}</strong>.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;

@@ -41,4 +41,23 @@ export default class MembershipRepository {
       pagination,
     }
   }
+
+  static processExpiringMembershipCursor(filters: QueryFilter<{}>) {
+    return this.model
+      .find(filters)
+      .select("endDate organization tier currentPeriodEnd currentPeriodStart")
+      .populate({
+        path: "organization",
+        select: "name owner subdomain",
+        populate: {
+          path: "owner",
+          select: "email",
+        },
+      })
+      .cursor()
+  }
+
+  static async batchUpdates(updates: any) {
+    await this.model.bulkWrite(updates);
+  }
 }

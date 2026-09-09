@@ -82,4 +82,8 @@ export default class OrganizationRepository {
       html: page?.html
     }
   }
+
+  static async batchUpdates(updates: any) {
+    return this.model.bulkWrite(updates);
+  }
 }

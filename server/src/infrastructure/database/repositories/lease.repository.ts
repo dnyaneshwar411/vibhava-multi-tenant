@@ -9,6 +9,10 @@ import Logger from "../../../common/logger/index.js";
 export default class LeaseRepository {
   private static model = Lease;
 
+  static normalizeDoc(doc: any) {
+    return doc.toObject ? doc.toObject() : doc
+  }
+
   static async findOne(query: QueryFilter<{}>) {
     return await this
       .model
@@ -153,9 +157,33 @@ export default class LeaseRepository {
         from: "Vibhava",
         subject: `Lease Agreement Confirmed - [${lease.property?.name || "Property"} / ${lease.unit?.unitNumber || "Unit"}]`,
         to: lease.primaryTenant?.email,
-        cc: (lease.coTenants )
+        cc: (lease.coTenants)
           .map((tenant: any) => tenant.email),
       }
     })
+  }
+
+  static processExpiringLeasesCursor(filters: QueryFilter<{}>) {
+    return this.model
+      .find(filters)
+      .select("property unit startDate endDate leaseType primaryTenant coTenants createdBy")
+      .populate("createdBy", "name")
+      .populate({
+        path: "organization",
+        select: "owner",
+        populate: {
+          path: "owner",
+          select: "email",
+        },
+      })
+      .populate("property", "name")
+      .populate("unit", "unitNumber")
+      .populate("coTenants", "name email countryCode mobileNumber")
+      .populate("primaryTenant", "name email countryCode mobileNumber")
+      .cursor()
+  }
+
+  static async batchUpdates(updates: any) {
+    await this.model.bulkWrite(updates);
   }
 }

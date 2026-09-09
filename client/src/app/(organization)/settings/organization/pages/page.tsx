@@ -51,13 +51,13 @@ export default function Page() {
     try {
       const pages = editor.Pages.getAll();
       const output = pages.map((page: any) => resolvePageMarkup(editor, page));
-      console.log(output)
       const response = await api.post("/api/v1/organization/pages", {
         body: {
           pages: output
         }
       })
-      console.log(response)
+      if (response.code !== 200) throw new Error(response.message);
+      toast.success(response.message || "Successfull!");
     } catch (error) {
       toast.error(buildToastMessage(error))
     }

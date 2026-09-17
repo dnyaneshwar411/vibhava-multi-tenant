@@ -32,7 +32,7 @@ export const resolveTenant = function (headersList: ReadonlyHeaders): string {
     headersList.get("host") ||
     "";
 
-  if (!host) return "";
+  if (!host || host.includes("vibhava-six")) return "";
 
   const hostWithoutPort = host.split(":")[0];
   const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "localhost";

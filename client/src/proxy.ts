@@ -14,7 +14,7 @@ function extractSubdomain(request: NextRequest): string | null {
   const host = request.headers.get('host') || '';
   const hostname = host.split(':')[0];
 
-  if (url.includes('localhost') || url.includes('127.0.0.1')) {
+  if (url.includes('localhost') || url.includes('127.0.0.1') || url.includes("vibhava-six")) {
     const fullUrlMatch = url.match(/http:\/\/([^.]+)\.localhost/);
     if (fullUrlMatch && fullUrlMatch[1]) {
       return fullUrlMatch[1];

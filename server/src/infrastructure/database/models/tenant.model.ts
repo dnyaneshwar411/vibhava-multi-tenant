@@ -24,6 +24,12 @@ const tenantSchema = new Schema({
     type: String,
     required: true
   },
+  password: {
+    type: String,
+    required: true,
+    trim: true,
+    select: false
+  },
   avatar: {
     type: imageSchema
   },

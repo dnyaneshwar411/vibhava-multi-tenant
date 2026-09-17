@@ -22,7 +22,7 @@ type TabId = 'properties' | 'financials' | 'maintenance';
 const tabs: { id: TabId; label: string; icon: typeof Building2 }[] = [
   { id: 'properties', label: 'Properties', icon: Building2 },
   { id: 'financials', label: 'Financials', icon: DollarSign },
-  { id: 'maintenance', label: 'Kanban Maintenance', icon: KanbanSquare },
+  { id: 'maintenance', label: 'Kanban', icon: KanbanSquare },
 ];
 
 export default function DashboardShowcase() {

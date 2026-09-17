@@ -183,6 +183,51 @@ export default class LeaseRepository {
       .cursor()
   }
 
+  static getLeasesDueOnDayCursor(day: number) {
+    return this.model
+      .find({
+        status: "Active",
+        "finance.paymentDueDay": day,
+      })
+      .select("property unit finance leaseType primaryTenant coTenants createdBy organization")
+      .populate("organization", "owner")
+      .populate({
+        path: "organization",
+        populate: {
+          path: "owner",
+          select: "email name",
+        },
+      })
+      .populate("property", "name")
+      .populate("unit", "unitNumber")
+      .populate("coTenants", "name email countryCode mobileNumber")
+      .populate("primaryTenant", "name email countryCode mobileNumber")
+      .cursor()
+  }
+
+  static getOverdueLeasesCursor(overdueDate: Date) {
+    const overdueDay = overdueDate.getDate();
+    return this.model
+      .find({
+        status: "Active",
+        "finance.paymentDueDay": overdueDay,
+      })
+      .select("property unit finance leaseType primaryTenant coTenants createdBy organization")
+      .populate("organization", "owner")
+      .populate({
+        path: "organization",
+        populate: {
+          path: "owner",
+          select: "email name",
+        },
+      })
+      .populate("property", "name")
+      .populate("unit", "unitNumber")
+      .populate("coTenants", "name email countryCode mobileNumber")
+      .populate("primaryTenant", "name email countryCode mobileNumber")
+      .cursor()
+  }
+
   static async batchUpdates(updates: any) {
     await this.model.bulkWrite(updates);
   }

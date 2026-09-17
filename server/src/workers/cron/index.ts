@@ -27,6 +27,6 @@ cron.schedule("0 1 * * *", LeaseService.processExpiringLeases, {
  * A scheduler that keeps track of upcoming rents for tenants and notifies them
  * via email
  */
-cron.schedule("0 2 * * *", async function () {
-  // Logger.info("CONDITION HIT")
+cron.schedule("0 2 * * *", LeaseService.processRentReminders, {
+  timezone: "Asia/Kolkata"
 })

@@ -9,7 +9,7 @@ import {
   TemplateOperatorOnboarding, TemplateTenantOnboarding,
   TemplateUserOnboarding, TemplateVendorOnboarding
 } from "./templates/actorOnboarding.js";
-import { TemplateRentPaymentSuccess } from "./templates/rentPaymentSuccess.js";
+import { TemplatePaymentDueTomorrow, TemplateRentPaymentOverdue, TemplateRentPaymentSuccess } from "./templates/rentPaymentSuccess.js";
 import { TemplateOrgMembershipExpiration, TemplateOrgOnboardingSuccess } from "./templates/organizationOnboarding.js";
 import { TemplateMembershipOverdue, TemplateMembershipRenewalReminder } from "./templates/membershipReminder.js";
 
@@ -409,6 +409,103 @@ export default class EmailService {
       .replace("{{supportEmail}}", payload.supportEmail || "support@yourplatform.com");
   }
 
+  private static buildPaymentDueTomorrowTemplate(payload: any): string {
+    if (!payload) return TemplatePaymentDueTomorrow;
+
+    const orgName = payload.organizationName || payload.property?.name || "Our Platform";
+
+    const logoBlock = payload.organizationLogo
+      ? `<img src="${payload.organizationLogo}" alt="${orgName} Logo" style="max-height: 48px; width: auto; margin-bottom: 24px;" />`
+      : "";
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dueDateFormatted = payload.dueDate
+      ? new Date(payload.dueDate).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })
+      : tomorrow.toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
+
+      const pt = payload.primaryTenant;
+    const primaryTenantInfo = typeof pt === 'object' && pt !== null
+      ? `${pt.name || "N/A"} (${pt.email || "No email"}${pt.mobileNumber ? `, +${pt.countryCode || 91} ${pt.mobileNumber}` : ""})`
+      : (payload.primaryTenantName || "N/A");
+
+    let coTenantsBlock = "";
+    if (Array.isArray(payload.coTenants) && payload.coTenants.length > 0 && typeof payload.coTenants[0] === 'object') {
+      const coTenantList = payload.coTenants
+        .map((ct: any) => `${ct.name || "N/A"} (${ct.email || "No email"})`)
+        .join("<br/>");
+
+      coTenantsBlock = `
+      <tr>
+        <td style="padding: 4px 0; font-weight: 500; vertical-align: top;">Co-Tenant(s):</td>
+        <td style="padding: 4px 0;">${coTenantList}</td>
+      </tr>
+    `;
+    }
+
+    return TemplatePaymentDueTomorrow
+      .replace(/{{organizationName}}/g, orgName)
+      .replace("{{organizationLogoBlock}}", logoBlock)
+      .replace("{{recipientName}}", payload.recipientName || pt?.name || "Valued Tenant")
+      .replace(/{{propertyName}}/g, payload.property?.name || payload.propertyName || "N/A")
+      .replace(/{{unitNumber}}/g, payload.unit?.unitNumber || payload.unitNumber || "N/A")
+      .replace("{{leaseType}}", payload.leaseType || "N/A")
+      .replace("{{billingCycle}}", payload.finance?.billingCycle || payload.billingCycle || "Monthly")
+      .replace(/{{dueDate}}/g, dueDateFormatted)
+      .replace("{{primaryTenantInfo}}", primaryTenantInfo)
+      .replace("{{coTenantsBlock}}", coTenantsBlock)
+      .replace("{{portalUrl}}", payload.portalUrl || payload.loginUrl || "https://yourplatform.com/portal/payments")
+      .replace("{{supportEmail}}", payload.supportEmail || "support@yourplatform.com");
+  }
+
+  private static buildRentPaymentOverdueTemplate(payload: any): string {
+    if (!payload) return TemplateRentPaymentOverdue;
+
+    const orgName = payload.organizationName || payload.property?.name || "Our Platform";
+
+    const logoBlock = payload.organizationLogo
+      ? `<img src="${payload.organizationLogo}" alt="${orgName} Logo" style="max-height: 48px; width: auto; margin-bottom: 24px;" />`
+      : "";
+
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const dueDateFormatted = payload.dueDate
+      ? new Date(payload.dueDate).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })
+      : yesterday.toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
+
+    const pt = payload.primaryTenant;
+    const primaryTenantInfo = typeof pt === 'object' && pt !== null
+      ? `${pt.name || "N/A"} (${pt.email || "No email"}${pt.mobileNumber ? `, +${pt.countryCode || 91} ${pt.mobileNumber}` : ""})`
+      : (payload.primaryTenantName || "N/A");
+
+    let coTenantsBlock = "";
+    if (Array.isArray(payload.coTenants) && payload.coTenants.length > 0 && typeof payload.coTenants[0] === 'object') {
+      const coTenantList = payload.coTenants
+        .map((ct: any) => `${ct.name || "N/A"} (${ct.email || "No email"})`)
+        .join("<br/>");
+
+      coTenantsBlock = `
+      <tr>
+        <td style="padding: 4px 0; font-weight: 500; vertical-align: top;">Co-Tenant(s):</td>
+        <td style="padding: 4px 0;">${coTenantList}</td>
+      </tr>
+    `;
+    }
+
+    return TemplateRentPaymentOverdue
+      .replace(/{{organizationName}}/g, orgName)
+      .replace("{{organizationLogoBlock}}", logoBlock)
+      .replace("{{recipientName}}", payload.recipientName || pt?.name || "Valued Tenant")
+      .replace(/{{propertyName}}/g, payload.property?.name || payload.propertyName || "N/A")
+      .replace(/{{unitNumber}}/g, payload.unit?.unitNumber || payload.unitNumber || "N/A")
+      .replace("{{leaseType}}", payload.leaseType || "N/A")
+      .replace(/{{dueDate}}/g, dueDateFormatted)
+      .replace("{{primaryTenantInfo}}", primaryTenantInfo)
+      .replace("{{coTenantsBlock}}", coTenantsBlock)
+      .replace("{{portalUrl}}", payload.portalUrl || payload.loginUrl || "https://yourplatform.com/portal/payments")
+      .replace("{{supportEmail}}", payload.supportEmail || "support@yourplatform.com");
+  }
+
   private static buildEmailHTML(type: CONSTANTS_TYPE["EMAIL_ENTITIES"], payload?: any) {
     switch (type) {
       case "LEASE_CREATED": 
@@ -427,8 +524,12 @@ export default class EmailService {
         return this.buildMembershipOverdueTemplate(payload)
       case "LEASE_EXPIRATION":
         return this.buildLeaseExpirationTemplate(payload)
-        case "ORGANIZATION_MEMBERSHIP_EXPIRATION":
+      case "ORGANIZATION_MEMBERSHIP_EXPIRATION":
         return this.buildOrgMembershipExpirationTemplate(payload);
+        case "RENT_PAYMENT_DUE" :
+          return this.buildPaymentDueTomorrowTemplate(payload);
+        case "RENT_PAYMENT_OVERDUE" :
+          return this.buildRentPaymentOverdueTemplate(payload);
       default:
         return "";
     }

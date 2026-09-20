@@ -43,7 +43,8 @@ export const resolveTenant = function (headersList: ReadonlyHeaders): string {
 
   const parts = hostWithoutPort.split(".");
   if (parts.length > 2 || (hostWithoutPort.includes("localhost") && parts.length > 1)) {
-    return parts[0];
+    const prefix = parts[0]
+    return prefix === "www" ? "" : prefix;
   }
 
   return "";

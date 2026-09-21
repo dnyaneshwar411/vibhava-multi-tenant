@@ -40,3 +40,15 @@ export const viewportConfig = {
   once: true,
   margin: '-80px',
 } as const;
+
+// export const fadeUp: Variants = {
+//   hidden: { opacity: 0, y: 14 },
+//   visible: { opacity: 1, y: 0 },
+// };
+
+export const stagger: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.06 } },
+};
+
+export const viewport = { once: true, margin: '-80px' } as const;

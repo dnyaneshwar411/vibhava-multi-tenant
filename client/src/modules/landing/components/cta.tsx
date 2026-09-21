@@ -9,78 +9,47 @@ export default function CTA() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim()) {
-      setSubmitted(true);
-    }
-  };
-
   return (
-    <section id="cta" className="relative py-24 lg:py-32 border-t border-white/10">
-      <div className="absolute inset-0 grid-bg pointer-events-none opacity-20" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] ambient-gold pointer-events-none" />
-
-      <div className="relative mx-auto max-w-3xl px-6 lg:px-8 text-center">
+    <section
+      id="cta"
+      className="border-t border-zinc-200/70 py-24 sm:py-32 dark:border-zinc-900"
+    >
+      <div className="mx-auto max-w-2xl px-6 text-center">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
         >
-          <motion.div
-            variants={fadeUp}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 border border-gold/20 rounded-sm bg-gold/[0.03]"
-          >
-            <span className="w-1.5 h-1.5 bg-gold rounded-full animate-pulse-soft" />
-            <span className="text-[11px] text-gold/80 tracking-wide font-medium uppercase">
-              By Invitation
-            </span>
-          </motion.div>
-
           <motion.h2
             variants={fadeUp}
-            transition={{ duration: 0.6 }}
-            className="mt-7 font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.08] text-white"
+            className="text-3xl font-semibold tracking-[-0.035em] text-zinc-900 sm:text-4xl lg:text-5xl dark:text-zinc-50"
           >
-            Elevate Your
-            <br />
-            <span className="text-gold">Estate Management.</span>
+            Elevate your estate management.
           </motion.h2>
-
           <motion.p
             variants={fadeUp}
-            transition={{ duration: 0.6, delay: 0.08 }}
-            className="mt-6 text-base text-white/40 leading-relaxed tracking-tight font-light max-w-lg mx-auto"
+            className="mx-auto mt-5 max-w-md text-base leading-relaxed text-zinc-500 dark:text-zinc-400"
           >
             Request access to the Vibhava platform. White-glove onboarding for
             portfolios of 50+ units.
           </motion.p>
 
-          {/* Email bar */}
-          <motion.div
-            variants={fadeUp}
-            transition={{ duration: 0.6, delay: 0.16 }}
-            className="mt-10 max-w-md mx-auto"
-          >
+          <motion.div variants={fadeUp} className="mx-auto mt-10 max-w-md">
             {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center justify-center gap-3 px-6 py-4 border border-gold/25 rounded-sm bg-gold/[0.04] gold-glow"
-              >
-                <div className="flex items-center justify-center w-6 h-6 bg-gold rounded-full">
-                  <Check className="w-4 h-4 text-ink" />
+              <div className="flex items-center justify-center gap-2.5 rounded-lg border border-zinc-200 bg-white px-5 py-3.5 text-sm text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100">
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500">
+                  <Check className="h-3 w-3 text-white" strokeWidth={3} />
                 </div>
-                <span className="text-sm text-white tracking-tight">
-                  Request received. We&apos;ll be in touch within 48 hours.
-                </span>
-              </motion.div>
+                Request received. We&apos;ll be in touch within 48 hours.
+              </div>
             ) : (
               <form
-                onSubmit={handleSubmit}
-                className="flex flex-col sm:flex-row items-stretch gap-2 p-1.5 border border-white/10 rounded-sm bg-white/[0.02] backdrop-blur-sm focus-within:border-gold/30 transition-colors duration-400"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (email.trim()) setSubmitted(true);
+                }}
+                className="flex flex-col gap-2 sm:flex-row"
               >
                 <input
                   type="email"
@@ -88,36 +57,31 @@ export default function CTA() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@estate.com"
-                  className="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/25 tracking-tight outline-none font-light"
+                  className="h-10 flex-1 rounded-md border border-zinc-200 bg-white px-3.5 text-sm text-zinc-900 outline-none transition-colors placeholder:text-zinc-400 focus:border-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder:text-zinc-600 dark:focus:border-zinc-100"
                 />
                 <button
                   type="submit"
-                  className="group inline-flex items-center justify-center gap-2 px-6 py-3 bg-gold text-ink font-semibold text-sm tracking-wide rounded-sm transition-all duration-400 hover:shadow-[0_0_30px_-5px_rgba(212,175,55,0.4)] whitespace-nowrap"
+                  className="group inline-flex h-10 items-center justify-center gap-2 rounded-md bg-zinc-900 px-5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
                 >
-                  Request Access
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  Request access
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </button>
               </form>
             )}
           </motion.div>
 
-          {/* Trust indicators */}
           <motion.div
             variants={fadeUp}
-            transition={{ duration: 0.6, delay: 0.24 }}
-            className="mt-8 flex items-center justify-center gap-6 text-xs text-white/25 tracking-tight font-light"
+            className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-zinc-500 dark:text-zinc-500"
           >
             <span className="flex items-center gap-1.5">
-              <Check className="w-3 h-3 text-gold/50" />
-              No setup fees
+              <Check className="h-3 w-3" /> No setup fees
             </span>
             <span className="flex items-center gap-1.5">
-              <Check className="w-3 h-3 text-gold/50" />
-              SOC 2 compliant
+              <Check className="h-3 w-3" /> SOC 2 compliant
             </span>
             <span className="flex items-center gap-1.5">
-              <Check className="w-3 h-3 text-gold/50" />
-              48-hour onboarding
+              <Check className="h-3 w-3" /> 48-hour onboarding
             </span>
           </motion.div>
         </motion.div>

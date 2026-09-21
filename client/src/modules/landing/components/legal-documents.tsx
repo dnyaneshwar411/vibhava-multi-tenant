@@ -1,11 +1,16 @@
-import Footer from "./footer";
-import Navbar from "./navbar";
-import PageTransition from "./page-transitions";
+'use client';
 
-type LegalSection = {
+import { motion } from 'motion/react';
+import { FileText } from 'lucide-react';
+import Footer from '@/modules/landing/components/footer';
+import Navbar from '@/modules/landing/components/navbar';
+import { Section, SurfaceCard } from '@/modules/landing/components/primitives';
+import { fadeUp, stagger, viewport } from '@/lib/animations';
+
+export type LegalSection = {
   id: string;
   title: string;
-  paragraphs: string[];
+  paragraphs?: string[];
   bullets?: string[];
 };
 
@@ -23,47 +28,157 @@ export default function LegalDocument({
   sections: LegalSection[];
 }) {
   return (
-    <main className="min-h-screen bg-[#0A0F1A]">
+    <main className="relative min-h-screen vhx-bg vhx-ink antialiased">
       <Navbar />
-      <PageTransition>
-        <header className="relative overflow-hidden pt-40 pb-20 lg:pt-48 lg:pb-24">
-          <div className="absolute inset-0 grid-bg pointer-events-none" />
-          <div className="absolute top-1/3 left-1/2 h-[350px] w-[600px] -translate-x-1/2 ambient-gold pointer-events-none" />
-          <div className="relative mx-auto max-w-4xl px-6 text-center">
-            <span className="inline-flex border border-gold/25 bg-gold/[0.04] px-3.5 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-gold/80 rounded-sm">{eyebrow}</span>
-            <h1 className="mt-8 font-serif text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">{title}</h1>
-            <div className="mt-7 flex flex-col items-center gap-3 text-xs font-light tracking-tight text-white/35 sm:flex-row sm:justify-center">
-              <span>Last updated {updated}</span><span className="hidden h-1 w-1 rounded-full bg-gold/60 sm:block" /><span>Vibhava Estate Systems</span>
-            </div>
-          </div>
-        </header>
 
-        <section className="border-t border-white/10 py-16 lg:py-24">
-          <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[220px_1fr] lg:gap-24 lg:px-8">
-            <aside className="lg:sticky lg:top-28 lg:self-start">
-              <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/30">On this page</span>
-              <nav className="mt-5 space-y-3 border-l border-white/10 pl-4">
-                {sections.map((section) => <a key={section.id} href={`#${section.id}`} className="block text-xs font-light leading-relaxed tracking-tight text-white/40 transition-colors hover:text-gold">{section.title}</a>)}
-              </nav>
-            </aside>
+      {/* ---------- Hero ---------- */}
+      <section className="relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-20">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.05] dark:opacity-[0.08]"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
+            backgroundSize: '56px 56px',
+            maskImage:
+              'radial-gradient(ellipse 60% 55% at 50% 0%, #000 35%, transparent 100%)',
+            WebkitMaskImage:
+              'radial-gradient(ellipse 60% 55% at 50% 0%, #000 35%, transparent 100%)',
+          }}
+        />
 
-            <article className="max-w-3xl text-sm font-light leading-[1.9] tracking-tight text-white/50">
-              <p className="border-l border-gold/50 pl-5 text-base leading-relaxed text-white/65">{intro}</p>
-              <div className="mt-14 space-y-14">
-                {sections.map((section) => (
-                  <section key={section.id} id={section.id} className="scroll-mt-28">
-                    <h2 className="font-serif text-2xl font-semibold tracking-tight text-white sm:text-3xl">{section.title}</h2>
-                    <div className="mt-5 space-y-4">
-                      {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                      {section.bullets && <ul className="space-y-3 border border-white/10 bg-white/[0.015] p-5 sm:p-6">{section.bullets.map((bullet) => <li key={bullet} className="flex gap-3"><span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold/70" /><span>{bullet}</span></li>)}</ul>}
-                    </div>
-                  </section>
-                ))}
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          animate="visible"
+          className="relative mx-auto max-w-3xl px-6"
+        >
+          <motion.div
+            variants={fadeUp}
+            className="inline-flex items-center gap-2 rounded-full border vhx-line vhx-surface px-3 py-1 text-xs vhx-mute"
+          >
+            <span className="h-1.5 w-1.5 rounded-full vhx-bg-accent" />
+            {eyebrow}
+          </motion.div>
+
+          <motion.h1
+            variants={fadeUp}
+            className="mt-6 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] vhx-ink sm:text-5xl"
+          >
+            {title}
+          </motion.h1>
+
+          <motion.p
+            variants={fadeUp}
+            className="mt-4 text-sm vhx-mute"
+          >
+            Last updated · <span className="vhx-ink">{updated}</span>
+          </motion.p>
+
+          <motion.p
+            variants={fadeUp}
+            className="mt-7 max-w-2xl text-base leading-relaxed vhx-mute"
+          >
+            {intro}
+          </motion.p>
+        </motion.div>
+      </section>
+
+      {/* ---------- Document body ---------- */}
+      <Section>
+        <div className="grid gap-12 lg:grid-cols-[220px_1fr] lg:gap-16">
+          {/* Sticky TOC */}
+          <aside className="hidden lg:block">
+            <div className="sticky top-24">
+              <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider vhx-mute">
+                <FileText className="h-3.5 w-3.5" />
+                On this page
               </div>
-            </article>
-          </div>
-        </section>
-      </PageTransition>
+              <nav className="mt-5 space-y-2.5 border-l vhx-line pl-4">
+                {sections.map((s) => (
+                  <a
+                    key={s.id}
+                    href={`#${s.id}`}
+                    className="block text-[13px] leading-snug vhx-mute transition-colors hover:vhx-ink"
+                  >
+                    {s.title}
+                  </a>
+                ))}
+              </nav>
+            </div>
+          </aside>
+
+          {/* Content */}
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="max-w-3xl space-y-10"
+          >
+            {sections.map((s) => (
+              <motion.article
+                key={s.id}
+                id={s.id}
+                variants={fadeUp}
+                className="scroll-mt-24"
+              >
+                <h2 className="text-lg font-semibold tracking-[-0.02em] vhx-ink sm:text-xl">
+                  {s.title}
+                </h2>
+
+                {s.paragraphs?.length ? (
+                  <div className="mt-4 space-y-4">
+                    {s.paragraphs.map((p, i) => (
+                      <p
+                        key={i}
+                        className="text-[15px] leading-relaxed vhx-mute"
+                      >
+                        {p}
+                      </p>
+                    ))}
+                  </div>
+                ) : null}
+
+                {s.bullets?.length ? (
+                  <SurfaceCard
+                    hover={false}
+                    className="mt-5 p-5"
+                  >
+                    <ul className="space-y-3">
+                      {s.bullets.map((b, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-3 text-[14px] leading-relaxed vhx-mute"
+                        >
+                          <span className="mt-2 h-1 w-1 shrink-0 rounded-full vhx-bg-accent" />
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </SurfaceCard>
+                ) : null}
+              </motion.article>
+            ))}
+
+            {/* Footer note */}
+            <motion.div
+              variants={fadeUp}
+              className="border-t vhx-line pt-8 text-sm vhx-mute"
+            >
+              Questions about this document? Reach us at{' '}
+              <a
+                href="mailto:legal@vibhava.estate"
+                className="vhx-text-accent underline-offset-4 hover:underline"
+              >
+                legal@vibhava.estate
+              </a>
+              .
+            </motion.div>
+          </motion.div>
+        </div>
+      </Section>
+
       <Footer />
     </main>
   );

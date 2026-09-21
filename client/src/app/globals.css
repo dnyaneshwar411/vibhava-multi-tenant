@@ -82,6 +82,29 @@
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
   --header-height: 60px;
+
+  /* Curri-inspired electric lime accent */
+  --vhx-accent: 132 204 22;
+  /* lime-500 */
+  --vhx-accent-strong: 101 163 13;
+  /* lime-600 */
+  --vhx-accent-fg: 9 9 11;
+  /* zinc-950 */
+  --vhx-accent-soft: 236 252 203;
+  /* lime-100 */
+
+  /* Neutral ramp used by the landing page only */
+  --vhx-ink: 9 9 11;
+  /* zinc-950 */
+  --vhx-ink-2: 24 24 27;
+  /* zinc-900 */
+  --vhx-mute: 113 113 122;
+  /* zinc-500 */
+  --vhx-line: 228 228 231;
+  /* zinc-200 */
+  --vhx-bg: 255 255 255;
+  --vhx-surface: 250 250 250;
+  /* zinc-50 */
 }
 
 .dark {
@@ -116,15 +139,38 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
+
+  --vhx-accent: 163 230 53;
+  /* lime-400 */
+  --vhx-accent-strong: 132 204 22;
+  /* lime-500 */
+  --vhx-accent-fg: 9 9 11;
+  --vhx-accent-soft: 26 46 5;
+  /* lime-950 */
+
+  --vhx-ink: 250 250 250;
+  --vhx-ink-2: 244 244 245;
+  --vhx-mute: 161 161 170;
+  /* zinc-400 */
+  --vhx-line: 39 39 42;
+  /* zinc-800 */
+  --vhx-bg: 9 9 11;
+  --vhx-surface: 24 24 27;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
+  :root {}
+
+  .dark {}
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }
@@ -132,4 +178,36 @@
 
 button {
   cursor: pointer;
+}
+
+.vhx-accent {
+  color: rgb(var(--vhx-accent));
+}
+
+.vhx-bg-accent {
+  background-color: rgb(var(--vhx-accent));
+}
+
+.vhx-text-accent {
+  color: rgb(var(--vhx-accent-strong));
+}
+
+.vhx-ink {
+  color: rgb(var(--vhx-ink));
+}
+
+.vhx-mute {
+  color: rgb(var(--vhx-mute));
+}
+
+.vhx-line {
+  border-color: rgb(var(--vhx-line));
+}
+
+.vhx-bg {
+  background-color: rgb(var(--vhx-bg));
+}
+
+.vhx-surface {
+  background-color: rgb(var(--vhx-surface));
 }

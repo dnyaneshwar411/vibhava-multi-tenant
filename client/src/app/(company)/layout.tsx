@@ -1,0 +1,9 @@
+import { ThemeProvider } from "@/providers/theme-provider";
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider>
+      {children}
+    </ThemeProvider>
+  )
+}

@@ -1,4 +1,4 @@
-import LegalDocument from "@/modules/landing/components/legal-documents";
+import LegalDocument from '@/modules/landing/components/legal-documents';
 
 const sections = [
   {
@@ -16,7 +16,11 @@ const sections = [
       'Access is provided through the subscription tier and unit allowance shown in your order form or account workspace. A unit means a residential, commercial, or other managed space represented in the platform.',
       'Your organization may not exceed its purchased allowance without first upgrading or receiving written approval. Vibhava may contact an administrator when usage approaches a tier limit so service continuity is not interrupted.',
     ],
-    bullets: ['Foundation: up to 50 managed units with core property and maintenance workflows.', 'Portfolio: up to 500 managed units with financial automation and expanded reporting.', 'Institutional: negotiated unit limits, controls, onboarding, and support commitments.'],
+    bullets: [
+      'Foundation: up to 50 managed units with core property and maintenance workflows.',
+      'Portfolio: up to 500 managed units with financial automation and expanded reporting.',
+      'Institutional: negotiated unit limits, controls, onboarding, and support commitments.',
+    ],
   },
   {
     id: 'access',
@@ -61,5 +65,13 @@ const sections = [
 ];
 
 export default function TermsPage() {
-  return <LegalDocument title="Terms of Service" eyebrow="Terms & access" updated="September 9, 2026" intro="Vibhava exists to make property operations calmer, clearer, and more accountable. These terms define the access, responsibilities, and service commitments that support that standard." sections={sections} />;
+  return (
+    <LegalDocument
+      title="Terms of Service"
+      eyebrow="Terms & access"
+      updated="September 9, 2026"
+      intro="Vibhava exists to make property operations calmer, clearer, and more accountable. These terms define the access, responsibilities, and service commitments that support that standard."
+      sections={sections}
+    />
+  );
 }

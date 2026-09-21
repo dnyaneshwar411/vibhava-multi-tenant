@@ -1,264 +1,165 @@
 'use client';
 
 import { motion } from 'motion/react';
-import {
-  ArrowRight,
-  Play,
-  TrendingUp,
-  Building2,
-  Users,
-  Wrench,
-  DollarSign,
-} from 'lucide-react';
-import { fadeUp, staggerContainer } from '@/lib/animations';
+import { Check } from 'lucide-react';
+import { Button, EyebrowPill } from './primitives';
+import { fadeUp, stagger } from '@/lib/animations';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 pb-20">
-      {/* Grid background */}
-      <div className="absolute inset-0 grid-bg pointer-events-none" />
-      {/* Ambient gold backlight */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[500px] ambient-gold pointer-events-none" />
-      {/* Fade to base */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#0A0F1A] to-transparent pointer-events-none" />
-
-      <div className="relative mx-auto max-w-4xl px-6 text-center w-full">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Badge */}
-          <motion.div
-            variants={fadeUp}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2.5 px-4 py-2 border border-gold/25 bg-gold/[0.04] rounded-sm"
-          >
-            <span className="w-1.5 h-1.5 bg-gold rounded-full animate-pulse-soft" />
-            <span className="text-[11px] font-medium tracking-wide text-gold/90 uppercase">
-              Splendor in Stewardship. Precision in Management.
-            </span>
+    <section className="relative overflow-hidden pt-20 pb-20 sm:pt-24 sm:pb-28">
+      <motion.div
+        variants={stagger}
+        initial="hidden"
+        animate="visible"
+        className="relative mx-auto max-w-6xl px-6"
+      >
+        <div className="mx-auto max-w-3xl text-center">
+          <motion.div variants={fadeUp}>
+            <EyebrowPill>
+              <span className="h-1.5 w-1.5 rounded-full vhx-bg-accent" />
+              Multi-tenant SaaS for modern property ops
+            </EyebrowPill>
           </motion.div>
 
-          {/* Headline */}
           <motion.h1
             variants={fadeUp}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8 font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight leading-[1.08] text-white"
+            className="mt-7 text-4xl font-semibold leading-[1.02] tracking-[-0.045em] vhx-ink sm:text-5xl lg:text-[64px]"
           >
-            Precision Property
+            Run every tenant,
             <br />
-            Stewardship for
+            property, and payout
             <br />
-            <span className="text-gold">Enduring Assets.</span>
+            from <span className="vhx-text-accent">one workspace.</span>
           </motion.h1>
 
-          {/* Subtext */}
           <motion.p
             variants={fadeUp}
-            transition={{ duration: 0.7, delay: 0.12 }}
-            className="mt-7 max-w-2xl mx-auto text-base sm:text-lg text-white/45 leading-relaxed tracking-tight font-light"
+            className="mx-auto mt-7 max-w-xl text-base leading-relaxed vhx-mute sm:text-lg"
           >
-            A unified engine combining traditional stability with modern
-            operational mastery across tenants, maintenance, and owner yields.
+            Vibhava is the multi-tenant platform for estate managers — isolated
+            workspaces, subdomain routing, granular RBAC, and custom branding
+            out of the box.
           </motion.p>
 
-          {/* CTAs */}
           <motion.div
             variants={fadeUp}
-            transition={{ duration: 0.7, delay: 0.22 }}
-            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-5"
+            className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
-            <a
-              href="#cta"
-              className="group inline-flex items-center gap-2.5 px-7 py-4 bg-gold text-ink font-semibold text-sm tracking-wide rounded-sm transition-all duration-400 hover:shadow-[0_0_40px_-8px_rgba(212,175,55,0.5)]"
-            >
-              Request Access
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
-            <a
-              href="#showcase"
-              className="group inline-flex items-center gap-2.5 text-white/70 hover:text-white text-sm font-medium tracking-wide transition-colors duration-300"
-            >
-              <span className="flex items-center justify-center w-9 h-9 border border-white/15 rounded-sm group-hover:border-gold/40 group-hover:bg-gold/5 transition-all duration-300">
-                <Play className="w-3 h-3 fill-current ml-0.5" />
-              </span>
-              View Demo
-            </a>
+            <Button href="#onboard" size="lg" arrow>
+              Start onboarding
+            </Button>
+            <Button href="#pricing" variant="secondary" size="lg">
+              See pricing
+            </Button>
           </motion.div>
-        </motion.div>
 
-        {/* Dashboard preview */}
+          <motion.div
+            variants={fadeUp}
+            className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs vhx-mute"
+          >
+            {['SOC 2 ready', 'Subdomain routing', 'Row-level isolation'].map(
+              (t) => (
+                <span key={t} className="flex items-center gap-1.5">
+                  <Check className="h-3 w-3 vhx-text-accent" strokeWidth={3} />
+                  {t}
+                </span>
+              ),
+            )}
+          </motion.div>
+        </div>
+
         <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
           className="mt-16"
         >
-          <DashboardPreview />
+          <WorkspacePreview />
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }
 
-function DashboardPreview() {
-  const properties = [
-    { name: 'The Ashford', units: 24, occ: 96, noi: '$486K' },
-    { name: 'Marlowe House', units: 18, occ: 100, noi: '$312K' },
-    { name: 'Greystone Mews', units: 32, occ: 91, noi: '$598K' },
+function WorkspacePreview() {
+  const tenants = [
+    { name: 'Ashford Group', plan: 'Enterprise', units: 240, mrr: '$9,600' },
+    { name: 'Marlowe Holdings', plan: 'Professional', units: 84, mrr: '$3,360' },
+    { name: 'Greystone Realty', plan: 'Starter', units: 24, mrr: '$960' },
   ];
 
   return (
-    <div className="relative">
-      {/* Gold accent line */}
-      <div className="absolute -top-px left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
-
-      <div className="relative border border-white/10 rounded-sm bg-gradient-to-b from-white/[0.03] to-transparent backdrop-blur-sm overflow-hidden">
-        {/* Window chrome */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 bg-black/30">
-          <div className="flex items-center gap-2">
-            <Building2 className="w-3.5 h-3.5 text-gold/60" />
-            <span className="text-[10px] text-white/40 font-medium tracking-wide uppercase">
-              Vibhava · Portfolio Overview
-            </span>
+    <div className="overflow-hidden rounded-xl border vhx-line vhx-bg shadow-sm">
+      <div className="flex items-center justify-between border-b vhx-line px-4 py-2.5">
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1.5">
+            <div className="h-2.5 w-2.5 rounded-full bg-zinc-200 dark:bg-zinc-800" />
+            <div className="h-2.5 w-2.5 rounded-full bg-zinc-200 dark:bg-zinc-800" />
+            <div className="h-2.5 w-2.5 rounded-full bg-zinc-200 dark:bg-zinc-800" />
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-[10px] text-gold/70 font-medium tracking-wide">
-              LIVE
-            </span>
-            <span className="text-[10px] text-white/30 tracking-wide">
-              Q3 2026
-            </span>
-          </div>
+          <span className="ml-2 text-[11px] vhx-mute">
+            app.vibhava.io/workspaces
+          </span>
         </div>
-
-        {/* Body */}
-        <div className="p-5 lg:p-6">
-          {/* Top KPI row */}
-          <div className="grid grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-sm overflow-hidden mb-5">
-            <KpiCell
-              icon={DollarSign}
-              label="Total NOI"
-              value="$1.40M"
-              trend="+12.4%"
-            />
-            <KpiCell
-              icon={Users}
-              label="Occupancy"
-              value="95.7%"
-              trend="+3.1%"
-            />
-            <KpiCell
-              icon={Wrench}
-              label="Open Tickets"
-              value="7"
-              trend="−5 vs LM"
-            />
-          </div>
-
-          {/* Property table */}
-          <div className="border border-white/10 rounded-sm overflow-hidden">
-            <div className="grid grid-cols-4 px-4 py-2.5 bg-white/[0.02] border-b border-white/10">
-              {['Property', 'Units', 'Occupancy', 'NOI (YTD)'].map((h) => (
-                <span
-                  key={h}
-                  className="text-[10px] text-white/35 font-medium tracking-wide uppercase"
-                >
-                  {h}
-                </span>
-              ))}
-            </div>
-            {properties.map((p, i) => (
-              <motion.div
-                key={p.name}
-                initial={{ opacity: 0, x: -16 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 + i * 0.15, duration: 0.5 }}
-                className="grid grid-cols-4 px-4 py-3 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors"
-              >
-                <span className="text-xs text-white/80 font-medium tracking-tight">
-                  {p.name}
-                </span>
-                <span className="text-xs text-white/40 font-light">{p.units}</span>
-                <div className="flex items-center gap-2">
-                  <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden max-w-[60px]">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${p.occ}%` }}
-                      transition={{ delay: 1 + i * 0.15, duration: 0.8 }}
-                      className="h-full bg-gold/60 rounded-full"
-                    />
-                  </div>
-                  <span className="text-xs text-white/50 font-light">
-                    {p.occ}%
-                  </span>
-                </div>
-                <span className="text-xs text-gold/80 font-medium font-serif">
-                  {p.noi}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Bottom trend bar */}
-          <div className="mt-5 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="w-3.5 h-3.5 text-gold/60" />
-              <span className="text-[10px] text-white/35 font-medium tracking-wide uppercase">
-                Net Operating Income · Trailing 12M
-              </span>
-            </div>
-            <span className="text-xs text-gold/80 font-medium font-serif">
-              +18.2% YoY
-            </span>
-          </div>
-          <div className="mt-2 flex items-end gap-1 h-10">
-            {[40, 52, 48, 61, 55, 68, 72, 65, 78, 82, 88, 95].map((h, i) => (
-              <motion.div
-                key={i}
-                initial={{ height: 0 }}
-                animate={{ height: `${h}%` }}
-                transition={{ delay: 1.2 + i * 0.05, duration: 0.5 }}
-                className="flex-1 bg-gradient-to-t from-gold/20 to-gold/60 rounded-sm"
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Scan line */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent animate-scan-line" />
-        </div>
+        <span className="text-[11px] vhx-mute">3 tenants</span>
       </div>
 
-      {/* Ambient glow */}
-      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-16 ambient-gold blur-2xl pointer-events-none" />
+      <div className="grid gap-3 p-4 sm:grid-cols-3 sm:p-5">
+        <Kpi label="Total tenants" value="128" delta="+12" />
+        <Kpi label="Combined units" value="8,420" delta="+340" />
+        <Kpi label="Platform MRR" value="$184K" delta="+18.4%" accent />
+      </div>
+
+      <div className="mx-4 mb-4 overflow-hidden rounded-lg border vhx-line sm:mx-5 sm:mb-5">
+        <div className="grid grid-cols-4 border-b vhx-line vhx-surface px-3 py-2 text-[11px] vhx-mute">
+          <span>Tenant</span>
+          <span>Plan</span>
+          <span>Units</span>
+          <span className="text-right">MRR</span>
+        </div>
+        {tenants.map((t) => (
+          <div
+            key={t.name}
+            className="grid grid-cols-4 border-b vhx-line px-3 py-3 text-[13px] last:border-0"
+          >
+            <span className="font-medium vhx-ink">{t.name}</span>
+            <span className="vhx-mute">{t.plan}</span>
+            <span className="vhx-mute">{t.units}</span>
+            <span className="text-right font-medium vhx-text-accent">
+              {t.mrr}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-function KpiCell({
-  icon: Icon,
+function Kpi({
   label,
   value,
-  trend,
+  delta,
+  accent,
 }: {
-  icon: typeof DollarSign;
   label: string;
   value: string;
-  trend: string;
+  delta: string;
+  accent?: boolean;
 }) {
   return (
-    <div className="bg-ink-card p-4">
-      <div className="flex items-center gap-1.5 mb-2">
-        <Icon className="w-3 h-3 text-gold/50" />
-        <span className="text-[9px] text-white/35 font-medium tracking-wide uppercase">
-          {label}
-        </span>
+    <div className="rounded-lg border vhx-line vhx-surface p-4">
+      <div className="text-[10px] uppercase tracking-wider vhx-mute">
+        {label}
       </div>
-      <div className="font-serif text-xl font-semibold text-white">{value}</div>
-      <div className="text-[10px] text-gold/60 font-medium mt-0.5">{trend}</div>
+      <div
+        className={`mt-1 text-2xl font-semibold tracking-[-0.03em] ${
+          accent ? 'vhx-text-accent' : 'vhx-ink'
+        }`}
+      >
+        {value}
+      </div>
+      <div className="text-[11px] vhx-text-accent">{delta}</div>
     </div>
   );
 }

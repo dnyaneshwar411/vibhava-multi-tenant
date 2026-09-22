@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   containerize:
     runs-on: ubuntu-latest
@@ -12,38 +13,42 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v4
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: dnyaneshwar411
           password: ${{ secrets.GHCR_PAT }}
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and push
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@v6
         with:
           context: ./server
           push: true
           tags: ghcr.io/dnyaneshwar411/vibhava-multi-tenant:latest
 
-      - uses: actions/checkout@v3
       - name: Get SSH Keys & Set Permissions
         run: |
-            mkdir -p ~/.ssh
-            echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+
+      - name: Create Remote Directory
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            "mkdir -p /home/ec2-user/vibhava/backend"
 
       - name: Deploy using SCP
-        run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./docker-compose.prod.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/home/ec2-user/vibhava/backend
+        run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ./docker-compose.prod.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ec2-user/vibhava/backend/
 
       - name: Restart Server
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
             "cd /home/ec2-user/vibhava/backend && \
              echo '${{ secrets.GHCR_PAT }}' | docker login ghcr.io -u dnyaneshwar411 --password-stdin && \
-             docker-compose -f docker-compose.prod.yml pull && \
-             docker-compose -f docker-compose.prod.yml up -d --remove-orphans"
+             docker compose -f docker-compose.prod.yml pull && \
+             docker compose -f docker-compose.prod.yml up -d --remove-orphans"

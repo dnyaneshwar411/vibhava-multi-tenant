@@ -38,7 +38,7 @@ jobs:
             echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
 
       - name: Deploy using SCP
-        run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./docker-compose.prod.yaml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/home/ec2-user/vibhava/backend
+        run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./docker-compose.prod.yaml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ec2-user/vibhava/backend
 
       - name: Restart Server
         run: |

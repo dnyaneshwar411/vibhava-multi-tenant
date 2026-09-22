@@ -1,0 +1,31 @@
+services:
+  redis_db:
+    image: redis
+    container_name: redis_db
+    restart: always
+    volumes:
+      - redis_data:/data
+
+
+  api:
+    image: ghcr.io/dnyaneshwar411/vibhava-multi-tenant:latest
+    container_name: api
+    restart: always
+    ports:
+      - "1993:1993"
+    env_file:
+      - .env
+    command: node dist/index.js
+
+
+  workers:
+    image: ghcr.io/dnyaneshwar411/vibhava-multi-tenant:latest
+    container_name: workers
+    restart: always
+    env_file:
+      - .env
+    command: node dist/workers/init.js
+
+
+volumes:
+  redis_data:

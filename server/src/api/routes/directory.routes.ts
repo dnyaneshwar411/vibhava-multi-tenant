@@ -6,6 +6,9 @@ import DirectorySchema from "../schemas/directory.schema.js";
 
 const router: Router = Router();
 
+router.route("/organization")
+  .get(validate(DirectorySchema.organization), DirectoryController.listOrganization)
+
 router.route("/user")
   .get(validate(DirectorySchema.user), authenticate(["user:read"]), DirectoryController.listUsers)
 

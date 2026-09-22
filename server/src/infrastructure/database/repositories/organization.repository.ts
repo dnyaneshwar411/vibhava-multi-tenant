@@ -1,10 +1,11 @@
-import { ObjectIdQueryTypeCasting } from "mongoose";
+import { ObjectIdQueryTypeCasting, QueryFilter } from "mongoose";
 import { UpdateOrganizationInput } from "../../../api/schemas/organization.schema.js";
 import { flattenObjectMongooseUpdatePayload } from "../../../api/utils/mongoose.js";
 import S3 from "../../providers/aws/s3.js";
 import Organization from "../models/organization.model.js";
 import { CONSTANTS_TYPE } from "../../../common/types/index.js";
 import CompanyPageRepository from "./companyPage.repository.js";
+import { PaginationOptions } from "../../../common/utils/pagination.js";
 
 export default class OrganizationRepository {
   private static model = Organization;
@@ -85,5 +86,27 @@ export default class OrganizationRepository {
 
   static async batchUpdates(updates: any) {
     return this.model.bulkWrite(updates);
+  }
+
+  static async paginateOpenOrganizations(filters: PaginationOptions & { query: string }) {
+    const dbQuery: QueryFilter<{}> = {};
+
+    if (filters.query) {
+      dbQuery.name = { $regex: filters.query, $options: "i" }
+      dbQuery.subdomain = { $regex: filters.query, $options: "i" }
+    }
+
+    const [result, total] = await Promise.all([
+      this.model
+        .find(dbQuery)
+        .select("name subdomain")
+        .limit(filters.limitNumber)
+        .skip(filters.skip)
+        .lean(),
+      this.model
+        .countDocuments(dbQuery)
+    ])
+
+    return { result, total }
   }
 }

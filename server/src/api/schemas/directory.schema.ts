@@ -3,6 +3,12 @@ import { CONSTANTS } from "../../config/constants.js";
 import { objectIdSchema, paginationSchema } from "./common.schema.js";
 
 export default class DirectorySchema {
+  static organization = z.object({
+    query: paginationSchema.extend({
+      query: z.string().default("")
+    })
+  })
+
   static user = z.object({
     query: paginationSchema.extend({
       status: z.enum(CONSTANTS.USER_STATUS).default("Active"),

@@ -11,6 +11,14 @@ import PropertyRepository from "../../infrastructure/database/repositories/prope
 import UnitRepository from "../../infrastructure/database/repositories/unit.repository.js";
 
 export default class DirectoryController {
+  static listOrganization = catchAsync(
+    async function (req: Request, res: Response) {
+      const filters: PaginationOptions & { query: string } = buildPaginationFilters(req.query as PaginationQueryOptions)
+      const { organizations, pagination } = await DirectoryService.listOrganiations(filters)
+      res.status(httpStatus.OK).json({ code: httpStatus.OK, data: organizations, pagination })
+    }
+  )
+
   static listUsers = catchAsync(
     async function (req: Request, res: Response) {
       const filters: PaginationOptions & { status: CONSTANTS_TYPE["USER_STATUS"] } = buildPaginationFilters(req.query as PaginationQueryOptions)

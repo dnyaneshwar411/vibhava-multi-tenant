@@ -10,7 +10,8 @@
     "seed": "tsx src/infrastructure/database/seed.ts",
     "check": "tsc --noEmit",
     "build": "tsc",
-    "start:api": "node dist/index.js"
+    "start:api": "node dist/index.js",
+    "start:worker": "node dist/workers/init.js"
   },
   "keywords": [],
   "author": "",

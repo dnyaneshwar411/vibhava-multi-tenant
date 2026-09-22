@@ -11,3 +11,5 @@ node_modules/
 
 # Generated seed credentials
 seed-credentials.json
+
+dist

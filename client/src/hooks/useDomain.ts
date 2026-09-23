@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { rootDomain } from "@/config/constants";
+import { apexDomain } from "@/config/constants";
 
 type UseDomainResult = {
   subdomain: string | null;
@@ -14,7 +14,7 @@ const useDomain = function (): UseDomainResult {
 
   useEffect(() => {
     const { hostname, href } = window.location;
-    const rootDomainFormatted = rootDomain.split(":")[0];
+    const rootDomainFormatted = apexDomain.split(":")[0];
 
     if (href.includes("localhost") || href.includes("127.0.0.1")) {
       const fullUrlMatch = href.match(/http:\/\/([^.]+)\.localhost/);

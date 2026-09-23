@@ -38,6 +38,8 @@ import { cn } from "@/lib/utils";
 import CreateUser from "@/modules/user/components/create-user";
 import { DeleteUser } from "@/modules/user/components/delete-user";
 import { buttonVariants } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { wordInitials } from "@/lib/helpers";
 
 type UserRow = {
   _id: string;
@@ -75,7 +77,10 @@ function UserAvatar({
     <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted">
       {avatar ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={avatar} alt={name || "User"} className="h-full w-full object-cover" />
+        <Avatar className="w-full h-full rounded-[1px]">
+          <AvatarImage src={avatar} className="rounded-[1px]" />
+          <AvatarFallback className="rounded-[1px]">{wordInitials(name || "")}</AvatarFallback>
+        </Avatar>
       ) : (
         <span className="text-xs font-medium">{initial}</span>
       )}

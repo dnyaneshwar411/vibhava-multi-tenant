@@ -2,6 +2,8 @@
 import Image from "next/image"
 import { Mail, Phone, ShieldCheck, Calendar } from "lucide-react"
 import UserProfileUpdate from "./user-profile-update"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { wordInitials } from "@/lib/helpers"
 
 interface UserProfile {
   _id: string
@@ -31,14 +33,10 @@ export default function UserProfileDetails({ user, actorModel = "User" }: UserDa
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
           <div className="relative h-16 w-16 overflow-hidden border border-neutral-200 dark:border-neutral-800">
-            <Image
-              src={user.avatar}
-              alt={user.name}
-              fill
-              className="object-cover"
-              sizes="64px"
-              unoptimized
-            />
+            <Avatar className="w-full h-full !rounded-0 border-0">
+              <AvatarImage src={user.avatar} />
+              <AvatarFallback className="rounded-none">{wordInitials(user.name || "")}</AvatarFallback>
+            </Avatar>
           </div>
           <div>
             <div className="flex items-center gap-2">

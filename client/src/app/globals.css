@@ -179,7 +179,7 @@
 button {
   cursor: pointer;
 }
-
+/* 
 .vhx-accent {
   color: rgb(var(--vhx-accent));
 }
@@ -210,4 +210,4 @@ button {
 
 .vhx-surface {
   background-color: rgb(var(--vhx-surface));
-}
+} */

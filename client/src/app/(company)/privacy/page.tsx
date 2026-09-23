@@ -23,7 +23,7 @@ const sections = [
     title: '3. Multi-tenant isolation',
     paragraphs: [
       'Vibhava is structured around organization_id boundaries. Records are associated with the organization that owns or controls them, and access decisions are enforced at the data layer rather than relying only on the interface.',
-      'Row-level security policies restrict reads and writes to authorized organization members. A user belonging to one organization cannot query or modify another organization’s tenant, property, financial, or maintenance records through the platform.',
+      'Feature-level security policies restrict reads and writes to authorized organization members. A user belonging to one organization cannot query or modify another organization’s tenant, property, financial, or maintenance records through the platform.',
     ],
     bullets: ['Organization membership is checked before protected data is returned.', 'Administrative and audit fields are not user-controlled through ordinary platform actions.', 'Access events and policy decisions are recorded for review.'],
   },

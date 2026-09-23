@@ -10,10 +10,10 @@ export default function OrganizationNavbar() {
   return (
     <nav
       className="h-[var(--header-height)] bg-sidebar border-b border-white/10 flex 
-      items-center justify-between gap-4 px-4 sticky top-0 z-50 backdrop-blur-sm"
+      items-center justify-end gap-4 px-4 sticky top-0 z-50 backdrop-blur-sm"
     >
-      <SidebarTrigger size="lg" className="p-0" />
-      <Command />
+      {/* <SidebarTrigger size="lg" className="p-0" /> */}
+      {/* <Command /> */}
       <ApplicationTheme />
       <button>
         <Bell strokeWidth={1.2} size={20} />

@@ -1,8 +1,22 @@
+import Link from "next/link";
+
 const columns = {
-  Platform: ['Overview', 'Multi-tenancy', 'RBAC', 'Branding', 'Pricing'],
-  Company: ['About', 'Customers', 'Careers', 'Contact'],
-  Resources: ['Docs', 'API reference', 'Security', 'Status'],
-  Legal: ['Privacy', 'Terms', 'DPA', 'SLA'],
+  Platform: [
+    // { name: 'Overview', link: "/" },
+    // { name: 'Multi-tenancy', link: "/" },
+    // { name: 'RBAC', link: "/" },
+    { name: 'Platform', link: "#platform" },
+    { name: 'Pricing', link: "/#pricing" },
+    { name: 'Customers', link: "#customers" },
+  ],
+  Company: [
+    { name: 'About', link: "/about" },
+    { name: 'Contact', link: "/contact" },
+    // { name: 'Customers', link: "/" },
+    // { name: 'Careers', link: "/" },
+  ],
+  // Resources: ['Docs', 'API reference', 'Security', 'Status'],
+  // Legal: ['Privacy', 'Terms', 'DPA', 'SLA'],
 };
 
 export default function Footer() {
@@ -10,7 +24,7 @@ export default function Footer() {
     <footer id="company" className="border-t vhx-line">
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-6">
-          <div className="col-span-2">
+          <div className="col-span-2 md:col-span-4">
             <a href="/" className="flex items-center gap-2">
               <div className="h-4 w-4 rounded-[3px] vhx-bg-accent" />
               <span className="text-[15px] font-semibold tracking-tight vhx-ink">
@@ -33,13 +47,13 @@ export default function Footer() {
               </h4>
               <ul className="space-y-2.5">
                 {items.map((item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
+                  <li key={item.link}>
+                    <Link
+                      href={item.link}
                       className="text-sm vhx-mute transition-colors hover:vhx-ink"
                     >
-                      {item}
-                    </a>
+                      {item.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -52,9 +66,8 @@ export default function Footer() {
             © 2026 Vibhava Systems, Inc. All rights reserved.
           </p>
           <div className="flex items-center gap-5 text-xs vhx-mute">
-            <a href="#" className="hover:vhx-ink">Privacy</a>
-            <a href="#" className="hover:vhx-ink">Terms</a>
-            <a href="#" className="hover:vhx-ink">Security</a>
+            <a href="/privacy" className="hover:vhx-ink">Privacy</a>
+            <a href="/terms" className="hover:vhx-ink">Terms</a>
           </div>
         </div>
       </div>

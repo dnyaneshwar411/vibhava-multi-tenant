@@ -15,15 +15,10 @@ export default function Page() {
   const { isLoading, data, error, mutate } = useFetch("/api/v1/organization/pages")
   const resolvedPages = useMemo(function () {
     if (data?.data) {
-      return data.data.map(({ page, html }: { page: string, html: string }) => (page === "landing"
-        ? ({
-          name: "landing",
-          component: BlueprintModernLanding.component
-        })
-        : {
-          name: page,
-          component: html
-        }))
+      return data.data.map(({ page, html }: { page: string, html: string }) => ({
+        name: page,
+        component: html
+      }))
     }
   }, [isLoading, data])
 

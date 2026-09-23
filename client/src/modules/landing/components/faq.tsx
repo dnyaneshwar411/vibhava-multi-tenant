@@ -9,7 +9,7 @@ import { fadeUp, stagger, viewport } from '@/lib/animations';
 const items = [
   {
     q: 'How is tenant data isolated?',
-    a: 'Every tenant runs against the same Postgres cluster, but all rows are scoped by a tenant_id and enforced with row-level security policies. Cross-tenant queries are structurally impossible through the application layer.',
+    a: 'Every tenant runs against the same Postgres cluster, but all rows are scoped by a tenant_id and enforced with Feature-level security policies. Cross-tenant queries are structurally impossible through the application layer.',
   },
   {
     q: 'Can tenants use their own domain?',

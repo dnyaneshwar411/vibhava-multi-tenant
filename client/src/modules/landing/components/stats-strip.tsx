@@ -4,9 +4,9 @@ import { motion } from 'motion/react';
 import { fadeUp, stagger, viewport } from '@/lib/animations';
 
 const stats = [
-  { value: '128+', label: 'Tenants onboarded' },
-  { value: '8,420', label: 'Units under management' },
-  { value: '$184K', label: 'Platform MRR' },
+  { value: '628+', label: 'Tenants onboarded' },
+  { value: '420', label: 'Units under management' },
+  { value: '₹54K', label: 'Platform MRR' },
   { value: '99.98%', label: 'Uptime last 90 days' },
 ];
 

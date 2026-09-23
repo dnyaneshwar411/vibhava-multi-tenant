@@ -61,7 +61,7 @@ function CompanyLanding() {
         <HowItWorks />
         <Pricing />
         <Comparison />
-        <Integrations />
+        {/* <Integrations /> */}
         <Testimonials />
         <FAQ />
         <OnboardingForm />

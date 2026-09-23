@@ -58,7 +58,7 @@ export default function Hero() {
             variants={fadeUp}
             className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs vhx-mute"
           >
-            {['SOC 2 ready', 'Subdomain routing', 'Row-level isolation'].map(
+            {['SOC 2 ready', 'Subdomain routing', 'Feature-level isolation'].map(
               (t) => (
                 <span key={t} className="flex items-center gap-1.5">
                   <Check className="h-3 w-3 vhx-text-accent" strokeWidth={3} />
@@ -106,9 +106,9 @@ function WorkspacePreview() {
       </div>
 
       <div className="grid gap-3 p-4 sm:grid-cols-3 sm:p-5">
-        <Kpi label="Total tenants" value="128" delta="+12" />
-        <Kpi label="Combined units" value="8,420" delta="+340" />
-        <Kpi label="Platform MRR" value="$184K" delta="+18.4%" accent />
+        <Kpi label="Total tenants" value="628" delta="+12" />
+        <Kpi label="Combined units" value="420" delta="+34" />
+        <Kpi label="Platform MRR" value="₹54K" delta="+18.4%" accent />
       </div>
 
       <div className="mx-4 mb-4 overflow-hidden rounded-lg border vhx-line sm:mx-5 sm:mb-5">

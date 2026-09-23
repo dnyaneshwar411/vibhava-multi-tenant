@@ -16,7 +16,7 @@ const features = [
   {
     icon: ShieldCheck,
     title: 'Tenant isolation',
-    body: 'Row-level security scoped per workspace. No shared state, no leakage, ever.',
+    body: 'Feature-level security scoped per workspace. No shared state, no leakage, ever.',
     span: 'md:col-span-2',
   },
   {
@@ -37,18 +37,18 @@ const features = [
     body: 'Role-based access from owner to vendor to tenant, with audit trails.',
     span: 'md:col-span-2',
   },
-  {
-    icon: Palette,
-    title: 'Custom branding',
-    body: 'Per-tenant logos, colors, and email domains — configured in minutes.',
-    span: '',
-  },
-  {
-    icon: GitBranch,
-    title: 'API & webhooks',
-    body: 'Compose Vibhava into your existing stack with typed REST and events.',
-    span: '',
-  },
+  // {
+  //   icon: Palette,
+  //   title: 'Custom branding',
+  //   body: 'Per-tenant logos, colors, and email domains — configured in minutes.',
+  //   span: '',
+  // },
+  // {
+  //   icon: GitBranch,
+  //   title: 'API & webhooks',
+  //   body: 'Compose Vibhava into your existing stack with typed REST and events.',
+  //   span: '',
+  // },
 ];
 
 export default function Features() {

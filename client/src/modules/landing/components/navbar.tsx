@@ -36,7 +36,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
         <a href="/" className="flex items-center gap-2">
           <Avatar className="h-7 w-7 vhx-bg-accent">
-            <AvatarImage src="/faxvicon.png" />
+            <AvatarImage src="/favicon.png" />
             <AvatarFallback className="vhx-bg-accent text-black">V</AvatarFallback>
           </Avatar>
           <span className="text-[15px] font-semibold tracking-tight vhx-ink">

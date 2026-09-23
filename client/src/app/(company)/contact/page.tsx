@@ -24,25 +24,25 @@ const channels = [
   {
     icon: Mail,
     label: 'General enquiries',
-    value: 'hello@vibhava.estate',
-    href: 'mailto:hello@vibhava.estate',
+    value: 'contact@vibhava.xyz',
+    href: 'mailto:contact@vibhava.xyz',
   },
   {
     icon: MessageSquare,
     label: 'Platform architecture',
-    value: 'architecture@vibhava.estate',
-    href: 'mailto:architecture@vibhava.estate',
+    value: 'contact@vibhava.xyz',
+    href: 'mailto:contact@vibhava.xyz',
   },
   {
     icon: Phone,
     label: 'Client relations',
-    value: '+1 (212) 555-0148',
+    value: '+91 90671 83889',
     href: 'tel:+12125550148',
   },
   {
     icon: MapPin,
     label: 'Principal office',
-    value: 'New York · London · Singapore',
+    value: 'Karvenagar · Pune · India',
   },
 ];
 

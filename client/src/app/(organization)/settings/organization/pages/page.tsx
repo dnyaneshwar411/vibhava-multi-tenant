@@ -62,7 +62,7 @@ export default function Page() {
     <div className="bg-red-200 grow">
       <StudioEditor
         options={{
-          licenseKey: "YOUR_LICENSE_KEY",
+          licenseKey: "52eeae3929474eb5b660ecf5a9fa7fa472de53e177244f89a04a720bbe4646c2",
           storage: {
             type: "self",
             autosaveChanges: 10000,

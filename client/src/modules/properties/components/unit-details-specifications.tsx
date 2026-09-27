@@ -93,7 +93,7 @@ export default function UnitDetailsSpecifications({
                 <Zap className="h-3.5 w-3.5 text-amber-500/80" /> Electric Meter
               </span>
               <span className="font-mono text-xs bg-muted px-2 py-0.5 border">
-                {specifications.utilityMeters.electricMeterNumber}
+                {specifications.utilityMeters?.electricMeterNumber}
               </span>
             </div>
 
@@ -102,7 +102,7 @@ export default function UnitDetailsSpecifications({
                 <Droplets className="h-3.5 w-3.5 text-blue-500/80" /> Water Meter
               </span>
               <span className="font-mono text-xs bg-muted px-2 py-0.5 border">
-                {specifications.utilityMeters.waterMeterNumber}
+                {specifications.utilityMeters?.waterMeterNumber}
               </span>
             </div>
 
@@ -111,7 +111,7 @@ export default function UnitDetailsSpecifications({
                 <Flame className="h-3.5 w-3.5 text-orange-500/80" /> Gas Meter
               </span>
               <span className="font-mono text-xs bg-muted px-2 py-0.5 border">
-                {specifications.utilityMeters.gasMeterNumber}
+                {specifications.utilityMeters?.gasMeterNumber}
               </span>
             </div>
 
@@ -120,7 +120,7 @@ export default function UnitDetailsSpecifications({
                 <Lock className="h-3.5 w-3.5" /> Smart Lock ID
               </span>
               <span className="font-mono text-xs bg-muted px-2 py-0.5 border">
-                {specifications.keyCodes.smartLockId}
+                {specifications.keyCodes?.smartLockId}
               </span>
             </div>
           </div>

@@ -6,6 +6,7 @@ export type OrgSidebarResource = {
   icon: LucideIcon;
   href: string;
   scopes: string[];
+  actor?: string[]
 }
 
 export type OrgSidebarResourceNested = {
@@ -17,7 +18,9 @@ export type OrgSidebarResourceNested = {
   children: {
     title: string;
     href: string;
+    actor?: string[]
   }[];
+  actor?: string[]
 }
 
 export type OrgSidebarSection = {
@@ -25,4 +28,5 @@ export type OrgSidebarSection = {
   label: string;
   resourceGroup: "/dashboard" | "/management" | "/operations" | "/financials" | "/administration" | "/settings";
   children: (OrgSidebarResource | OrgSidebarResourceNested)[];
+  actor?: string[]
 }

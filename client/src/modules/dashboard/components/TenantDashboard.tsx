@@ -51,11 +51,11 @@ export function TenantDashboard({ metrics }: TenantDashboardProps) {
           <h1 className="text-3xl font-bold tracking-tight">Tenant Portal</h1>
           <p className="text-muted-foreground">Manage your rent payments and report maintenance issues.</p>
         </div>
-        {metrics?.outstandingBalance > 0 && (
+        {/* {metrics?.outstandingBalance > 0 && (
           <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium shadow-md">
             <CreditCard className="mr-2 h-4 w-4" /> Pay Rent (₹{metrics?.outstandingBalance})
           </Button>
-        )}
+        )} */}
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">

@@ -12,7 +12,7 @@ export default function OrganizationNavbar() {
       className="h-[var(--header-height)] bg-sidebar border-b border-white/10 flex 
       items-center justify-end gap-4 px-4 sticky top-0 z-50 backdrop-blur-sm"
     >
-      {/* <SidebarTrigger size="lg" className="p-0" /> */}
+      <SidebarTrigger size="lg" className="p-0 mr-auto hover:bg-transparent`" />
       {/* <Command /> */}
       <ApplicationTheme />
       <button>

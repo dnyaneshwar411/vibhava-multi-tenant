@@ -36,11 +36,11 @@ export const sidebarData: OrgSidebarSection[] = [
     type: "SECTION",
     resourceGroup: "/management",
     children: [
-      { title: "Properties", type: "RESOURCE", scopes: ["property:read", "property:read:assigned"], icon: Building2, href: "/management/properties" },
+      { title: "Properties", type: "RESOURCE", scopes: ["property:read", "property:read:assigned"], icon: Building2, href: "/management/properties", actor: ["User"] },
       // { title: "Units", type: "RESOURCE", scopes: ["unit:read"], icon: DoorOpen, href: "/management/units" },
-      { title: "Tenants", type: "RESOURCE", scopes: ["tenant:read"], icon: Users, href: "/management/tenants" },
+      { title: "Tenants", type: "RESOURCE", scopes: ["tenant:read"], icon: Users, href: "/management/tenants", actor: ["User"] },
       { title: "Leases", type: "RESOURCE", scopes: ["lease:read"], icon: FileText, href: "/management/leases" },
-    ]
+    ],
   },
 
   // Operations Section
@@ -68,8 +68,8 @@ export const sidebarData: OrgSidebarSection[] = [
         scopes: [],
         resourceType: "/financials/reports",
         children: [
-          { title: "Profit & Loss", href: "/financials/reports/profit-loss" },
-          { title: "Rent Roll", href: "/financials/reports/rent-roll" },
+          { title: "Profit & Loss", href: "/financials/reports/profit-loss", actor: ["User", "Vendor"] },
+          { title: "Rent Roll", href: "/financials/reports/rent-roll", actor: ["Tenant"] },
         ],
       },
     ]

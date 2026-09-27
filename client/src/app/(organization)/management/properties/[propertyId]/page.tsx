@@ -40,7 +40,7 @@ type PropertyDetails = {
   name: string;
   propertyType?: string;
   status?: string;
-  manager?: string | null;
+  manager?: string | Record<string, any>;
   address?: {
     street1?: string;
     street2?: string | null;
@@ -239,7 +239,7 @@ export default function Page() {
               <DetailItem
                 icon={<UserRound className="size-4" />}
                 label="Manager"
-                value={property.manager || "Unassigned"}
+                value={(property?.manager as any)?.name || "Unassigned"}
               />
               <DetailItem
                 icon={<CreditCard className="size-4" />}

@@ -22,12 +22,12 @@ export const ensureProtocol = function (protocol: "http" | "https", str: string)
   return str.startsWith("http") ? str : `${protocol}://${str}`;
 }
 
-export const wordInitials = function (str: string, length: number = 2) {
+export const wordInitials = function (str: string | undefined = "", length: number = 2) {
   return str
-    .split(" ")
-    .slice(0, length)
-    .map(item => item[0])
-    .join("")
+    ?.split(" ")
+    ?.slice(0, length)
+    ?.map(item => item[0])
+    ?.join("")
 }
 
 export const validHTTPURL = function (urlString: string): boolean {

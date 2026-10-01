@@ -29,6 +29,7 @@ export default function KanbanBoardTicketCard({
 
   return (
     <Card
+      data-ticket-id={ticket._id}
       key={ticket._id}
       draggable
       onDragStart={(e) => handleDragStart(e, ticket._id)}
@@ -38,6 +39,7 @@ export default function KanbanBoardTicketCard({
       }`}
     >
       <CardHeader className="p-4 pb-2 space-y-2">
+        {ticket._id}
         <div className="flex items-center justify-between gap-1">
           <div className="flex items-center gap-1.5 overflow-hidden">
             <Badge variant="outline" className="truncate">

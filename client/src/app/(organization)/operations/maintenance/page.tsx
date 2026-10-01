@@ -85,38 +85,109 @@ const [pagination, setPagination] = useState({
     e.preventDefault()
   }
 
-  const handleDrop = async (e: React.DragEvent, targetStatus: string) => {
-    e.preventDefault()
-    setDragOverColumn(null)
+  // const handleDrop = async (e: React.DragEvent, targetStatus: string) => {
+  //   console.log(targetStatus)
+  //   e.preventDefault()
+  //   setDragOverColumn(null)
+    
+  //   const ticketId = e.dataTransfer.getData("text/plain") || draggedTicketId
+  //   console.log(ticketId)
+  //   if (!ticketId) return
+  //   return
 
-    const ticketId = e.dataTransfer.getData("text/plain") || draggedTicketId
-    if (!ticketId) return
+  //   const draggedTicket = tickets.find((t) => t._id === ticketId)
+  //   if (!draggedTicket || draggedTicket.status === targetStatus) return
 
-    const draggedTicket = tickets.find((t) => t._id === ticketId)
-    if (!draggedTicket || draggedTicket.status === targetStatus) return
+  //   setTickets((prev) =>
+  //     prev.map((ticket) =>
+  //       ticket._id === ticketId ? { ...ticket, status: targetStatus } : ticket
+  //     )
+  //   )
 
-    setTickets((prev) =>
-      prev.map((ticket) =>
-        ticket._id === ticketId ? { ...ticket, status: targetStatus } : ticket
-      )
-    )
+  //   try {
+  //     const response = await api.patch(`/api/v1/maintenance/tickets/${ticketId}/status/${targetStatus}`, {
+  //       body: { status: targetStatus },
+  //     })
 
-    try {
-      const response = await api.patch(`/api/v1/maintenance/tickets/${ticketId}/status/${targetStatus}`, {
-        body: { status: targetStatus },
-      })
+  //     if (response.code !== 200) {
+  //       throw new Error(response.message);
+  //     }
 
-      if (response.code !== 200) {
-        throw new Error(response.message);
-      }
+  //     toast.success(response.message || "Successfull");
+  //   } catch (err) {
+  //     toast.error(buildToastMessage(err))
+  //   } finally {
+  //     setDraggedTicketId(null)
+  //   }
+  // }
 
-      toast.success(response.message || "Successfull");
-    } catch (err) {
-      toast.error(buildToastMessage(err))
-    } finally {
-      setDraggedTicketId(null)
+const handleDrop = async (e: React.DragEvent, targetStatus: string) => {
+  e.preventDefault();
+  setDragOverColumn(null);
+
+  const ticketId = e.dataTransfer.getData("text/plain") || draggedTicketId;
+  if (!ticketId) return;
+
+  const draggedTicket = tickets.find((t) => t._id === ticketId);
+  if (!draggedTicket) return;
+
+  const columnContainer = document.getElementById(`column-${targetStatus}`);
+  const cardElements = columnContainer ? Array.from(columnContainer.querySelectorAll('[data-ticket-id]')) : [];
+
+  let prevTicketId: string | undefined = undefined;
+  let nextTicketId: string | undefined = undefined;
+
+  const mouseY = e.clientY;
+  let targetIndex = cardElements.length;
+
+  for (let i = 0; i < cardElements.length; i++) {
+    const rect = cardElements[i].getBoundingClientRect();
+    const cardMiddle = rect.top + rect.height / 2;
+
+    if (mouseY < cardMiddle) {
+      targetIndex = i;
+      break;
     }
   }
+
+  const targetColumnTickets = tickets.filter((t) => t.status === targetStatus && t._id !== ticketId);
+
+  if (targetIndex === 0) {
+    prevTicketId = undefined;
+    nextTicketId = targetColumnTickets[0]?._id || undefined;
+  } else if (targetIndex >= targetColumnTickets.length) {
+    prevTicketId = targetColumnTickets[targetColumnTickets.length - 1]?._id || undefined;
+    nextTicketId = undefined;
+  } else {
+    prevTicketId = targetColumnTickets[targetIndex - 1]._id;
+    nextTicketId = targetColumnTickets[targetIndex]._id;
+  }
+
+  // 3. Optimistic UI Update (reorder locally immediately)
+  // ... update local state array with new status & position if desired ...
+
+  try {
+    const response = await api.patch(`/api/v1/maintenance/tickets/${ticketId}/status/kanban`, {
+      body: {
+        status: targetStatus,
+        prevTicketId,
+        nextTicketId,
+      } as any
+    });
+
+    if (response.code !== 200 && response.status !== 200) {
+      throw new Error(response.message || "Failed to update position");
+    }
+
+    toast.success("Ticket position updated successfully");
+    mutate();
+  } catch (err) {
+    toast.error(buildToastMessage(err));
+    mutate();
+  } finally {
+    setDraggedTicketId(null);
+  }
+};
 
   if (isLoading) {
     return (

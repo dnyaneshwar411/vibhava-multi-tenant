@@ -30,7 +30,7 @@ import {
   TicketCreationPropertyDetailsInput,
   ticketCreationPropertyDetailsSchema,
 } from "../schema/creation";
-import { MAINTENANCE_TICKET_STATUS } from "../config/constants";
+import { MAINTENANCE_TICKET_CATEGORIES, MAINTENANCE_TICKET_STATUS } from "../config/constants";
 import { FieldGroup } from "@/components/ui/field";
 
 export default function TicketCreationPropertyDetails({
@@ -165,7 +165,7 @@ function SelectCategory({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {MAINTENANCE_TICKET_STATUS.map((cat) => (
+              {MAINTENANCE_TICKET_CATEGORIES.map((cat) => (
                 <SelectItem key={cat} value={cat}>
                   {cat}
                 </SelectItem>

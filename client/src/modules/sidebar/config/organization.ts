@@ -51,16 +51,6 @@ export const sidebarData: OrgSidebarSection[] = [
     children: [
       { title: "Maintenance", type: "RESOURCE", scopes: ["ticket:read:all", "ticket:read:own"], icon: Wrench, href: "/operations/maintenance" },
       { title: "Vendors", type: "RESOURCE", scopes: ["vendor:read"], icon: Truck, href: "/operations/vendor" },
-    ]
-  },
-
-  // Financials Section
-  {
-    label: "Financials",
-    type: "SECTION",
-    resourceGroup: "/financials",
-    children: [
-      { title: "Ledger", type: "RESOURCE", scopes: ["ledger:read"], icon: Receipt, href: "/financials/ledger" },
       {
         title: "Reports",
         type: "RESOURCE-NESTED",
@@ -75,6 +65,27 @@ export const sidebarData: OrgSidebarSection[] = [
     ]
   },
 
+  // Financials Section
+  {
+    label: "Financials",
+    type: "SECTION",
+    resourceGroup: "/financials",
+    children: [
+      // { title: "Ledger", type: "RESOURCE", scopes: ["ledger:read"], icon: Receipt, href: "/financials/ledger" },
+      // {
+      //   title: "Reports",
+      //   type: "RESOURCE-NESTED",
+      //   icon: BarChart3,
+      //   scopes: [],
+      //   resourceType: "/financials/reports",
+      //   children: [
+      //     { title: "Profit & Loss", href: "/financials/reports/profit-loss", actor: ["User", "Vendor"] },
+      //     { title: "Rent Roll", href: "/financials/reports/rent-roll", actor: ["Tenant"] },
+      //   ],
+      // },
+    ]
+  },
+
 
   // Administration Section
   {
@@ -82,10 +93,10 @@ export const sidebarData: OrgSidebarSection[] = [
     type: "SECTION",
     resourceGroup: "/administration",
     children: [
-      { title: "Users", type: "RESOURCE", scopes: ["user:read"],icon: UserCog, href: "/administration/users" },
-      { title: "Payment Gateway", type: "RESOURCE", scopes: ["payment-gateway:read"],icon: CreditCard, href: "/administration/payment-gateway" },
-      { title: "Memberships", type: "RESOURCE", scopes: ["organization:membership:manage"],icon: DollarSign, href: "/administration/memberships" },
-      { title: "Audit Logs", type: "RESOURCE", scopes: ["user:read"],icon: History, href: "/administration/audit-logs" },
+      { title: "Users", type: "RESOURCE", scopes: ["user:read"], icon: UserCog, href: "/administration/users" },
+      { title: "Payment Gateway", type: "RESOURCE", scopes: ["payment-gateway:read"], icon: CreditCard, href: "/administration/payment-gateway" },
+      { title: "Memberships", type: "RESOURCE", scopes: ["organization:membership:manage"], icon: DollarSign, href: "/administration/memberships" },
+      { title: "Audit Logs", type: "RESOURCE", scopes: ["user:read"], icon: History, href: "/administration/audit-logs" },
     ],
   },
 
@@ -96,20 +107,20 @@ export const sidebarData: OrgSidebarSection[] = [
     resourceGroup: "/settings",
     children: [
       { title: "Profile", type: "RESOURCE", scopes: [], icon: CircleUserRound, href: "/settings/profile" },
-      { 
-        title: "Organization", 
-        type: "RESOURCE-NESTED", 
+      {
+        title: "Organization",
+        type: "RESOURCE-NESTED",
         scopes: ["organization:read"],
-         icon: Building,
-         resourceType: "/settings/organization",
-         children: [
-           { title: "Profile", href: "/settings/organization" },
-           { title: "Pages", href: "/settings/organization/pages/" },
+        icon: Building,
+        resourceType: "/settings/organization",
+        children: [
+          { title: "Profile", href: "/settings/organization" },
+          { title: "Pages", href: "/settings/organization/pages/" },
           //  { title: "About", href: "/settings/organization/pages/about" },
           //  { title: "Terms & Conditions", href: "/settings/organization/pages/terms-conditions" },
           //  { title: "Privacy Policy", href: "/settings/organization/pages/privacy-policy" },
-         ]
-       },
+        ]
+      },
     ]
   },
 ];

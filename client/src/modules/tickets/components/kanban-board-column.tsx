@@ -31,6 +31,7 @@ export default function KanbanBoardColumn({
 
   return (
     <div
+      id={`column-${status}`}
       key={status}
       className={cn("flex w-80 shrink-0 flex-col space-y-3 transition-colors", isColumnTarget && "opacity-90")}
       onDragOver={(e) => handleDragOver(e, status)}

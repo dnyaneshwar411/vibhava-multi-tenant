@@ -141,12 +141,12 @@ export default function LeaseDetailsPage() {
             Renew Lease
             <ArrowUpRight className="h-3.5 w-3.5" />
           </Button> */}
-          <DeleteLease
+          {/* <DeleteLease
             leaseId={data.data?._id}
             leaseLabel={data.data?.title}
           >
             <Button>Delete</Button>
-          </DeleteLease>
+          </DeleteLease> */}
         </div>
       </div>
 

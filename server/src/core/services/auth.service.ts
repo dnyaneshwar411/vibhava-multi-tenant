@@ -17,7 +17,6 @@ import { addMinutes } from "date-fns";
 import TenantService from "./tenant.service.js";
 import UserService from "./user.service.js";
 import VendorService from "./vendor.service.js";
-import Logger from "../../common/logger/index.js";
 import { env } from "../../config/envVars.js";
 
 type AuthLogin = {

@@ -2,6 +2,7 @@ import Razorpay from "razorpay";
 import { Orders } from "razorpay/dist/types/orders.js";
 import { RazorpayConfig } from "./config.js";
 import { RazorpayGatewayArgs } from "./type.js";
+import Logger from "../../../common/logger/index.js";
 
 export default class RazorpayPaymentGateway {
   private static client = RazorpayConfig;
@@ -42,6 +43,7 @@ export default class RazorpayPaymentGateway {
         })
       };
     } catch (error: any) {
+      Logger.error("error", error)
       let message = "Payment processing failed. Please try again later.";
       if (error.error) {
         switch (error.error.code) {

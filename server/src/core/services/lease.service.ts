@@ -127,7 +127,6 @@ export default class LeaseService {
   static async processRentPayment(payload: EventPaymentsType) {
     try {
 
-      Logger.info("Payload", payload)
       const notes = payload.notes || {};
       if (!isValidObjectId(notes.leaseId)) return
 
@@ -198,28 +197,8 @@ export default class LeaseService {
           }
         })
 
-        Logger.info("\n\n Email Payload", {
-          type: "EMAILS",
-          entity: "RENT_PAYMENT_SUCCESS",
-          payload: {
-            subject: `Payment Successful: Rent Receipt for ${lease.unit.unitNumber || "Unit" + ", " + lease?.property?.title || "Property"}`,
-            ...emailPayload
-          }
-        })
-
     } catch (error) {
       Logger.error("error", error)
     }
   }
 }
-
-
-        //   type: "EMAILS",
-        //   entity: "LEASE_EXPIRATION",
-        //   payload: {
-        //     subject: `Important Notice: Lease Expiration for ${propertyInfo}`,
-        //     to: lease.primaryTenant.email,
-        //     cc: lease.coTenants.map((tenant: any) => tenant.email),
-        //     bcc: lease.createdBy.email
-        //   }
-        // }

@@ -25,8 +25,6 @@ export default class WebhookService {
       payment: { entity: payment },
       order: { entity: order }
     } = payload.payload;
-    Logger.debug("Order", order)
-    Logger.debug("Payment", payment)
     if (order.entity.resource === "ORGANIZATION_MEMBERSHIP") {
       const success = this.validatePaymentWebhookSignature(payload, webhookSignature);
       if (!success) return;

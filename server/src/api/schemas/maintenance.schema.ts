@@ -97,7 +97,9 @@ export default class MaintenanceSchema {
 
   static updateStatus = z.object({
     body: z.object({
-      status: z.enum(CONSTANTS.MAINTENANCE_TICKET_STATUS)
+      status: z.enum(CONSTANTS.MAINTENANCE_TICKET_STATUS),
+      prevTicketId: objectIdSchema.optional(),
+      nextTicketId: objectIdSchema.optional(),
     }),
   });
 
@@ -135,3 +137,4 @@ export type UpdateMaintenanceInput = z.infer<typeof MaintenanceSchema.update>;
 export type AssignMaintenanceInput = z.infer<typeof MaintenanceSchema.assign>;
 export type CompleteMaintenanceInput = z.infer<typeof MaintenanceSchema.complete>;
 export type FeedbackMaintenanceInput = z.infer<typeof MaintenanceSchema.feedback>;
+export type ReorderKanbanBoardInput = z.infer<typeof MaintenanceSchema.updateStatus>

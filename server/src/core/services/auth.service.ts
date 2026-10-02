@@ -103,10 +103,47 @@ export default class AuthService {
       message: "User Not Found!"
     }
 
-    if (user.avatar && user.avatar.key) user.avatar = await S3.getObjectUrl({
-      isPrivate: user.avatar.private,
-      key: user.avatar.key
-    })
+    const branding: any = (scopes?.organization as any)?.branding || {};
+
+    const [
+      userAvatar,
+      organizationBanner,
+      organizationDarkLogo,
+      organizationFavicon,
+      organizationLogo
+    ] = await Promise.all([
+      S3.getObjectUrl({
+        isPrivate: user?.avatar?.private,
+        key: user?.avatar?.key
+      }),
+      S3.getObjectUrl({
+        isPrivate: branding?.banner?.private,
+        key: branding?.banner?.key
+      }),
+      S3.getObjectUrl({
+        isPrivate: branding?.darkLogo?.private,
+        key: branding?.darkLogo?.key
+      }),
+      S3.getObjectUrl({
+        isPrivate: branding?.favicon?.private,
+        key: branding?.favicon?.key
+      }),
+      S3.getObjectUrl({
+        isPrivate: branding?.logo?.private,
+        key: branding?.logo?.key
+      }),
+    ])
+
+    // if (user.avatar && user.avatar.key) user.avatar = await S3.getObjectUrl({
+    //   isPrivate: user.avatar.private,
+    //   key: user.avatar.key
+    // })
+
+    user.avatar = userAvatar
+    branding.banner = organizationBanner
+    branding.darkLogo = organizationDarkLogo
+    branding.favicon = organizationFavicon
+    branding.logo = organizationLogo
 
     return {
       success: true,

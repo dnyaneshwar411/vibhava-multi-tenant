@@ -4,6 +4,7 @@ import { EventTypes } from "../events/types.js";
 import { validateWebhookSignature } from "razorpay/dist/utils/razorpay-utils.js";
 import { env } from "../../config/envVars.js";
 import { ObjectIdQueryTypeCasting } from "mongoose";
+import Logger from "../../common/logger/index.js";
 
 export default class WebhookService {
   private static validatePaymentWebhookSignature(payload: any, signature: string) {
@@ -24,7 +25,8 @@ export default class WebhookService {
       payment: { entity: payment },
       order: { entity: order }
     } = payload.payload;
-    
+    Logger.debug("Order", order)
+    Logger.debug("Payment", payment)
     if (order.entity.resource === "ORGANIZATION_MEMBERSHIP") {
       const success = this.validatePaymentWebhookSignature(payload, webhookSignature);
       if (!success) return;

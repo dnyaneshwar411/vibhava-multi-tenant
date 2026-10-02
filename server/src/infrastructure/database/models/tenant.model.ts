@@ -26,7 +26,7 @@ const tenantSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    // required: true,
     trim: true,
     select: false
   },

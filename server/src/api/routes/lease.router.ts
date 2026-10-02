@@ -16,7 +16,7 @@ router
 
 router
   .route("/")
-  .get(authenticate(["lease:read"]), LeaseController.getLeases)
+  .get(authenticate(["lease:read"], [], ["Tenant", "User"]), LeaseController.getLeases)
   .post(validate(LeaseSchema.create), authenticate(["lease:create"]), LeaseController.createLease)
 
 router

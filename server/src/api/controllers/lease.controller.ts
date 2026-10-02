@@ -25,6 +25,9 @@ export default class LeaseController {
   static async getLeases(req: Request, res: Response) {
     const pagination = buildPaginationFilters<{}, { total?: number }>(req.query as PaginationQueryOptions);
     const { leases, total } = await LeaseRepository.organizationLeasesPaginate(req.organization!, {
+      actorModel: req.userModel,
+      ...req.user
+    }, {
       ...pagination,
       status: req.query.status as string,
       leaseType: req.query.leaseType as string,

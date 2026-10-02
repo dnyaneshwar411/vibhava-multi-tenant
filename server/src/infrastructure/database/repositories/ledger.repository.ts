@@ -25,7 +25,7 @@ export default class LedgerRepository {
     return await this.model.findOne({ organization: organizationId, _id: entryId }).lean();
   }
 
-  static async create(payload: CreateLedgerInput["body"] & { organization: ObjectIdQueryTypeCasting, createdBy: ObjectIdQueryTypeCasting }) {
+  static async create(payload: CreateLedgerInput["body"] & { organization: ObjectIdQueryTypeCasting, createdBy?: ObjectIdQueryTypeCasting }) {
     return await this.model.create(payload);
   }
 
@@ -63,7 +63,8 @@ export default class LedgerRepository {
 
   static async latestPayableRent(filters: QueryFilter<{}>) {
     return await this.model
-      .findOne(filters, { sort: { "period.startDate": -1 }, })
+      .findOne(filters)
+      .sort({ "period.startDate": -1 })
       .select("period")
       .lean()
   }

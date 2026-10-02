@@ -8,26 +8,28 @@ export default class PaymentGatewayRepository {
 
   private static decipherCredentials(gateway: any) {
     if (!gateway) return gateway
-    if (gateway.type === "RAZORPAY") {
-      return ({
-        ...gateway,
-        credentials: {
-          razorpayKeyId: Cipher.decrypt(gateway.credentials?.razorpayKeyId),
-          razorpayKeySecret: Cipher.decrypt(gateway.credentials?.razorpayKeySecret),
-          razorpaySignature: Cipher.decrypt(gateway.credentials?.razorpaySignature),
-        }
-      })
-    }
-    if (gateway.type === "STRIPE") {
-      return ({
-        ...gateway,
-        credentials: {
-          publishableKey: Cipher.decrypt(gateway.credentials?.publishableKey),
-          stripeKeyId: Cipher.decrypt(gateway.credentials?.stripeKeyId),
-          stripeSignature: Cipher.decrypt(gateway.credentials?.stripeSignature),
-        }
-      })
-    }
+    try {
+      if (gateway.type === "RAZORPAY") {
+        return ({
+          ...gateway,
+          credentials: {
+            razorpayKeyId: Cipher.decrypt(gateway.credentials?.razorpayKeyId),
+            razorpayKeySecret: Cipher.decrypt(gateway.credentials?.razorpayKeySecret),
+            razorpaySignature: Cipher.decrypt(gateway.credentials?.razorpaySignature),
+          }
+        })
+      }
+      if (gateway.type === "STRIPE") {
+        return ({
+          ...gateway,
+          credentials: {
+            publishableKey: Cipher.decrypt(gateway.credentials?.publishableKey),
+            stripeKeyId: Cipher.decrypt(gateway.credentials?.stripeKeyId),
+            stripeSignature: Cipher.decrypt(gateway.credentials?.stripeSignature),
+          }
+        })
+      }
+    } catch (error) { }
 
     return gateway
   }

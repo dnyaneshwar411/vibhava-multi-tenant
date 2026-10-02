@@ -9,7 +9,7 @@ import httpStatus from "http-status";
 import LedgerRepository from "../../infrastructure/database/repositories/ledger.repository.js";
 import LeaseRepository from "../../infrastructure/database/repositories/lease.repository.js";
 import PaymentService from "./payment.service.js";
-import { addMonths, addWeeks, addYears, setDate, startOfDay } from "date-fns";
+import { addMonths, addWeeks, addYears, endOfDay, setDate, startOfDay } from "date-fns";
 import { OrganizationFinanceRentRollNotes, PaymentOrderSession } from "../../common/types/payment.js";
 import { PayRentInput } from "../../api/schemas/reports.schema.js";
 import PaymentGatewayRepository from "../../infrastructure/database/repositories/paymentGateway.repository.js";
@@ -1022,11 +1022,11 @@ export default class ReportsService {
     }
 
     const [ledgerEntry, gateways] = await Promise.all([
-      LedgerRepository.exists({
+      LedgerRepository.latestPayableRent({
         organization: organizationId,
         unit: unitId,
         status: "Cleared",
-        entryType: "Rent Charge",
+        entryType: { $in: ["Rent Payment", "Rent Charge"] }
       }),
       PaymentGatewayRepository.find({ organization: organizationId })
     ])
@@ -1144,9 +1144,10 @@ export default class ReportsService {
       organization: organizationId,
       unit: unitId,
       status: "Cleared",
-      entryType: "Rent Charge",
-      period: {
-        startDate: this.ledgerStartDate(payload.startDate)
+      entryType: { $in: ["Rent Charge", "Rent Payment"] },
+      "period.startDate": {
+        $lte: endOfDay(this.ledgerStartDate(payload.startDate)),
+        $gte: startOfDay(this.ledgerStartDate(payload.startDate)),
       }
     })
     if (rentPaidCheck) return {

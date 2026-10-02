@@ -17,6 +17,8 @@ import { validateWebhookSignature } from "razorpay/dist/utils/razorpay-utils.js"
 import Stripe from "stripe";
 import OrganizationRepository from "../../infrastructure/database/repositories/organization.repository.js";
 import AuditLogService from "./auditLog.service.js";
+import Logger from "../../common/logger/index.js";
+import LeaseService from "./lease.service.js";
 
 export default class PaymentService {
   private static membershipWeight: Record<MEMBERSHIP_TIER, number> = {
@@ -185,7 +187,7 @@ export default class PaymentService {
     switch (gateway) {
       case "RAZORPAY": {
         return validateWebhookSignature(
-          JSON.stringify(stringifiedPayload),
+          typeof stringifiedPayload === "string" ? stringifiedPayload : JSON.stringify(stringifiedPayload),
           webhookSignature,
           credentials.razorpaySignature!
         )
@@ -206,7 +208,7 @@ export default class PaymentService {
 
   static async handleOrganizationFinance(payload: EventPaymentsType) {
     const gateway = await PaymentGatewayRepository.findOne({
-      gateway: payload.gateway,
+      type: payload.gateway,
       organization: payload.organizationId
     })
 
@@ -223,7 +225,10 @@ export default class PaymentService {
 
     switch (payload.notes.entity) {
       case "RENT_ROLL": {
+        Logger.info("THIS IS RENT ROLL")
         // implement the rent roll logic here.
+        // Lease Service handles the logic
+        await LeaseService.processRentPayment(payload)
         break;
       }
       case "LEDGER": {

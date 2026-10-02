@@ -9,6 +9,12 @@ const maintenanceTicketSchema = new Schema({
     required: true,
     index: true,
   },
+  kanbanRank: {
+    type: String,
+    required: true,
+    default: "V",
+    index: true,
+  },
   property: {
     type: Schema.Types.ObjectId,
     ref: "Property",
@@ -151,7 +157,7 @@ maintenanceTicketSchema.index({
   organization: 1,
   property: 1,
   status: 1,
-  priority: 1,
+  kanbanRank: 1,
 });
 
 maintenanceTicketSchema.index({

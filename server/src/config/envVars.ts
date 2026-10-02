@@ -17,9 +17,9 @@ const envSchema = zod.object({
   FIREBASE_CLIENT_ID: zod.string(),
   FIREBASE_CLIENT_X509_CERT_URL: zod.string(),
 
-  EMAIL: zod.string(),
+  EMAIL: zod.string().optional(),
   EMAIL_HOST: zod.string(),
-  EMAIL_PORT: zod.string(),
+  EMAIL_PORT: zod.coerce.number(),
   EMAIL_USER: zod.string(),
   EMAIL_PASSWORD: zod.string(),
   EMAIL_FROM: zod.string(),

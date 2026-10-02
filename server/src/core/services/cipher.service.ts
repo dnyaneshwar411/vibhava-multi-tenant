@@ -35,7 +35,7 @@ export default class Cipher {
     return `${iv.toString('hex')}:${authTag}:${encrypted}`;
   }
 
-  public static decrypt(encryptedData: string, key?: string | Buffer): string {
+  public static decrypt(encryptedData: string = "", key?: string | Buffer): string {
     const keyBuffer = this.getKey(key);
     const parts = encryptedData.split(':');
 

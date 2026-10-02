@@ -5,6 +5,7 @@ import { CreateLeaseInput, UpdateLeaseInput } from "../../../api/schemas/lease.s
 import S3 from "../../providers/aws/s3.js";
 import { EventOrchestrator } from "../../../core/events/eventBus.js";
 import Logger from "../../../common/logger/index.js";
+import { env } from "node:process";
 
 export default class LeaseRepository {
   private static model = Lease;
@@ -18,7 +19,7 @@ export default class LeaseRepository {
       .model
       .findOne(query)
       .select("startDate endDate property finance leaseType")
-      .populate("property", "name")
+      .populate("property", "name address")
       .populate("unit", "unitType unitNumber")
       .populate("primaryTenant", "name email mobileNumber countryCode")
       .populate("coTenants", "name email mobileNumber countryCode")
@@ -27,12 +28,20 @@ export default class LeaseRepository {
 
   static async organizationLeasesPaginate(
     organizationId: ObjectIdQueryTypeCasting,
+    user: any,
     filters: PaginationOptions & {
       status?: string
       leaseType?: string
     }
   ) {
     const dbQuery: QueryFilter<{}> = { organization: organizationId, isDeleted: false }
+
+    if(user.actorModel === "Tenant") {
+      dbQuery.$or = [
+        { primaryTenant: user._id },
+        { coTenants: user._id },
+      ]
+    }
 
     if (typeof filters.status === "string" && filters.status.length > 4) {
       dbQuery.status = { $in: filters.status.split(",") }
@@ -154,7 +163,7 @@ export default class LeaseRepository {
       entity: "LEASE_CREATED",
       payload: {
         ...lease,
-        from: "Vibhava",
+        from: env.EMAIL_FROM,
         subject: `Lease Agreement Confirmed - [${lease.property?.name || "Property"} / ${lease.unit?.unitNumber || "Unit"}]`,
         to: lease.primaryTenant?.email,
         cc: (lease.coTenants)
@@ -230,5 +239,17 @@ export default class LeaseRepository {
 
   static async batchUpdates(updates: any) {
     await this.model.bulkWrite(updates);
+  }
+
+  static async getTenantActiveLease(tenantId: ObjectIdQueryTypeCasting) {
+    return await this.model.findOne({
+      $or: [
+        { primaryTenant: tenantId },
+        { coTenants: tenantId },
+      ],
+      status: { $in: ["Active", "Expiring Soon", "Renewed"] }
+    })
+    .select("_id unit")
+    .lean()
   }
 }

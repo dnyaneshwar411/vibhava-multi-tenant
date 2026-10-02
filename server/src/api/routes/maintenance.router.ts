@@ -10,7 +10,7 @@ router
   .route("/tickets")
   .get(
     validate(MaintenanceSchema.paginate),
-    authenticate(["ticket:read:all", "ticket:read:own"]),
+    authenticate(["ticket:read:all", "ticket:read:own"], [] , ["Tenant", "Vendor", "User"]),
     MaintenanceController.getTickets
   )
   .post(

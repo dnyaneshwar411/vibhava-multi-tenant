@@ -9,7 +9,10 @@ export default class MaintenanceController {
   static getTickets = catchAsync(
     async function (req: Request, res: Response) {
       const pagination = buildPaginationFilters<{}, { total?: number }>(req.query as PaginationQueryOptions);
-      const { total, aggregate } = await MaintenanceRepository.paginate(req.organization!, pagination)
+      const { total, aggregate } = await MaintenanceRepository.paginate(req.organization!, pagination, {
+        ...req.user,
+        actorModel: req.userModel
+      })
       pagination.total = total
       res.status(httpStatus.OK).json({ code: httpStatus.OK, data: aggregate, pagination });
     }
@@ -112,7 +115,7 @@ export default class MaintenanceController {
   static updateStatus = catchAsync(
     async function (req: Request, res: Response) {
       const { ticketId } = req.params as { ticketId: string }
-      const ticket = await MaintenanceRepository.updateOne({ organization: req.organization!, _id: ticketId }, req.body);
+      const ticket = await MaintenanceRepository.reorderKanban(req.organization!, ticketId, req.body);
       if (ticket) {
         AuditLogService.addLogMeta(req, {
           action: "UPDATE",

@@ -31,6 +31,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { copyText } from "@/lib/helpers";
 import LeaseCard from "@/modules/lease/components/lease-card";
 import LeaseFilterOptions from "@/modules/lease/components/lease-filter-options";
+import Secured from "@/components/common/Secured";
 
 type LeaseRow = {
   _id: string;
@@ -97,11 +98,13 @@ export default function Page() {
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <CreateLease>
-            {/* <span className={buttonVariants({ variant: "default" })}>
+          <Secured permissions={["lease:create"]}>
+            <CreateLease>
+              {/* <span className={buttonVariants({ variant: "default" })}>
               Create Lease
             </span> */}
-          </CreateLease>
+            </CreateLease>
+          </Secured>
           <LeaseFilterOptions
             pagination={pagination}
             setPagination={setPagination}

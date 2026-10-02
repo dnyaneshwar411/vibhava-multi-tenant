@@ -1,3 +1,5 @@
+import { format, isValid } from "date-fns";
+
 export const formatCurrency = (amount: number | null | undefined): string => {
   const numericValue = typeof amount === "number" && !isNaN(amount) ? amount : 0;
   try {
@@ -15,12 +17,8 @@ export const formatDate = (dateInput: string | Date | null | undefined, fallback
   if (!dateInput) return fallback;
   try {
     const d = new Date(dateInput);
-    if (isNaN(d.getTime())) return fallback;
-    return d.toLocaleDateString("en-IN", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+    if (!isValid(d)) return fallback;
+    return format(d, "d MMM yyyy");
   } catch {
     return fallback;
   }

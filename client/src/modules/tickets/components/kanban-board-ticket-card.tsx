@@ -13,6 +13,7 @@ import MaintenanceTicketDetailsDrawer from "./maintenance-ticket-details-drawer"
 import { buttonVariants } from "@/components/ui/button"
 import UpdateTicket from "./update-ticket"
 import DeleteTicket from "./delete-ticket"
+import Secured from "@/components/common/Secured"
 
 export default function KanbanBoardTicketCard({
   ticket,
@@ -34,12 +35,10 @@ export default function KanbanBoardTicketCard({
       draggable
       onDragStart={(e) => handleDragStart(e, ticket._id)}
       onDragEnd={() => setDraggedTicketId(null)}
-      className={`cursor-grab active:cursor-grabbing transition-opacity p-0 ${
-        isDragging ? "opacity-40" : "opacity-100"
-      }`}
+      className={`cursor-grab active:cursor-grabbing transition-opacity p-0 ${isDragging ? "opacity-40" : "opacity-100"
+        }`}
     >
       <CardHeader className="p-4 pb-2 space-y-2">
-        {ticket._id}
         <div className="flex items-center justify-between gap-1">
           <div className="flex items-center gap-1.5 overflow-hidden">
             <Badge variant="outline" className="truncate">
@@ -98,8 +97,12 @@ export default function KanbanBoardTicketCard({
               <Eye size={16} />
             </span>
           </MaintenanceTicketDetailsDrawer>
-          <UpdateTicket ticket={ticket} />
-          <DeleteTicket ticketId={ticket._id} ticketTitle={ticket.title} />
+          <Secured permissions={["ticket:update"]}>
+            <UpdateTicket ticket={ticket} />
+          </Secured>
+          <Secured permissions={["ticket:delete"]}>
+            <DeleteTicket ticketId={ticket._id} ticketTitle={ticket.title} />
+          </Secured>
         </div>
       </CardFooter>
     </Card>

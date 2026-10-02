@@ -26,6 +26,7 @@ import { tenantCreation, TenantCreationInput } from "../schema/create";
 import { buildTenantRequestBody } from "../helper";
 import { format } from "date-fns";
 import { STAGE_FIELDS } from "../config";
+import useRevalidate from "@/hooks/useRevalidate";
 
 export default function AddTenant() {
   return (
@@ -116,6 +117,7 @@ function RenderStage({ currentStage, nextStep, previousStep, form }: {
   previousStep: () => void;
   form: UseFormReturn<TenantCreationInput>;
 }) {
+  const { update } = useRevalidate({ groupedInstant: ["/api/v1/tenant"] })
   const onSubmit = async function () {
     try {
       const data: TenantCreationInput = form.getValues()
@@ -125,6 +127,7 @@ function RenderStage({ currentStage, nextStep, previousStep, form }: {
       });
       if(response.code!==200) throw new Error(response.message)
       toast.success(response.message || "Successfull")
+      update()
     } catch (error) {
       toast.error(buildToastMessage(error))
     }

@@ -116,14 +116,14 @@ export default function ProfitLossStatement() {
 
         <div className="flex items-center gap-2">
           <ProfitLossFilterOptions pagination={filters} setPagination={setFilters} />
-          <Button variant="outline" size="sm" onClick={handlePrint} className="gap-2">
+          {/* <Button variant="outline" size="sm" onClick={handlePrint} className="gap-2">
             <Printer className="h-4 w-4" />
             Print
-          </Button>
-          <Button variant="default" size="sm" onClick={handleExportCSV} className="gap-2">
+          </Button> */}
+          {/* <Button variant="default" size="sm" onClick={handleExportCSV} className="gap-2">
             <Download className="h-4 w-4" />
             Export CSV
-          </Button>
+          </Button> */}
         </div>
       </div>
 

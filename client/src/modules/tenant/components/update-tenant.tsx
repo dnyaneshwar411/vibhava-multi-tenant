@@ -1,7 +1,7 @@
 import { buttonVariants } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { tenantCreation, TenantCreationInput } from "../schema/create";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +15,9 @@ import AddTenantBasicInfo from "./add-tenant-basic-info";
 import AddTenantAddress from "./add-tenant-address";
 import AddTenantCommunication from "./add-tenant-communication";
 import { STAGE_FIELDS } from "../config";
+import useRevalidate from "@/hooks/useRevalidate";
+import { mutate } from "swr";
+import { resolveDialogClose } from "@/lib/helpers";
 
 export default function UpdateTenant({ tenant = {} }: {
   tenant: any
@@ -37,6 +40,7 @@ function FormContainer({ tenant }: {
   tenant: any
 }) {
   const [currentStage, setCurrentStage] = useState(0);
+  const dialogCloseRef = useRef<HTMLButtonElement | null>(null)
   const form = useForm<TenantCreationInput>({
     resolver: zodResolver(tenantCreation),
     mode: "all",
@@ -90,25 +94,29 @@ function FormContainer({ tenant }: {
       </DialogHeader>
 
       <div className="p-6 max-h-[60vh] overflow-y-auto">
+        <DialogClose ref={dialogCloseRef} />
         <RenderStage
           currentStage={currentStage}
           nextStep={nextStep}
           previousStep={previousStep}
           form={form}
           tenantId={tenant._id || ""}
+          close={resolveDialogClose(dialogCloseRef)}
         />
       </div>
     </div>
   );
 }
 
-function RenderStage({ currentStage, nextStep, previousStep, form, tenantId }: {
+function RenderStage({ currentStage, nextStep, previousStep, form, tenantId, close }: {
   currentStage: number;
   nextStep: () => void;
   previousStep: () => void;
   form: UseFormReturn<TenantCreationInput>;
-  tenantId: string
+  tenantId: string,
+  close: () => void
 }) {
+  const { update } = useRevalidate({ instant: [`/api/v1/lease/tenants/${tenantId}?`] })
   const onSubmit = async function () {
     try {
       const data: TenantCreationInput = form.getValues()
@@ -118,6 +126,8 @@ function RenderStage({ currentStage, nextStep, previousStep, form, tenantId }: {
       });
       if (response.code !== 200) throw new Error(response.message)
       toast.success(response.message || "Successfull")
+      update()
+      close()
     } catch (error) {
       toast.error(buildToastMessage(error))
     }

@@ -40,6 +40,7 @@ import { DeleteUser } from "@/modules/user/components/delete-user";
 import { buttonVariants } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { wordInitials } from "@/lib/helpers";
+import Secured from "@/components/common/Secured";
 
 type UserRow = {
   _id: string;
@@ -158,11 +159,13 @@ export default function Page() {
             />
           </div>
 
-          <CreateUser>
-            <span className={buttonVariants({ variant: "default" })}>
-              Create User
-            </span>
-          </CreateUser>
+          <Secured permissions={["user:create"]}>
+            <CreateUser>
+              <span className={buttonVariants({ variant: "default" })}>
+                Create User
+              </span>
+            </CreateUser>
+          </Secured>
         </div>
       </div>
 
@@ -276,17 +279,19 @@ export default function Page() {
                         View
                         <ArrowUpRight className="ml-1 size-4" />
                       </Link>
-                      <DeleteUser userId={user._id} userName={user.name}>
-                        <span
-                          className={buttonVariants({
-                            variant: "destructive",
-                            size: "sm",
-                          })}
-                        >
-                          <Trash2 className="mr-1 size-4" />
-                          Delete
-                        </span>
-                      </DeleteUser>
+                      <Secured permissions={["user:delete"]}>
+                        <DeleteUser userId={user._id} userName={user.name}>
+                          <span
+                            className={buttonVariants({
+                              variant: "destructive",
+                              size: "sm",
+                            })}
+                          >
+                            <Trash2 className="mr-1 size-4" />
+                            Delete
+                          </span>
+                        </DeleteUser>
+                      </Secured>
                     </div>
                   </TableCell>
                 </TableRow>

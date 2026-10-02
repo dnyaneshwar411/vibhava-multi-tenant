@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/empty";
 import CreatePropertyModal from "@/modules/properties/components/create-property-modal";
 import { format } from "date-fns";
+import Secured from "@/components/common/Secured";
 
 type Property = {
   _id: string;
@@ -122,11 +123,13 @@ export default function Page() {
             />
           </div>
 
-          <CreatePropertyModal>
-            <span className={buttonVariants({ variant: "default" })}>
-              Create Property
-            </span>
-          </CreatePropertyModal>
+          <Secured permissions={["property:create"]}>
+            <CreatePropertyModal>
+              <span className={buttonVariants({ variant: "default" })}>
+                Create Property
+              </span>
+            </CreatePropertyModal>
+          </Secured>
         </div>
       </div>
 
@@ -198,8 +201,8 @@ function PropertyCard({ property }: {
             {property.propertyType}
           </span>
           <span className={`inline-flex items-center gap-1.5 rounded-[4px] px-2.5 py-1 text-xs font-medium backdrop-blur-md border ${property.status === "Active"
-              ? "bg-emerald-950/80 text-emerald-400 border-emerald-800/50"
-              : "bg-amber-950/80 text-amber-400 border-amber-800/50"
+            ? "bg-emerald-950/80 text-emerald-400 border-emerald-800/50"
+            : "bg-amber-950/80 text-amber-400 border-amber-800/50"
             }`}>
             <span className={`h-1.5 w-1.5 rounded-full ${property.status === "Active" ? "bg-emerald-400 animate-pulse" : "bg-amber-400"}`} />
             {property.status}

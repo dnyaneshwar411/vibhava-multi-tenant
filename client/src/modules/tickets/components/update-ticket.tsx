@@ -79,7 +79,7 @@ function FormContainer({ ticket }: {
         </div>
       </DialogHeader>
 
-      <div className="p-6 max-h-[60vh] overflow-y-auto">
+      <div className="p-6 max-h-[60vh] overflow-y-auto relative z-100">
         <RenderStep
           currentStep={currentStep}
           nextStep={nextStep}

@@ -352,7 +352,10 @@ function RazorpayOrder({ rentDetails }: { rentDetails: any }) {
       })
       if (response.code !== 200) throw new Error(response.message)
       toast.success(response.message || "Loading Razorpay Modal")
-      setOrder(response.order)
+      setOrder({
+        ...response.order,
+        razorpayKeyId: response?.credentials?.key_id
+      })
     } catch (error) {
       toast.error(buildToastMessage(error));
     }

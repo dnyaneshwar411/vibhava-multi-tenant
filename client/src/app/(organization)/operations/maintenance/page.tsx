@@ -11,9 +11,13 @@ import api from "@/network/client"
 import { toast } from "sonner"
 import { buildToastMessage } from "@/lib/catchAsync"
 import TicketFilterOptions from "@/modules/tickets/components/ticket-filter-options"
+import Secured from "@/components/common/Secured"
+import EmptyState from "@/components/common/empty-state"
+import { Button } from "@/components/ui/button"
+import { FolderSearch, RotateCcw } from "lucide-react"
 
 export default function KanbanPage() {
-const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
     status: "Open,In Progress,Completed,Canceled",
@@ -62,7 +66,7 @@ const [pagination, setPagination] = useState({
     }
   }, [data, tickets])
 
-  const columnsToDisplay = useMemo(function() {
+  const columnsToDisplay = useMemo(function () {
     if (!boardData) return [];
     return COLUMN_ORDER.filter(column => boardData.columns[column].tickets.length > 0)
   }, [boardData])
@@ -85,109 +89,70 @@ const [pagination, setPagination] = useState({
     e.preventDefault()
   }
 
-  // const handleDrop = async (e: React.DragEvent, targetStatus: string) => {
-  //   console.log(targetStatus)
-  //   e.preventDefault()
-  //   setDragOverColumn(null)
-    
-  //   const ticketId = e.dataTransfer.getData("text/plain") || draggedTicketId
-  //   console.log(ticketId)
-  //   if (!ticketId) return
-  //   return
+  const handleDrop = async (e: React.DragEvent, targetStatus: string) => {
+    e.preventDefault();
+    setDragOverColumn(null);
 
-  //   const draggedTicket = tickets.find((t) => t._id === ticketId)
-  //   if (!draggedTicket || draggedTicket.status === targetStatus) return
+    const ticketId = e.dataTransfer.getData("text/plain") || draggedTicketId;
+    if (!ticketId) return;
 
-  //   setTickets((prev) =>
-  //     prev.map((ticket) =>
-  //       ticket._id === ticketId ? { ...ticket, status: targetStatus } : ticket
-  //     )
-  //   )
+    const draggedTicket = tickets.find((t) => t._id === ticketId);
+    if (!draggedTicket) return;
 
-  //   try {
-  //     const response = await api.patch(`/api/v1/maintenance/tickets/${ticketId}/status/${targetStatus}`, {
-  //       body: { status: targetStatus },
-  //     })
+    const columnContainer = document.getElementById(`column-${targetStatus}`);
+    const cardElements = columnContainer ? Array.from(columnContainer.querySelectorAll('[data-ticket-id]')) : [];
 
-  //     if (response.code !== 200) {
-  //       throw new Error(response.message);
-  //     }
+    let prevTicketId: string | undefined = undefined;
+    let nextTicketId: string | undefined = undefined;
 
-  //     toast.success(response.message || "Successfull");
-  //   } catch (err) {
-  //     toast.error(buildToastMessage(err))
-  //   } finally {
-  //     setDraggedTicketId(null)
-  //   }
-  // }
+    const mouseY = e.clientY;
+    let targetIndex = cardElements.length;
 
-const handleDrop = async (e: React.DragEvent, targetStatus: string) => {
-  e.preventDefault();
-  setDragOverColumn(null);
+    for (let i = 0; i < cardElements.length; i++) {
+      const rect = cardElements[i].getBoundingClientRect();
+      const cardMiddle = rect.top + rect.height / 2;
 
-  const ticketId = e.dataTransfer.getData("text/plain") || draggedTicketId;
-  if (!ticketId) return;
-
-  const draggedTicket = tickets.find((t) => t._id === ticketId);
-  if (!draggedTicket) return;
-
-  const columnContainer = document.getElementById(`column-${targetStatus}`);
-  const cardElements = columnContainer ? Array.from(columnContainer.querySelectorAll('[data-ticket-id]')) : [];
-
-  let prevTicketId: string | undefined = undefined;
-  let nextTicketId: string | undefined = undefined;
-
-  const mouseY = e.clientY;
-  let targetIndex = cardElements.length;
-
-  for (let i = 0; i < cardElements.length; i++) {
-    const rect = cardElements[i].getBoundingClientRect();
-    const cardMiddle = rect.top + rect.height / 2;
-
-    if (mouseY < cardMiddle) {
-      targetIndex = i;
-      break;
-    }
-  }
-
-  const targetColumnTickets = tickets.filter((t) => t.status === targetStatus && t._id !== ticketId);
-
-  if (targetIndex === 0) {
-    prevTicketId = undefined;
-    nextTicketId = targetColumnTickets[0]?._id || undefined;
-  } else if (targetIndex >= targetColumnTickets.length) {
-    prevTicketId = targetColumnTickets[targetColumnTickets.length - 1]?._id || undefined;
-    nextTicketId = undefined;
-  } else {
-    prevTicketId = targetColumnTickets[targetIndex - 1]._id;
-    nextTicketId = targetColumnTickets[targetIndex]._id;
-  }
-
-  // 3. Optimistic UI Update (reorder locally immediately)
-  // ... update local state array with new status & position if desired ...
-
-  try {
-    const response = await api.patch(`/api/v1/maintenance/tickets/${ticketId}/status/kanban`, {
-      body: {
-        status: targetStatus,
-        prevTicketId,
-        nextTicketId,
-      } as any
-    });
-
-    if (response.code !== 200 && response.status !== 200) {
-      throw new Error(response.message || "Failed to update position");
+      if (mouseY < cardMiddle) {
+        targetIndex = i;
+        break;
+      }
     }
 
-    toast.success("Ticket position updated successfully");
-    mutate();
-  } catch (err) {
-    toast.error(buildToastMessage(err));
-    mutate();
-  } finally {
-    setDraggedTicketId(null);
-  }
-};
+    const targetColumnTickets = tickets.filter((t) => t.status === targetStatus && t._id !== ticketId);
+
+    if (targetIndex === 0) {
+      prevTicketId = undefined;
+      nextTicketId = targetColumnTickets[0]?._id || undefined;
+    } else if (targetIndex >= targetColumnTickets.length) {
+      prevTicketId = targetColumnTickets[targetColumnTickets.length - 1]?._id || undefined;
+      nextTicketId = undefined;
+    } else {
+      prevTicketId = targetColumnTickets[targetIndex - 1]._id;
+      nextTicketId = targetColumnTickets[targetIndex]._id;
+    }
+
+    try {
+      const response = await api.patch(`/api/v1/maintenance/tickets/${ticketId}/status/kanban`, {
+        body: {
+          status: targetStatus,
+          prevTicketId,
+          nextTicketId,
+        } as any
+      });
+
+      if (response.code !== 200 && response.status !== 200) {
+        throw new Error(response.message || "Failed to update position");
+      }
+
+      toast.success("Ticket position updated successfully");
+      mutate();
+    } catch (err) {
+      toast.error(buildToastMessage(err));
+      mutate();
+    } finally {
+      setDraggedTicketId(null);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -219,7 +184,9 @@ const handleDrop = async (e: React.DragEvent, targetStatus: string) => {
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <CreateTicket />
+          <Secured permissions={["ticket:create"]}>
+            <CreateTicket />
+          </Secured>
           <TicketFilterOptions
             pagination={pagination}
             setPagination={setPagination}
@@ -227,6 +194,19 @@ const handleDrop = async (e: React.DragEvent, targetStatus: string) => {
         </div>
       </div>
 
+      {columnsToDisplay.length === 0 && 
+        <KanbanEmptyState
+          hasActiveFilters={Boolean(pagination.category || pagination.priority || pagination.property || pagination.unit)}
+          onResetFilters={() => setPagination({
+            page: 1,
+            limit: 10,
+            status: "Open,In Progress,Completed,Canceled",
+            category: "",
+            priority: "",
+            property: "",
+            unit: ""
+          })}
+        />}
       <ScrollArea className="flex-1 w-full whitespace-nowrap">
         <div className="flex space-x-4 p-1">
           {columnsToDisplay.map((status) => <KanbanBoardColumn
@@ -246,4 +226,40 @@ const handleDrop = async (e: React.DragEvent, targetStatus: string) => {
       </ScrollArea>
     </div>
   )
+}
+
+function KanbanEmptyState({ onResetFilters, hasActiveFilters }: {
+  onResetFilters?: () => void;
+  hasActiveFilters?: boolean;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center p-12 text-center border border-dashed bg-card/50 max-w-lg mx-auto my-12 shadow-sm">
+      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted mb-4">
+        <FolderSearch strokeWidth={0.5} className="h-8 w-8 text-muted-foreground" />
+      </div>
+      
+      <h3 className="text-lg font-semibold tracking-tight mb-1">
+        {hasActiveFilters ? "No matching tickets found" : "No maintenance tickets yet"}
+      </h3>
+      
+      <p className="text-sm text-muted-foreground mb-6 max-w-sm">
+        {hasActiveFilters
+          ? "Try adjusting your filters, search criteria, or category options to view more results."
+          : "Get started by creating your first maintenance ticket to track progress across columns."}
+      </p>
+
+      <div className="flex items-center gap-3">
+        {hasActiveFilters && onResetFilters && (
+          <Button variant="outline" size="sm" onClick={onResetFilters} className="gap-2">
+            <RotateCcw className="h-4 w-4" />
+            Reset Filters
+          </Button>
+        )}
+
+        <Secured permissions={["ticket:create"]}>
+          <CreateTicket />
+        </Secured>
+      </div>
+    </div>
+  );
 }

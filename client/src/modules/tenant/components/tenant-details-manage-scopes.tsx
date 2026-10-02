@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { ErrorState } from "@/components/ui/error";
 import { ComponentLoader } from "@/components/ui/loader";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +20,8 @@ import {
 import { toast } from "sonner";
 import { buildToastMessage } from "@/lib/catchAsync";
 import api from "@/network/client";
+import { useGlobalStore } from "@/providers/store-provider";
+import { cn } from "@/lib/utils";
 
 export const TENANT_SCOPES = [
   "tenant:read",
@@ -48,6 +50,7 @@ const SCOPE_DESCRIPTIONS: Record<TenantScope, { label: string; group: string }> 
 };
 
 export default function TenantDetailsManageScopes({ tenantId }: { tenantId: string }) {
+  const { scopeMap: scopesList } = useGlobalStore(state => state)
   const { isLoading, isValidating, data, error, mutate } = useFetch(
     `/api/v1/tenant/scope/${tenantId}`
   );
@@ -55,6 +58,8 @@ export default function TenantDetailsManageScopes({ tenantId }: { tenantId: stri
   const [scopesMap, setScopesMap] = useState<Record<string, boolean>>({});
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+
+  const canManageScopes = useMemo(() => scopesList["user:scopes:manage"], [scopesList]);
 
   useEffect(() => {
     if (data?.data) {
@@ -139,7 +144,7 @@ export default function TenantDetailsManageScopes({ tenantId }: { tenantId: stri
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        {canManageScopes && <div className="flex items-center gap-2">
           {isDirty && (
             <Button
               variant="outline"
@@ -158,7 +163,7 @@ export default function TenantDetailsManageScopes({ tenantId }: { tenantId: stri
           >
             <Save className="h-3.5 w-3.5" /> Save Changes
           </Button>
-        </div>
+        </div>}
       </div>
 
       <div className="space-y-4">
@@ -184,12 +189,13 @@ export default function TenantDetailsManageScopes({ tenantId }: { tenantId: stri
                     className="p-3.5 flex items-center justify-between gap-4 hover:bg-muted/20 transition-colors"
                   >
                     <div className="flex items-start gap-3">
-                      <Checkbox
+                      {canManageScopes && <Checkbox
                         id={scope}
                         checked={isEnabled}
                         onCheckedChange={() => handleToggle(scope)}
-                        className="mt-0.5 rounded-none border-muted focus-visible:ring-0"
-                      />
+                        className={cn("mt-0.5 rounded-none border-muted focus-visible:ring-0", !canManageScopes && "opacity-50")}
+                        disabled={!canManageScopes}
+                      />}
                       <div className="space-y-0.5">
                         <label
                           htmlFor={scope}

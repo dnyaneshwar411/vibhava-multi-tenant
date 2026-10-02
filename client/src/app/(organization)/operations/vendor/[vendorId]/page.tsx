@@ -28,6 +28,7 @@ import { useParams } from "next/navigation";
 import { useTabsContentNavigation } from "@/hooks/useTabsContentNavigation";
 import UpdateVendor from "@/modules/vendor/components/update-vendor";
 import { DeleteVendor } from "@/modules/vendor/components/delete-vendor";
+import Secured from "@/components/common/Secured";
 
 interface Address {
   street1: string;
@@ -120,14 +121,18 @@ export default function VendorDetailPage() {
 
             </div>
             <div className="ml-auto flex items-center gap-2">
-              <UpdateVendor vendor={vendor as any} />
+              <Secured permissions={["vendor:update"]}>
+                <UpdateVendor vendor={vendor as any} />
+              </Secured>
+              <Secured permissions={["vendor:delete"]}>
                 <DeleteVendor vendorId={vendor._id}>
                   <span className={buttonVariants({ variant: "destructive" })}>
                     <Trash2 className="!w-4 !h-4" strokeWidth={1.5} />
                     Delete
                   </span>
                 </DeleteVendor>
-              </div>
+              </Secured>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-3 border-t text-xs">

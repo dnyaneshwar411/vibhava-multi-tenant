@@ -26,11 +26,11 @@ export default function CreateRazorpayOrder({
       }
 
       const config = {
-        key: credentials.razorpayKeyId || ENV.RAZORPAY_KEY,
-        name: "Manu Arora Pvt Ltd",
+        key: credentials?.razorpayKeyId || ENV.RAZORPAY_KEY,
+        name: "Vibhava Systems",
         currency: options.currency,
         amount: options.amount,
-        order_id: options.id,
+        order_id: options.id || options.order_id,
         description: "Thankyou for your test donation",
         image: "https://manuarora.in/logo.png",
         handler: function () {
@@ -49,12 +49,12 @@ export default function CreateRazorpayOrder({
   const btn = useRef<HTMLButtonElement | null>(null)
 
   useEffect(function () {
-    if (options.id && triggerOnLoad && btn.current) {
+    if ((options.id || options.order_id) && triggerOnLoad && btn.current) {
       btn.current.click()
     }
   }, [triggerOnLoad, options])
 
-  if (!options?.id) {
+  if (!options?.id && !options.order_id) {
     return (
       <></>
     )

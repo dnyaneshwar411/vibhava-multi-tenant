@@ -22,6 +22,7 @@ import Link from "next/link";
 import VendorFilterOptions from "@/modules/vendor/components/vendor-filter-options";
 import EmptyState from "@/components/common/empty-state";
 import AddVendor from "@/modules/vendor/components/add-vendor";
+import Secured from "@/components/common/Secured";
 // import VendorFilterOptions from "@/modules/vendor/components/vendor-filter-options";
 // import AddVendor from "@/modules/vendor/components/add-vendor";
 
@@ -79,7 +80,9 @@ export default function Page() {
               className="pl-9 h-8 text-xs rounded-none border-muted focus-visible:ring-0 focus-visible:border-foreground"
             />
           </div>
-          <AddVendor />
+          <Secured permissions={["vendor:create"]}>
+            <AddVendor />
+          </Secured>
           <VendorFilterOptions
             pagination={pagination}
             setPagination={setPagination}

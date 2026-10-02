@@ -58,29 +58,31 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }
 
   const colors = data?.data?.organization?.branding?.colors || {};
-console.log(data.data.organization)
+
   // const colorVars = colors ? {
   //   "--primary": colors.primary,
   //   "--accent": colors.accent,
   //   "--background": colors.background,
   // } as React.CSSProperties : {}
 
-  const colorVars = colors ? {
-    "--primary": colors.primary,
-    "--accent": colors.accent,
-    "--background": colors.background,
+  // const colorVars = colors ? {
+  //   "--primary": colors.primary,
+  //   "--accent": colors.accent,
+  //   "--background": colors.background,
 
-    ...(colors.darkBackground && {
-      "--dark-background": colors.darkBackground,
-    }),
+  //   ...(colors.darkBackground && {
+  //     "--dark-background": colors.darkBackground,
+  //   }),
 
-    "--chart-1": colors.primary,
-    "--chart-2": colors.secondary,
-    "--chart-3": colors.accent,
-  } as React.CSSProperties : {};
+  //   "--chart-1": colors.primary,
+  //   "--chart-2": colors.secondary,
+  //   "--chart-3": colors.accent,
+  // } as React.CSSProperties : {};
 
   return (
-    <div style={colorVars}>
+    <div
+    // style={colorVars}
+    >
       <GlobalStoreProvider payload={data.data}>
         <SidebarProvider className="gap-0 max-w-screen">
           <OrganizationSidebar />

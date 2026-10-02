@@ -27,6 +27,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DeleteProperty } from "@/modules/properties/components/delete-property";
 import { UpdatePropertyDialog } from "@/modules/properties/components/update-property-dialog";
 import { cn } from "@/lib/utils";
+import Secured from "@/components/common/Secured";
 
 type GalleryItem = {
   key: string;
@@ -162,24 +163,27 @@ export default function Page() {
             </span>
           </Link>
 
-          <UpdatePropertyDialog property={property}>
-            <span className={buttonVariants({ variant: "outline", size: "sm" })}>
-              <Pencil className="mr-1 size-4" />
-              Edit
-            </span>
-          </UpdatePropertyDialog>
-
-          <DeleteProperty propertyId={property._id} propertyName={property.name}>
-            <span
-              className={cn(
-                buttonVariants({ variant: "destructive", size: "sm" }),
-                "gap-1"
-              )}
-            >
-              <Trash2 className="size-4" />
-              Delete
-            </span>
-          </DeleteProperty>
+          <Secured permissions={["property:update"]}>
+            <UpdatePropertyDialog property={property}>
+              <span className={buttonVariants({ variant: "outline", size: "sm" })}>
+                <Pencil className="mr-1 size-4" />
+                Edit
+              </span>
+            </UpdatePropertyDialog>
+          </Secured>
+          <Secured permissions={["property:delete"]}>
+            <DeleteProperty propertyId={property._id} propertyName={property.name}>
+              <span
+                className={cn(
+                  buttonVariants({ variant: "destructive", size: "sm" }),
+                  "gap-1"
+                )}
+              >
+                <Trash2 className="size-4" />
+                Delete
+              </span>
+            </DeleteProperty>
+          </Secured>
         </div>
       </div>
 

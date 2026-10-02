@@ -18,6 +18,7 @@ import { copyText } from "@/lib/helpers"
 import AddPaymentGateway from "@/modules/payment-gateway/components/add-payment-gateway"
 import UpdatePaymentGateway from "@/modules/payment-gateway/components/update-payment-gateway"
 import DeletePaymentGateway from "@/modules/payment-gateway/components/delete-payment-gateway"
+import Secured from "@/components/common/Secured"
 
 export default function PaymentGatewayPage() {
   const [copiedField, setCopiedField] = useState<string | null>(null)
@@ -79,7 +80,9 @@ export default function PaymentGatewayPage() {
             Configure third-party payment provider credentials, secret keys, and webhook signatures.
           </p>
         </div>
-        <AddPaymentGateway />
+        <Secured permissions={["payment-gateway:create"]}>
+          <AddPaymentGateway />
+        </Secured>
       </div>
 
       <div className="grid grid-cols-1 gap-0 border-t border-l md:grid-cols-3">
@@ -129,7 +132,9 @@ export default function PaymentGatewayPage() {
             </p>
           </div>
           <div className="pt-2">
-            <AddPaymentGateway />
+            <Secured permissions={["payment-gateway:create"]}>
+              <AddPaymentGateway />
+            </Secured>
           </div>
         </div>
       )}
@@ -173,8 +178,12 @@ export default function PaymentGatewayPage() {
                     </>
                   )}
                 </Button>
-                <UpdatePaymentGateway gateway={gateway} />
-                <DeletePaymentGateway gatewayType={gateway.type} />
+                <Secured permissions={["payment-gateway:update"]}>
+                  <UpdatePaymentGateway gateway={gateway} />
+                </Secured>
+                <Secured permissions={["payment-gateway:delete"]}>
+                  <DeletePaymentGateway gatewayType={gateway.type} />
+                </Secured>
               </div>
 
               <div className="space-y-4">

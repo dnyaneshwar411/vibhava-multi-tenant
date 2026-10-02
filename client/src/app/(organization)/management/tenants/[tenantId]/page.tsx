@@ -10,9 +10,6 @@ import {
   MessageSquare,
   ShieldCheck,
   Calendar,
-  Send,
-  MoreHorizontal,
-  KeyRound,
 } from "lucide-react";
 import TenantStatusBadge from "@/modules/tenant/components/tenant-status-badge";
 import useFetch from "@/hooks/useFetch";
@@ -27,12 +24,13 @@ import { useTabsContentNavigation } from "@/hooks/useTabsContentNavigation";
 import UpdateTenant from "@/modules/tenant/components/update-tenant";
 import DeleteTenant from "@/modules/tenant/components/delete-tenant";
 import { wordInitials } from "@/lib/helpers";
+import Secured from "@/components/common/Secured";
 
 export default function TenantDetailsPage() {
   const { tenantId } = useParams();
-  const { isLoading, data, error, mutate } = useFetch(`/api/v1/lease/tenants/${tenantId}`);
+  const { isLoading, isValidating, data, error, mutate } = useFetch(`/api/v1/lease/tenants/${tenantId}`);
 
-  if (isLoading) {
+  if (isLoading || isValidating) {
     return (
       <div className="border grow bg-card/50 p-12 flex items-center justify-center min-h-[450px]">
         <ComponentLoader />
@@ -101,20 +99,24 @@ export default function TenantDetailsPage() {
               >
                 <Send className="h-3.5 w-3.5" /> Direct Email
               </Button> */}
-              <UpdateTenant
-                tenant={{
-                  ...tenant,
-                  currentResidence: {
-                    unit: tenant?.currentResidence?.unit?._id,
-                    property: tenant?.currentResidence?.property?._id,
-                    activeLease: tenant?.currentResidence?.activeLease?._id,
-                    moveInDate: tenant?.currentResidence?.moveInDate
-                  },
-                }}
-              />
-              <DeleteTenant tenantId={tenant._id} tenantName={tenant.name}>
-                <Button variant="destructive">Delete</Button>
-              </DeleteTenant>
+              <Secured permissions={["tenant:update"]}>
+                <UpdateTenant
+                  tenant={{
+                    ...tenant,
+                    currentResidence: {
+                      unit: tenant?.currentResidence?.unit?._id,
+                      property: tenant?.currentResidence?.property?._id,
+                      activeLease: tenant?.currentResidence?.activeLease?._id,
+                      moveInDate: tenant?.currentResidence?.moveInDate
+                    },
+                  }}
+                />
+              </Secured>
+              <Secured permissions={["tenant:delete"]}>
+                <DeleteTenant tenantId={tenant._id} tenantName={tenant.name}>
+                  <Button variant="destructive">Delete</Button>
+                </DeleteTenant>
+              </Secured>
               {/* <Button variant="ghost" size="icon" className="h-8 w-8 rounded-none border">
                 <MoreHorizontal className="h-4 w-4" />
               </Button> */}

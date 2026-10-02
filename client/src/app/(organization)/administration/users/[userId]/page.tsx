@@ -23,6 +23,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { DeleteUser } from "@/modules/user/components/delete-user";
 import { UpdateUser } from "@/modules/user/components/update-user";
+import Secured from "@/components/common/Secured";
 
 type UserDetails = {
   _id: string;
@@ -146,23 +147,27 @@ export default function Page() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <UpdateUser user={user}>
-              <span className={buttonVariants({ variant: "outline", size: "sm" })}>
-                Edit
-              </span>
-            </UpdateUser>
+            <Secured permissions={["user:update"]}>
+              <UpdateUser user={user}>
+                <span className={buttonVariants({ variant: "outline", size: "sm" })}>
+                  Edit
+                </span>
+              </UpdateUser>
+            </Secured>
 
-            <DeleteUser userId={user._id} userName={user.name}>
-              <span
-                className={cn(
-                  buttonVariants({ variant: "destructive", size: "sm" }),
-                  "gap-1"
-                )}
-              >
-                <Trash2 className="size-4" />
-                Delete
-              </span>
-            </DeleteUser>
+            <Secured permissions={["user:delete"]}>
+              <DeleteUser userId={user._id} userName={user.name}>
+                <span
+                  className={cn(
+                    buttonVariants({ variant: "destructive", size: "sm" }),
+                    "gap-1"
+                  )}
+                >
+                  <Trash2 className="size-4" />
+                  Delete
+                </span>
+              </DeleteUser>
+            </Secured>
           </div>
         </div>
 

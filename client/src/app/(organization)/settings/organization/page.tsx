@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Copy, Image as ImageIcon, ExternalLink, Mail, Phone, User, Globe, Calendar, ShieldCheck } from "lucide-react"
 import UpdateOrganization from "@/modules/organization/components/update-organization"
 import { Organization } from "@/modules/organization/types"
+import Secured from "@/components/common/Secured"
 
 function SettingsSection({
   title,
@@ -94,7 +95,9 @@ export default function OrganizationPage() {
               </div>
             </div>
           </div>
+          <Secured permissions={["organization:update"]}>
             <UpdateOrganization organization={data.data} />
+          </Secured>
         </div>
       </div>
 

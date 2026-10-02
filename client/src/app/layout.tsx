@@ -33,7 +33,7 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
       <body className="dark min-h-full">
-        <SWRConfig value={{ revalidateOnFocus: false, revalidateIfStale: true }}>
+        <SWRConfig value={{ revalidateOnFocus: false, revalidateIfStale: false }}>
           {children}
           <Toaster />
         </SWRConfig>

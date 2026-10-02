@@ -21,6 +21,7 @@ import Link from "next/link";
 import TenantStatusBadge from "@/modules/tenant/components/tenant-status-badge";
 import TenantFilterOptions from "@/modules/tenant/components/tenant-filter-options";
 import AddTenant from "@/modules/tenant/components/add-tenant";
+import Secured from "@/components/common/Secured";
 interface Tenant {
   _id: string;
   name: string;
@@ -69,7 +70,9 @@ export default function Page() {
           {/* <Button size="sm" className="rounded-none text-xs gap-1.5 h-8">
             <Plus className="h-3.5 w-3.5" /> Add Tenant
           </Button> */}
-          <AddTenant />
+          <Secured permissions={["tenant:create"]}>
+            <AddTenant />
+          </Secured>
           <TenantFilterOptions
             pagination={pagination}
             setPagination={setPagination}

@@ -98,17 +98,22 @@ function RenderStep({ currentStep, nextStep, previousStep, form, onSuccess }: {
       toast.error(buildToastMessage(error))
     }
   }
-  switch (currentStep) {
-    case 0:
-      return <PaymentGatewayCreationProvider
-        form={form}
-        nextStep={nextStep}
-      />
-    case 1:
-      return <PaymentGatewayCreationCredentials
-        form={form}
-        nextStep={onSubmit}
-        previousStep={previousStep}
-      />
-  }
+  return <PaymentGatewayCreationCredentials
+    form={form}
+    nextStep={onSubmit}
+    previousStep={previousStep}
+  />
+  // switch (currentStep) {
+  //   case 0:
+  //     return <PaymentGatewayCreationProvider
+  //       form={form}
+  //       nextStep={nextStep}
+  //     />
+  //   case 1:
+  //     return <PaymentGatewayCreationCredentials
+  //       form={form}
+  //       nextStep={onSubmit}
+  //       previousStep={previousStep}
+  //     />
+  // }
 }

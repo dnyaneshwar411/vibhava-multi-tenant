@@ -2,10 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, UseFormReturn } from "react-hook-form"
 import { LeaseCreationInput, leaseCreationSchema } from "../schemas/lease-creation"
 import { addMonths, format } from "date-fns"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { buttonVariants } from "@/components/ui/button"
 import { Scale, Sparkles } from "lucide-react"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import api from "@/network/client"
 import { toast } from "sonner"
@@ -15,6 +15,8 @@ import CreateLeaseSpacePeople from "./create-lease-space-people"
 import CreateLeaseDatesDuration from "./create-lease-dates-duration"
 import CreateLeaseFinanceAgreement from "./create-lease-finance-agreement"
 import CreateLeaseDocument from "./create-lease-document"
+import useRevalidate from "@/hooks/useRevalidate"
+import { resolveDialogClose } from "@/lib/helpers"
 
 export default function CreateLease() {
   return (
@@ -33,6 +35,7 @@ export default function CreateLease() {
 }
 function FormContainer() {
   const [currentStep, setCurrentStep] = useState(0);
+  const dialogCloseRef = useRef<HTMLButtonElement>(null)
 
   const form = useForm({
     resolver: zodResolver(leaseCreationSchema),
@@ -85,23 +88,28 @@ function FormContainer() {
         <DialogDescription className="text-xs text-muted-foreground mt-1">
           Create Lease identity, assign residence details, and configure messaging channels.
         </DialogDescription>
+        <DialogClose ref={dialogCloseRef} />
         <RenderStep
           currentStep={currentStep}
           nextStep={nextStep}
           previousStep={previousStep}
           form={form}
+          close={resolveDialogClose(dialogCloseRef)}
         />
       </DialogHeader>
     </div>
   )
 }
 
-function RenderStep({ currentStep, nextStep, previousStep, form }: {
+function RenderStep({ currentStep, nextStep, previousStep, form, close }: {
   currentStep: number;
   nextStep: () => void;
   previousStep: () => void;
   form: UseFormReturn<LeaseCreationInput>;
+  close: () => void
 }) {
+  const { update } = useRevalidate({ groupedInstant: ["/api/v1/lease"] });
+
   const onSubmit = async function () {
     try {
       const data: LeaseCreationInput = form.getValues()
@@ -111,6 +119,8 @@ function RenderStep({ currentStep, nextStep, previousStep, form }: {
       });
       if (response.code !== 200) throw new Error(response.message)
       toast.success(response.message || "Successfull")
+      update()
+      close()
     } catch (error) {
       toast.error(buildToastMessage(error))
     }

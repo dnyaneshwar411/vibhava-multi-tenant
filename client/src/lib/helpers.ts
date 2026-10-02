@@ -38,3 +38,9 @@ export const validHTTPURL = function (urlString: string): boolean {
 export const buildObjectURL = function (file: File) {
   return URL.createObjectURL(file);
 }
+
+export const resolveDialogClose = function (closeRef: any) {
+  return closeRef
+    ? () => { if (closeRef.current) closeRef.current.click() }
+    : () => { }
+}

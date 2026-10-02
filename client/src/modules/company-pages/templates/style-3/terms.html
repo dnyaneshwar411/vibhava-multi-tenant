@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms of Service · Premier Property Management</title>
+<meta name="description" content="The terms governing use of the PremierPM tenant portal, rental applications, holding fees, listing accuracy, and limitation of liability for property upkeep reporting.">
+<style>
+/* ============================================================
+   DESIGN TOKENS — Editorial / Content-First (Editorial Minimal)
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0;padding:0}
+
+:root{
+  --ink:#1c1917;
+  --ink-2:#3f3a35;
+  --ink-3:#57534e;
+  --muted:#78716c;
+  --muted-2:#a8a29e;
+
+  --paper:#faf7f2;
+  --paper-2:#f5f0e8;
+  --surface:#ffffff;
+  --surface-2:#fdfbf7;
+
+  --rule:#e7e0d5;
+  --rule-2:#d8cfbf;
+  --rule-3:#c4b8a3;
+
+  --accent:#8b3a2e;
+  --accent-2:#6b2c1f;
+  --accent-soft:rgba(139,58,46,.08);
+
+  --serif:Georgia,'Iowan Old Style','Palatino Linotype','Book Antiqua',Palatino,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+
+  --max:1180px;
+  --measure:64ch;
+  --header-h:4.5rem;
+}
+
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:6rem}
+
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.7;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none;transition:color .16s ease}
+button,input,select,textarea{font:inherit;color:inherit}
+ul,ol{list-style:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1,h2,h3,h4{
+  font-family:var(--serif);
+  font-weight:400;
+  letter-spacing:-.015em;
+  line-height:1.18;
+  color:var(--ink);
+}
+h1{font-size:clamp(2.35rem,5vw,4rem);letter-spacing:-.025em;line-height:1.06}
+h2{font-size:clamp(1.5rem,2.6vw,2.05rem);letter-spacing:-.02em;line-height:1.22}
+h3{font-size:1.15rem;line-height:1.3}
+h4{font-size:1rem;line-height:1.35}
+
+p{color:var(--ink-2);line-height:1.78}
+p + p{margin-top:1.1rem}
+
+.kicker{
+  font-family:var(--sans);
+  font-size:.72rem;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+.kicker.quiet{color:var(--muted)}
+
+.link{
+  color:var(--accent);
+  border-bottom:1px solid rgba(139,58,46,.4);
+  padding-bottom:1px;
+  transition:border-color .16s ease,color .16s ease;
+}
+.link:hover{color:var(--accent-2);border-bottom-color:var(--accent)}
+
+/* ============================================================
+   LAYOUT PRIMITIVES
+   ============================================================ */
+.container{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:1.5rem}
+.container-narrow{width:100%;max-width:760px;margin-inline:auto;padding-inline:1.5rem}
+
+.section{padding:5rem 0}
+.section-tight{padding:3rem 0}
+
+.rule{height:1px;background:var(--rule);border:0}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header{
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  position:relative;
+  z-index:40;
+}
+.header-top{
+  border-bottom:1px solid var(--rule);
+  padding:.55rem 0;
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.header-top-inner{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:1.5rem;flex-wrap:wrap;
+}
+.header-top-inner span{white-space:nowrap}
+.header-top-inner .dot{
+  display:inline-block;width:.28rem;height:.28rem;
+  background:var(--accent);border-radius:50%;
+  margin:0 .55rem;vertical-align:middle;transform:translateY(-1px);
+}
+.header-main{padding:1.5rem 0 1.25rem;border-bottom:1px solid var(--rule)}
+.header-main-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:2rem;flex-wrap:wrap;
+}
+.masthead{display:flex;flex-direction:column;align-items:flex-start;gap:.15rem}
+.masthead-name{
+  font-family:var(--serif);font-size:1.85rem;
+  letter-spacing:-.03em;line-height:1;color:var(--ink);
+}
+.masthead-name em{font-style:italic;color:var(--accent)}
+.masthead-tag{
+  font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);margin-top:.35rem;
+}
+.header-contact{
+  font-size:.82rem;color:var(--ink-2);text-align:right;line-height:1.65;
+}
+.header-contact a{border-bottom:1px solid var(--rule-2);padding-bottom:1px}
+.header-contact a:hover{border-bottom-color:var(--accent);color:var(--accent)}
+
+.nav-bar{
+  border-bottom:1px solid var(--rule);
+  background:var(--paper);
+  position:sticky;top:0;z-index:50;
+}
+.nav-bar-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1.5rem;padding:.85rem 0;
+}
+.nav{display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.nav a{
+  font-size:.78rem;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);
+  padding:.25rem 0;border-bottom:1px solid transparent;
+  transition:color .16s ease,border-color .16s ease;
+}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+.nav a[aria-current="page"]{color:var(--accent);border-bottom-color:var(--accent)}
+.nav-toggle{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.burger{
+  display:none;width:2.5rem;height:2.5rem;
+  border:1px solid var(--rule-2);background:var(--surface);
+  cursor:pointer;align-items:center;justify-content:center;
+  flex-direction:column;gap:4px;
+}
+.burger span{display:block;width:16px;height:1.5px;background:var(--ink)}
+.nav-cta{
+  font-size:.78rem;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);
+  padding:.25rem 0;border-bottom:1px solid var(--accent);
+  white-space:nowrap;
+}
+.nav-cta:hover{color:var(--accent-2)}
+
+/* ============================================================
+   DOCUMENT HERO
+   ============================================================ */
+.doc-hero{
+  padding:4rem 0 3.5rem;
+  border-bottom:1px solid var(--rule);
+}
+.doc-hero-inner{max-width:820px}
+.doc-hero .kicker{display:block;margin-bottom:1.5rem}
+.doc-hero .kicker .dot{
+  display:inline-block;width:.35rem;height:.35rem;
+  background:var(--accent);border-radius:50%;
+  margin-right:.6rem;vertical-align:middle;transform:translateY(-2px);
+}
+.doc-hero h1{margin-bottom:1.5rem;max-width:16ch}
+.doc-hero .subhead{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:1.2rem;
+  line-height:1.55;
+  color:var(--ink-3);
+  max-width:52ch;
+  margin-bottom:2rem;
+}
+
+.doc-meta{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2rem;
+  padding-top:2rem;
+  border-top:1px solid var(--rule);
+  max-width:820px;
+}
+.doc-meta dt{
+  font-size:.68rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:.4rem;
+}
+.doc-meta dd{
+  font-family:var(--serif);
+  font-size:1rem;
+  color:var(--ink);
+  line-height:1.4;
+}
+
+/* ============================================================
+   READING LAYOUT — sticky TOC + document body
+   ============================================================ */
+.reading{padding:4.5rem 0 5rem}
+
+.reading-grid{
+  display:grid;
+  grid-template-columns:minmax(0,230px) minmax(0,1fr);
+  gap:5rem;
+  align-items:start;
+}
+
+/* Table of contents */
+.toc{
+  position:sticky;
+  top:6rem;
+  padding-top:.5rem;
+}
+.toc .kicker.quiet{
+  display:block;
+  margin-bottom:1.25rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid var(--rule);
+}
+.toc ol{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+}
+.toc li{border-bottom:1px solid var(--rule)}
+.toc li:last-child{border-bottom:0}
+.toc a{
+  display:grid;
+  grid-template-columns:2rem 1fr;
+  gap:.5rem;
+  padding:.7rem 0;
+  font-family:var(--sans);
+  font-size:.86rem;
+  color:var(--ink-3);
+  line-height:1.45;
+  transition:color .16s ease;
+  align-items:baseline;
+}
+.toc a:hover{color:var(--accent)}
+.toc-num{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:.9rem;
+  color:var(--accent);
+  letter-spacing:.02em;
+}
+
+/* Document body */
+.doc-body{
+  max-width:var(--measure);
+}
+.doc-body section{
+  padding-bottom:3rem;
+  margin-bottom:3rem;
+  border-bottom:1px solid var(--rule);
+}
+.doc-body section:last-of-type{
+  border-bottom:0;
+  padding-bottom:0;
+  margin-bottom:0;
+}
+
+.doc-body h2{
+  display:grid;
+  grid-template-columns:3rem 1fr;
+  gap:1rem;
+  align-items:baseline;
+  margin-bottom:1.5rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid var(--rule);
+  max-width:none;
+}
+.sec-num{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:1.35rem;
+  color:var(--accent);
+  letter-spacing:.02em;
+  line-height:1;
+  padding-top:.15rem;
+}
+.sec-title{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:inherit;
+  line-height:1.22;
+  letter-spacing:-.02em;
+}
+
+.doc-body h3{
+  margin-top:2rem;
+  margin-bottom:.9rem;
+  display:grid;
+  grid-template-columns:3rem 1fr;
+  gap:1rem;
+  align-items:baseline;
+  font-size:1.02rem;
+  letter-spacing:-.005em;
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:600;
+}
+.sub-num{
+  font-family:var(--sans);
+  font-weight:600;
+  font-size:.82rem;
+  color:var(--accent);
+  letter-spacing:.08em;
+}
+
+.doc-body p{
+  font-size:1.02rem;
+  color:var(--ink-2);
+}
+
+/* Body lists */
+.doc-body ul,
+.doc-body ol.numbered{
+  margin:1.15rem 0 1.35rem;
+  display:flex;
+  flex-direction:column;
+  gap:.85rem;
+}
+.doc-body ul li{
+  position:relative;
+  padding-left:1.5rem;
+  font-size:.98rem;
+  color:var(--ink-2);
+  line-height:1.7;
+}
+.doc-body ul li::before{
+  content:"—";
+  position:absolute;
+  left:0;
+  color:var(--accent);
+  font-weight:400;
+}
+
+.doc-body ol.numbered{counter-reset:item;list-style:none}
+.doc-body ol.numbered li{
+  counter-increment:item;
+  position:relative;
+  padding-left:2.75rem;
+  font-size:.98rem;
+  color:var(--ink-2);
+  line-height:1.7;
+}
+.doc-body ol.numbered li::before{
+  content:"(" counter(item,lower-alpha) ")";
+  position:absolute;
+  left:0;
+  top:0;
+  font-family:var(--serif);
+  font-style:italic;
+  color:var(--accent);
+  font-size:.95rem;
+  letter-spacing:.02em;
+}
+
+.doc-body strong{font-weight:600;color:var(--ink)}
+.doc-body em{font-style:italic;color:var(--ink-3)}
+
+/* Definition list */
+.doc-terms{
+  margin:1.5rem 0;
+  border-top:1px solid var(--rule);
+}
+.doc-terms > div{
+  display:grid;
+  grid-template-columns:minmax(0,180px) minmax(0,1fr);
+  gap:2rem;
+  padding:1.35rem 0;
+  border-bottom:1px solid var(--rule);
+  align-items:baseline;
+}
+.doc-terms > div:last-child{border-bottom:0}
+.doc-terms dt{
+  font-family:var(--serif);
+  font-size:1.05rem;
+  color:var(--ink);
+  line-height:1.35;
+  letter-spacing:-.01em;
+}
+.doc-terms dd{
+  font-size:.95rem;
+  color:var(--ink-2);
+  line-height:1.7;
+}
+
+/* Margin note */
+.margin-note{
+  margin:2rem 0;
+  padding:1.35rem 1.5rem;
+  background:var(--surface-2);
+  border-left:3px solid var(--accent);
+  font-family:var(--sans);
+}
+.margin-note .note-label{
+  font-size:.68rem;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:.5rem;
+}
+.margin-note p{
+  font-size:.92rem;
+  color:var(--ink-3);
+  line-height:1.7;
+  font-family:var(--sans);
+}
+
+/* Pull quote */
+.doc-pull{
+  margin:2rem 0;
+  padding:1.75rem 0;
+  border-top:1px solid var(--rule-2);
+  border-bottom:1px solid var(--rule-2);
+  text-align:center;
+}
+.doc-pull p{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:1.28rem;
+  line-height:1.45;
+  letter-spacing:-.012em;
+  color:var(--ink);
+  max-width:36ch;
+  margin:0 auto;
+}
+
+/* Cross-reference link */
+.xref{
+  display:inline-block;
+  font-family:var(--sans);
+  font-size:.8rem;
+  font-weight:600;
+  letter-spacing:.04em;
+  color:var(--accent);
+  border-bottom:1px solid rgba(139,58,46,.4);
+  padding-bottom:1px;
+}
+.xref:hover{color:var(--accent-2);border-bottom-color:var(--accent)}
+
+/* ============================================================
+   END-OF-DOCUMENT — contact block
+   ============================================================ */
+.doc-contact{
+  margin-top:4rem;
+  padding-top:3rem;
+  border-top:2px double var(--rule-2);
+}
+.doc-contact .kicker{display:block;margin-bottom:1rem}
+.doc-contact h2{
+  display:block;
+  grid-template-columns:none;
+  max-width:22ch;
+  margin-bottom:1.25rem;
+  padding-bottom:0;
+  border-bottom:0;
+  font-size:clamp(1.4rem,2.4vw,1.75rem);
+}
+.doc-contact > p{
+  max-width:56ch;
+  font-size:1rem;
+  color:var(--ink-3);
+  margin-bottom:2rem;
+}
+
+.contact-rows{border-top:1px solid var(--rule)}
+.contact-row{
+  display:grid;
+  grid-template-columns:minmax(0,180px) minmax(0,1fr);
+  gap:2rem;
+  padding:1.15rem 0;
+  border-bottom:1px solid var(--rule);
+  align-items:baseline;
+}
+.contact-row:last-child{border-bottom:0}
+.contact-row dt{
+  font-size:.68rem;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.contact-row dd{
+  font-family:var(--serif);
+  font-size:1.05rem;
+  color:var(--ink);
+  line-height:1.5;
+}
+.contact-row dd a{
+  border-bottom:1px solid rgba(139,58,46,.4);
+  padding-bottom:1px;
+  transition:border-color .16s ease,color .16s ease;
+}
+.contact-row dd a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ============================================================
+   SUBSCRIBE / CTA
+   ============================================================ */
+.subscribe{
+  padding:5rem 0;
+  background:var(--paper-2);
+  border-top:1px solid var(--rule);
+}
+.subscribe-inner{
+  max-width:760px;
+  margin:0 auto;
+  text-align:center;
+}
+.subscribe-inner .kicker{display:block;margin-bottom:1.25rem}
+.subscribe-inner h2{max-width:22ch;margin:0 auto 1.25rem}
+.subscribe-inner p{
+  font-size:1.02rem;
+  color:var(--ink-3);
+  max-width:56ch;
+  margin:0 auto 2.5rem;
+}
+.subscribe-actions{
+  display:flex;
+  gap:2.5rem;
+  justify-content:center;
+  align-items:baseline;
+  flex-wrap:wrap;
+}
+.subscribe-actions .link-lg{
+  font-size:.82rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);
+  border-bottom:1px solid var(--accent);
+  padding-bottom:2px;
+}
+.subscribe-actions .link-lg:hover{color:var(--accent-2);border-bottom-color:var(--accent-2)}
+.subscribe-actions .link-quiet{
+  font-size:.82rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);
+  border-bottom:1px solid var(--rule-2);
+  padding-bottom:2px;
+}
+.subscribe-actions .link-quiet:hover{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer{
+  background:var(--paper);
+  border-top:1px solid var(--rule);
+  padding:4rem 0 2rem;
+  margin-top:auto;
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.6fr) 1fr 1fr 1.3fr;
+  gap:3rem;
+  padding-bottom:3rem;
+  border-bottom:1px solid var(--rule);
+}
+.footer-brand .masthead-name{font-size:1.5rem}
+.footer-brand p{
+  font-size:.88rem;color:var(--muted);
+  margin-top:1.15rem;max-width:38ch;line-height:1.7;
+}
+.footer-col h4{
+  font-size:.68rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:1.25rem;
+}
+.footer-col li + li{margin-top:.65rem}
+.footer-col a,.footer-col span{
+  font-size:.88rem;color:var(--ink-3);line-height:1.6;
+}
+.footer-col a{border-bottom:1px solid transparent;transition:border-color .16s ease,color .16s ease}
+.footer-col a:hover{color:var(--accent);border-bottom-color:rgba(139,58,46,.4)}
+.footer-bottom{
+  padding-top:1.75rem;
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  font-size:.78rem;color:var(--muted);letter-spacing:.02em;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1080px){
+  .reading-grid{grid-template-columns:1fr;gap:2.5rem}
+  .toc{position:static;padding-top:0}
+  .toc ol{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:0 2rem;
+  }
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2.5rem}
+  .doc-meta{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+}
+
+@media (max-width:900px){
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--surface);border:1px solid var(--rule);border-top:0;padding:0}
+  .nav a{padding:1rem 1.5rem;border-bottom:1px solid var(--rule);font-size:.82rem}
+  .nav a:last-child{border-bottom:0}
+  .burger{display:flex}
+  .nav-toggle:checked ~ .nav-bar-inner .nav{display:flex}
+}
+
+@media (max-width:780px){
+  .doc-meta{grid-template-columns:1fr 1fr}
+  .doc-body h2{grid-template-columns:2.25rem 1fr;gap:.75rem}
+  .doc-body h3{grid-template-columns:2.25rem 1fr;gap:.75rem}
+  .sec-num{font-size:1.15rem}
+  .doc-terms > div{grid-template-columns:1fr;gap:.35rem;padding:1.1rem 0}
+  .contact-row{grid-template-columns:1fr;gap:.35rem;padding:1rem 0}
+}
+
+@media (max-width:680px){
+  .section{padding:3.5rem 0}
+  .section-tight{padding:2.25rem 0}
+  .header-top{display:none}
+  .header-main{padding:1.25rem 0}
+  .masthead-name{font-size:1.5rem}
+  .header-contact{text-align:left;width:100%}
+  .doc-hero{padding:3rem 0 2.5rem}
+  .doc-meta{grid-template-columns:1fr}
+  .toc ol{grid-template-columns:1fr}
+  .reading{padding:3rem 0 3.5rem}
+  .footer-grid{grid-template-columns:1fr;gap:2rem}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .doc-pull p{font-size:1.1rem}
+}
+
+@media (max-width:520px){
+  body{font-size:16px}
+  .container,.container-narrow{padding-inline:1.15rem}
+  .doc-hero h1{font-size:1.95rem}
+  .doc-hero .subhead{font-size:1.08rem}
+  .doc-body h2{grid-template-columns:1fr;gap:.35rem}
+  .doc-body h3{grid-template-columns:1fr;gap:.35rem}
+  .subscribe-actions{flex-direction:column;gap:1.25rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none !important;animation:none !important}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+
+  <div class="header-top">
+    <div class="container header-top-inner">
+      <span>Vol. XII <span class="dot"></span> Property Management &amp; Leasing</span>
+      <span>City Center <span class="dot"></span> Est. 2012</span>
+      <span>Issue No. 248 <span class="dot"></span> March 2025</span>
+    </div>
+  </div>
+
+  <div class="header-main">
+    <div class="container header-main-inner">
+      <a href="/" class="masthead">
+        <span class="masthead-name">Premier <em>Property</em> Management</span>
+        <span class="masthead-tag">Transparent leasing · Well-kept homes · The metro since 2012</span>
+      </a>
+
+      <div class="header-contact">
+        <a href="mailto:legal@premierpm.example">legal@premierpm.example</a><br>
+        <a href="tel:+15550123456">(555) 012-3456</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <div class="container nav-bar-inner">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav class="nav" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/c/about">About</a>
+        <a href="/c/contact">Contact</a>
+        <a href="/c/policy">Privacy</a>
+        <a href="/c/terms" aria-current="page">Terms</a>
+      </nav>
+
+      <a href="/c/contact" class="nav-cta">Contact Us →</a>
+
+      <label for="nav-toggle" class="burger" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </label>
+    </div>
+  </div>
+
+</header>
+
+<main>
+
+  <!-- ================= DOCUMENT HERO ================= -->
+  <section class="doc-hero">
+    <div class="container">
+      <div class="doc-hero-inner">
+
+        <span class="kicker"><span class="dot"></span>Legal Document <span style="margin-left:.6rem;color:var(--muted);letter-spacing:.14em">· Policy No. 02</span></span>
+
+        <h1>Terms of Service</h1>
+
+        <p class="subhead">
+          The agreement that governs your use of the PremierPM website and tenant portal, the
+          handling of rental applications and holding fees, the accuracy of our listings, and the
+          limits of our liability for property upkeep reporting.
+        </p>
+
+        <dl class="doc-meta">
+          <div>
+            <dt>Effective Date</dt>
+            <dd>March 1, 2025</dd>
+          </div>
+          <div>
+            <dt>Last Reviewed</dt>
+            <dd>March 1, 2025</dd>
+          </div>
+          <div>
+            <dt>Document Code</dt>
+            <dd>PM-TERMS-02</dd>
+          </div>
+          <div>
+            <dt>Applies To</dt>
+            <dd>Website, tenant portal, applications, and all managed properties</dd>
+          </div>
+        </dl>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= READING LAYOUT ================= -->
+  <section class="reading">
+    <div class="container">
+      <div class="reading-grid">
+
+        <!-- Sticky table of contents -->
+        <aside class="toc" aria-label="Table of contents">
+          <span class="kicker quiet">Contents</span>
+          <ol>
+            <li><a href="#s1"><span class="toc-num">1.</span><span>Acceptance of Terms</span></a></li>
+            <li><a href="#s2"><span class="toc-num">2.</span><span>Portal Usage Agreement</span></a></li>
+            <li><a href="#s3"><span class="toc-num">3.</span><span>Application &amp; Holding Fees</span></a></li>
+            <li><a href="#s4"><span class="toc-num">4.</span><span>Listing Accuracy Disclaimer</span></a></li>
+            <li><a href="#s5"><span class="toc-num">5.</span><span>Resident Conduct &amp; Property Rules</span></a></li>
+            <li><a href="#s6"><span class="toc-num">6.</span><span>Limitation of Liability</span></a></li>
+            <li><a href="#s7"><span class="toc-num">7.</span><span>Indemnification</span></a></li>
+            <li><a href="#s8"><span class="toc-num">8.</span><span>Suspension &amp; Termination</span></a></li>
+            <li><a href="#s9"><span class="toc-num">9.</span><span>Governing Law &amp; Disputes</span></a></li>
+            <li><a href="#s10"><span class="toc-num">10.</span><span>Changes to These Terms</span></a></li>
+          </ol>
+        </aside>
+
+        <!-- Document body -->
+        <article class="doc-body">
+
+          <!-- Preamble -->
+          <section style="border-bottom:1px solid var(--rule);padding-bottom:2.5rem;margin-bottom:3rem">
+            <p style="font-size:1.05rem">
+              These Terms of Service ("Terms") form a binding agreement between you and Premier
+              Property Management ("PremierPM", "we", "us"). They apply to anyone who visits our
+              website, submits a rental application, uses the tenant portal, or occupies a unit in
+              a building we manage.
+            </p>
+            <p>
+              Please read them carefully. If you do not agree with any part of these Terms, do not
+              use the portal or submit an application. Where a signed lease or a separate written
+              management agreement conflicts with these Terms, the signed lease or agreement
+              controls for the specific matter it addresses.
+            </p>
+          </section>
+
+          <!-- Section 1 -->
+          <section id="s1">
+            <h2>
+              <span class="sec-num" aria-hidden="true">1.</span>
+              <span class="sec-title">Acceptance of Terms</span>
+            </h2>
+
+            <p>
+              By accessing our website, creating a portal account, submitting an application, or
+              signing a lease for a managed property, you confirm that you have read, understood,
+              and agreed to be bound by these Terms.
+            </p>
+
+            <p>
+              These Terms fill the gaps that a signed lease or management agreement does not
+              explicitly address. Where the two documents overlap on a specific matter, the signed
+              lease or agreement controls that matter, and these Terms apply to everything else.
+            </p>
+
+            <div class="margin-note">
+              <div class="note-label">If you do not agree</div>
+              <p>
+                If you do not accept these Terms, do not create a portal account, submit an
+                application, or sign a lease. You can still browse listings and contact our
+                leasing office by phone or email without accepting them.
+              </p>
+            </div>
+          </section>
+
+          <!-- Section 2 -->
+          <section id="s2">
+            <h2>
+              <span class="sec-num" aria-hidden="true">2.</span>
+              <span class="sec-title">Portal Usage Agreement</span>
+            </h2>
+
+            <p>
+              The PremierPM tenant portal lets residents pay rent, submit maintenance requests,
+              view documents, and manage their lease. Access is granted to verified residents and
+              authorized applicants only.
+            </p>
+
+            <h3><span class="sub-num">2.1</span><span>Your account</span></h3>
+            <ul>
+              <li>You must provide accurate, current information when registering.</li>
+              <li>You are responsible for keeping your password confidential and for all activity under your account.</li>
+              <li>You must notify us immediately if you suspect unauthorized access.</li>
+              <li>Accounts are personal. Do not share your login with anyone outside your household.</li>
+            </ul>
+
+            <h3><span class="sub-num">2.2</span><span>Acceptable use</span></h3>
+            <ul>
+              <li>Do not attempt to access accounts, units, or records that do not belong to you.</li>
+              <li>Do not scrape, crawl, or bulk-download portal content.</li>
+              <li>Do not upload files containing malware or attempt to compromise portal security.</li>
+              <li>Do not use the portal to harass staff, other residents, or vendors.</li>
+            </ul>
+
+            <h3><span class="sub-num">2.3</span><span>Service availability</span></h3>
+            <p>
+              We aim to keep the portal available at all times, but we do not guarantee
+              uninterrupted access. Scheduled maintenance is announced in advance. Emergency
+              maintenance may occur without notice.
+            </p>
+            <p>
+              Rent is still due on its scheduled date even if the portal is briefly unavailable.
+              If you cannot access the portal on a payment date, call the office and we will
+              arrange an alternative.
+            </p>
+          </section>
+
+          <!-- Section 3 -->
+          <section id="s3">
+            <h2>
+              <span class="sec-num" aria-hidden="true">3.</span>
+              <span class="sec-title">Application &amp; Holding Fee Terms</span>
+            </h2>
+
+            <p>
+              Before you submit an application, review the fee terms below. They are strict and
+              applied consistently to every applicant.
+            </p>
+
+            <dl class="doc-terms">
+              <div>
+                <dt>Application fee — non-refundable</dt>
+                <dd>Every adult applicant pays a non-refundable application fee to cover the cost of credit, background, and rental history screening. This fee is not refunded whether your application is approved or denied.</dd>
+              </div>
+              <div>
+                <dt>Holding fee — conditionally applied</dt>
+                <dd>A holding fee may be required to take a unit off the market while your application is processed and your lease is prepared. If you sign the lease, the holding fee is applied to your first month's rent. If you fail to sign within the agreed window, the holding fee is forfeited, except where local law requires a refund.</dd>
+              </div>
+              <div>
+                <dt>Security deposit — separate from fees</dt>
+                <dd>A security deposit is collected at lease signing and held according to state and local law. It is not the same as the holding fee and is not applied to rent.</dd>
+              </div>
+              <div>
+                <dt>Processing timeline</dt>
+                <dd>Applications are typically reviewed within two to three business days, depending on how quickly your references and screening partners respond.</dd>
+              </div>
+            </dl>
+
+            <div class="margin-note">
+              <div class="note-label">Non-refundable means non-refundable</div>
+              <p>
+                The application fee is not returned if you are approved and change your mind, and
+                it is not returned if you are denied for any reason. It pays for the screening
+                work we commission before we can make any decision.
+              </p>
+            </div>
+
+            <h3><span class="sub-num">3.1</span><span>What we screen for</span></h3>
+            <ul>
+              <li>Identity verification against a government-issued photo ID.</li>
+              <li>Credit history and any prior eviction filings.</li>
+              <li>Verified income sufficient to meet the stated income-to-rent ratio.</li>
+              <li>Landlord references for your two most recent tenancies, where available.</li>
+            </ul>
+
+            <p>
+              Rental criteria are published in writing and applied to every applicant for the same
+              unit. We do not negotiate screening standards on an individual basis.
+            </p>
+          </section>
+
+          <!-- Section 4 -->
+          <section id="s4">
+            <h2>
+              <span class="sec-num" aria-hidden="true">4.</span>
+              <span class="sec-title">Listing Accuracy Disclaimer</span>
+            </h2>
+
+            <p>
+              We work hard to keep our listings current and accurate. Even so, listings change
+              quickly and mistakes happen.
+            </p>
+
+            <h3><span class="sub-num">4.1</span><span>Availability &amp; pricing</span></h3>
+            <ul>
+              <li><strong>Availability</strong> — a unit shown as available may be placed under application or taken off the market at any time.</li>
+              <li><strong>Pricing</strong> — advertised rent is subject to change until a lease is signed. Concessions and specials have their own terms and expiration dates.</li>
+            </ul>
+
+            <h3><span class="sub-num">4.2</span><span>Measurements &amp; amenities</span></h3>
+            <ul>
+              <li><strong>Measurements</strong> — square footage, room dimensions, and lot sizes are approximate and may vary from unit to unit within the same floor plan.</li>
+              <li><strong>Amenities</strong> — amenities shown may be available in some buildings but not others, and building services can be temporarily unavailable for repairs or seasonal closures.</li>
+              <li><strong>Images</strong> — photographs and floor plans are for illustration and may show a model unit, not the exact unit you will lease.</li>
+            </ul>
+
+            <p>
+              We encourage every prospective resident to tour the specific unit they intend to rent
+              and to confirm all details in writing before signing a lease. Nothing on the website
+              constitutes an offer to lease.
+            </p>
+
+            <div class="doc-pull">
+              <p>“A listing is an invitation to look. It is not a promise of what the unit will be.”</p>
+            </div>
+          </section>
+
+          <!-- Section 5 -->
+          <section id="s5">
+            <h2>
+              <span class="sec-num" aria-hidden="true">5.</span>
+              <span class="sec-title">Resident Conduct &amp; Property Rules</span>
+            </h2>
+
+            <p>
+              Your lease contains the full set of building rules. The points below summarize the
+              conduct requirements that affect how we operate shared systems.
+            </p>
+
+            <ul>
+              <li>Report damage, leaks, and safety hazards promptly through the maintenance portal.</li>
+              <li>Provide reasonable access for scheduled inspections and repairs as required by your lease and local law.</li>
+              <li>Do not interfere with building systems, common areas, or other residents' quiet enjoyment.</li>
+              <li>Follow the pet policy in your lease, including registration and any applicable pet fees.</li>
+              <li>Dispose of waste in the designated areas and follow building recycling rules.</li>
+            </ul>
+
+            <p>
+              Failure to follow building rules may result in a written notice and, if the issue
+              continues, in enforcement action under the terms of your lease.
+            </p>
+          </section>
+
+          <!-- Section 6 -->
+          <section id="s6">
+            <h2>
+              <span class="sec-num" aria-hidden="true">6.</span>
+              <span class="sec-title">Limitation of Liability</span>
+            </h2>
+
+            <p>
+              To the fullest extent permitted by law, PremierPM is not liable for indirect,
+              incidental, special, or consequential damages arising from your use of the website,
+              the portal, or our management services.
+            </p>
+
+            <h3><span class="sub-num">6.1</span><span>Property upkeep reporting</span></h3>
+            <p>
+              Residents are responsible for reporting maintenance issues in a timely and accurate
+              manner. We are not liable for damage that results from a maintenance issue you failed
+              to report, or from a delay caused by a vendor's schedule that is beyond our
+              reasonable control.
+            </p>
+
+            <p>
+              We are also not liable for service interruptions to utilities, internet, or building
+              systems caused by third-party providers, severe weather, or other events outside our
+              control.
+            </p>
+
+            <h3><span class="sub-num">6.2</span><span>Cap on liability</span></h3>
+            <p>
+              Where liability cannot be excluded entirely, our total liability to you for any claim
+              arising out of these Terms or your tenancy is limited to the total amount of rent you
+              have paid to us in the twelve months preceding the event giving rise to the claim.
+            </p>
+
+            <div class="margin-note">
+              <div class="note-label">Statutory rights preserved</div>
+              <p>
+                Nothing in these Terms limits rights you hold under applicable landlord-tenant law,
+                fair housing law, or consumer protection law that cannot be waived by contract.
+              </p>
+            </div>
+          </section>
+
+          <!-- Section 7 -->
+          <section id="s7">
+            <h2>
+              <span class="sec-num" aria-hidden="true">7.</span>
+              <span class="sec-title">Indemnification</span>
+            </h2>
+
+            <p>
+              You agree to indemnify and hold PremierPM harmless from any claim, loss, or expense —
+              including reasonable legal fees — arising from:
+            </p>
+
+            <ul>
+              <li>Your breach of these Terms or of your lease.</li>
+              <li>Your misuse of the tenant portal.</li>
+              <li>Damage to property or injury to persons caused by you, your household, or your guests.</li>
+              <li>Information you submit that is false, misleading, or incomplete.</li>
+            </ul>
+
+            <p>
+              This obligation survives the end of your tenancy or your portal account.
+            </p>
+          </section>
+
+          <!-- Section 8 -->
+          <section id="s8">
+            <h2>
+              <span class="sec-num" aria-hidden="true">8.</span>
+              <span class="sec-title">Suspension &amp; Termination</span>
+            </h2>
+
+            <p>
+              We may suspend or terminate portal access if you breach these Terms, if your account
+              shows signs of compromise, or if continuing access would create a security or legal
+              risk.
+            </p>
+
+            <h3><span class="sub-num">8.1</span><span>Effect on your lease</span></h3>
+            <p>
+              Terminating portal access does not terminate your lease. Rent obligations,
+              maintenance reporting duties, and all other lease terms remain in effect. Where
+              possible, we will provide an alternative method for you to pay rent and submit
+              maintenance requests.
+            </p>
+
+            <h3><span class="sub-num">8.2</span><span>Closing your own account</span></h3>
+            <p>
+              You may close your portal account at any time by contacting the leasing office. Some
+              records are retained after closure as described in our
+              <a href="/c/policy" class="link">Privacy Policy</a>.
+            </p>
+          </section>
+
+          <!-- Section 9 -->
+          <section id="s9">
+            <h2>
+              <span class="sec-num" aria-hidden="true">9.</span>
+              <span class="sec-title">Governing Law &amp; Disputes</span>
+            </h2>
+
+            <p>
+              These Terms are governed by the laws of the state in which the managed property is
+              located, without regard to conflict-of-law rules.
+            </p>
+
+            <p>
+              Before pursuing formal action, we ask that you contact our office so we can attempt
+              to resolve the issue directly. Most concerns — billing questions, maintenance
+              delays, renewal terms — are settled at that stage.
+            </p>
+
+            <p>
+              If a dispute cannot be resolved informally, it will be handled in the courts of the
+              county where the property is located, unless applicable law requires a different
+              forum or process.
+            </p>
+
+            <div class="margin-note">
+              <div class="note-label">Talk to us first</div>
+              <p>
+                Nearly every disagreement we have ever had with a resident was resolved by a phone
+                call. If you are unsure how to reach the right person, our
+                <a href="/c/contact" class="link">contact page</a> lists who handles what.
+              </p>
+            </div>
+          </section>
+
+          <!-- Section 10 -->
+          <section id="s10">
+            <h2>
+              <span class="sec-num" aria-hidden="true">10.</span>
+              <span class="sec-title">Changes to These Terms</span>
+            </h2>
+
+            <p>
+              We may update these Terms from time to time to reflect changes in our services, in
+              the law, or in how the portal operates.
+            </p>
+
+            <p>
+              When we make a material change, we will update the effective date at the top of this
+              page and post a notice in the tenant portal and in building common areas. Continued
+              use of the portal or continued tenancy after the change takes effect constitutes
+              acceptance of the updated Terms.
+            </p>
+
+            <p>
+              If you do not agree with an update, you may stop using the portal. Your lease
+              continues to be governed by its own terms, including any notice provisions it
+              contains.
+            </p>
+          </section>
+
+          <!-- End-of-document contact block -->
+          <div class="doc-contact">
+            <span class="kicker">Questions &amp; Requests</span>
+            <h2>Contact our legal &amp; leasing team.</h2>
+            <p>
+              If anything in this document is unclear, or if you need a copy of the rental criteria
+              or a sample lease before applying, reach us using the details below.
+            </p>
+
+            <dl class="contact-rows">
+              <div class="contact-row">
+                <dt>Email</dt>
+                <dd><a href="mailto:legal@premierpm.example">legal@premierpm.example</a></dd>
+              </div>
+              <div class="contact-row">
+                <dt>Phone</dt>
+                <dd><a href="tel:+15550123456">(555) 012-3456</a> · Mon–Fri, 9:00 – 18:00</dd>
+              </div>
+              <div class="contact-row">
+                <dt>Postal Address</dt>
+                <dd>Premier Property Management<br>Attn: Legal<br>450 Harrison Avenue, Suite 12<br>City Center, ST 10024</dd>
+              </div>
+              <div class="contact-row">
+                <dt>Rental Criteria</dt>
+                <dd>Available on request · <a href="mailto:leasing@premierpm.example">leasing@premierpm.example</a></dd>
+              </div>
+              <div class="contact-row">
+                <dt>Related Documents</dt>
+                <dd>
+                  <a href="/c/policy" class="xref">Privacy Policy</a> ·
+                  <a href="/c/contact" class="xref">Contact the Leasing Office</a>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="subscribe">
+    <div class="container-narrow">
+      <div class="subscribe-inner">
+        <span class="kicker">Related Document</span>
+        <h2>How we handle the personal data behind every application.</h2>
+        <p>
+          Our Privacy Policy covers screening documents, lease logs, rent records, and the rights
+          you hold over your own information.
+        </p>
+
+        <div class="subscribe-actions">
+          <a href="/c/policy" class="link-lg">Read the Privacy Policy →</a>
+          <a href="/c/contact" class="link-quiet">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container">
+
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="masthead">
+          <span class="masthead-name">Premier <em>Property</em> Management</span>
+          <span class="masthead-tag">Transparent leasing · Well-kept homes · The metro since 2012</span>
+        </a>
+        <p>
+          Property management and leasing for the modern city. We look after more than 250
+          residential units with the same attention to detail you would want in your own home.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/c/about">About</a></li>
+          <li><a href="/c/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/c/policy">Privacy Policy</a></li>
+          <li><a href="/c/terms">Terms of Service</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+15550123456">(555) 012-3456</a></li>
+          <li><a href="mailto:legal@premierpm.example">legal@premierpm.example</a></li>
+          <li><span>450 Harrison Avenue, Suite 12<br>City Center, ST 10024</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 Premier Property Management. All rights reserved.</span>
+      <span>Equal Housing Opportunity · Licensed Property Manager #PM-44821</span>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

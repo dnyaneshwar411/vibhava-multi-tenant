@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premier Property Management &amp; Leasing in the City</title>
+<meta name="description" content="Transparent leasing, well-maintained apartments, and 24/7 maintenance. Premier Property Management operates 250+ residential units across the metro.">
+<style>
+/* ============================================================
+   DESIGN TOKENS — Bold & Vibrant / Creative Studio
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0;padding:0}
+
+:root{
+  --ink:#0d0d12;
+  --ink-2:#3a3a44;
+  --muted:#71717a;
+  --muted-2:#a1a1aa;
+
+  --bg:#fdf7ef;
+  --surface:#ffffff;
+  --surface-2:#f5ede1;
+
+  --coral:#ff4d2e;
+  --coral-dark:#e63a1e;
+  --violet:#7c3aed;
+  --violet-dark:#6d28d9;
+  --electric:#2563ff;
+  --lime:#c8ff00;
+  --sun:#ffd93d;
+
+  --border:#ebe2d5;
+  --border-2:#d9cdba;
+
+  --radius-sm:10px;
+  --radius:18px;
+  --radius-lg:28px;
+  --radius-pill:999px;
+
+  --shadow-sm:0 2px 6px -1px rgb(13 13 18 / .06), 0 2px 4px -2px rgb(13 13 18 / .04);
+  --shadow-md:0 18px 40px -18px rgb(13 13 18 / .22), 0 6px 14px -6px rgb(13 13 18 / .08);
+  --shadow-lg:0 40px 80px -30px rgb(13 13 18 / .30);
+
+  --max:1240px;
+  --header-h:4.75rem;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+}
+
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:6.5rem}
+
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+ul{list-style:none}
+:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:4px}
+
+/* ============================================================
+   TYPOGRAPHY — big, confident, high contrast
+   ============================================================ */
+h1,h2,h3,h4{font-weight:800;letter-spacing:-.035em;line-height:1.02;color:var(--ink)}
+h1{font-size:clamp(2.75rem,8.5vw,6.75rem);letter-spacing:-.045em;line-height:.96}
+h2{font-size:clamp(2rem,4.6vw,3.5rem);line-height:1.02}
+h3{font-size:1.15rem;font-weight:700;letter-spacing:-.02em}
+p{color:var(--ink-2)}
+.lead{font-size:1.125rem;line-height:1.6;color:var(--ink-2)}
+.accent{color:var(--coral)}
+
+/* Marker highlight */
+.mark{
+  background-image:linear-gradient(180deg,transparent 58%,var(--coral) 58%,var(--coral) 92%,transparent 92%);
+  padding:0 .08em;
+}
+
+/* ============================================================
+   LAYOUT PRIMITIVES
+   ============================================================ */
+.container{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:1.5rem}
+.section{padding:6rem 0}
+.section-tight{padding:3.5rem 0}
+
+.eyebrow-pill{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.45rem 1rem;border-radius:var(--radius-pill);
+  background:var(--surface);border:1px solid var(--border);
+  font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);box-shadow:var(--shadow-sm);
+}
+.eyebrow-pill::before{
+  content:"";width:.5rem;height:.5rem;border-radius:50%;background:var(--coral);
+  box-shadow:0 0 0 4px rgba(255,77,46,.18);
+}
+
+.section-head{max-width:720px;margin-bottom:3.5rem}
+.section-head.center{margin-inline:auto;text-align:center}
+.section-head h2{margin-bottom:1rem}
+.section-head .lead{max-width:56ch}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header{
+  position:sticky;top:0;z-index:60;
+  background:rgba(253,247,239,.82);
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid transparent;
+  transition:border-color .2s ease;
+}
+.header-inner{position:relative}
+.header-bar{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;height:var(--header-h)}
+
+.brand{display:inline-flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.15rem;letter-spacing:-.04em;color:var(--ink)}
+.brand-mark{
+  position:relative;flex:none;width:2rem;height:2rem;border-radius:9px;
+  background:var(--ink);display:grid;place-items:center;color:var(--lime);
+  font-size:.9rem;font-weight:900;
+}
+.brand-mark::after{content:"◆";font-size:.7rem;line-height:1}
+
+.nav{display:flex;align-items:center;gap:.25rem}
+.nav a{
+  display:inline-block;padding:.55rem 1rem;border-radius:var(--radius-pill);
+  font-size:.92rem;font-weight:600;color:var(--ink-2);
+  transition:background .18s ease,color .18s ease;
+}
+.nav a:hover{color:var(--ink);background:var(--surface-2)}
+.nav a[aria-current="page"]{color:#fff;background:var(--ink);font-weight:700}
+
+.header-actions{display:flex;align-items:center;gap:.75rem}
+
+.nav-toggle{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.burger{
+  display:none;width:2.75rem;height:2.75rem;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  border:1px solid var(--border);border-radius:var(--radius-pill);background:var(--surface);cursor:pointer;
+}
+.burger span{display:block;width:16px;height:2px;background:var(--ink);border-radius:2px;transition:transform .22s ease,opacity .22s ease}
+
+/* ============================================================
+   BUTTONS — pill shaped
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
+  padding:.85rem 1.6rem;border-radius:var(--radius-pill);
+  font-size:.95rem;font-weight:700;letter-spacing:-.005em;
+  border:1.5px solid transparent;cursor:pointer;white-space:nowrap;
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease,color .18s ease;
+}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral);box-shadow:0 6px 18px -6px rgba(255,77,46,.55)}
+.btn-primary:hover{background:var(--coral-dark);border-color:var(--coral-dark);transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(255,77,46,.7)}
+.btn-dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-dark:hover{background:#000;transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-ghost{background:var(--surface);color:var(--ink);border-color:var(--border-2)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-lg{padding:1.05rem 2rem;font-size:1rem}
+.btn-block{width:100%}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{padding:4.5rem 0 5rem;position:relative;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;top:-20%;left:50%;transform:translateX(-50%);
+  width:1000px;height:1000px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,77,46,.10),transparent 62%);
+  pointer-events:none;z-index:0;
+}
+.hero::after{
+  content:"";position:absolute;bottom:-30%;right:-15%;
+  width:800px;height:800px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.10),transparent 62%);
+  pointer-events:none;z-index:0;
+}
+.hero-inner{position:relative;z-index:1;text-align:center;display:flex;flex-direction:column;align-items:center}
+
+.hero h1{max-width:15ch;margin:1.75rem 0 1.75rem}
+.hero .lead{max-width:60ch;margin-bottom:2.25rem}
+.hero-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center}
+
+/* Overlapping mockups */
+.hero-stage{
+  position:relative;
+  margin-top:5rem;
+  width:100%;
+  max-width:1080px;
+  display:grid;
+  grid-template-columns:1fr 1.25fr 1fr;
+  align-items:center;
+  gap:0;
+}
+
+.mockup{
+  position:relative;
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border);
+  background:var(--surface);
+  box-shadow:var(--shadow-md);
+  overflow:hidden;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.mockup:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+
+.mockup-thumb{
+  position:relative;aspect-ratio:4/3;
+  background:
+    linear-gradient(140deg,#f1e9dc 0%,#e6d9c4 100%);
+  overflow:hidden;
+}
+.mockup-thumb::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(150,130,105,.18) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(150,130,105,.18) 1px,transparent 1px);
+  background-size:26px 26px;
+}
+.mockup-thumb span{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8a7657;
+}
+.mockup-body{padding:1.25rem 1.35rem 1.4rem}
+.mockup-name{font-size:.98rem;font-weight:800;letter-spacing:-.02em}
+.mockup-addr{font-size:.8rem;color:var(--muted);margin-top:.2rem}
+.mockup-specs{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;font-size:.8rem;color:var(--ink-2);padding-top:.85rem;margin-top:.85rem;border-top:1px solid var(--border)}
+.mockup-price{font-size:1.35rem;font-weight:800;letter-spacing:-.035em;margin-top:.6rem}
+.mockup-price small{font-size:.76rem;font-weight:500;color:var(--muted);letter-spacing:0}
+.mockup-badge{
+  position:absolute;top:1rem;left:1rem;z-index:2;
+  background:var(--lime);color:var(--ink);
+  font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  padding:.35rem .75rem;border-radius:var(--radius-pill);
+}
+
+/* Side mockups overlap behind */
+.mockup-side{transform:scale(.9);opacity:.92;z-index:1}
+.mockup-side--left{transform:scale(.88) translateX(8%) rotate(-3deg)}
+.mockup-side--right{transform:scale(.88) translateX(-8%) rotate(3deg)}
+.mockup-side:hover{transform:scale(.9) translateY(-6px)}
+.mockup-side--left:hover{transform:scale(.88) translateX(8%) rotate(-3deg) translateY(-6px)}
+.mockup-side--right:hover{transform:scale(.88) translateX(-8%) rotate(3deg) translateY(-6px)}
+
+.mockup-center{z-index:3;transform:translateY(-12px)}
+.mockup-center:hover{transform:translateY(-18px)}
+
+/* Floating chips */
+.float-chip{
+  position:absolute;z-index:4;
+  background:var(--ink);color:#fff;
+  padding:.75rem 1.1rem;border-radius:var(--radius-pill);
+  font-size:.8rem;font-weight:700;letter-spacing:-.01em;
+  box-shadow:var(--shadow-md);
+  display:flex;align-items:center;gap:.5rem;
+  animation:float 5s ease-in-out infinite;
+}
+.float-chip span{color:var(--lime)}
+.float-chip--tl{top:6%;left:2%}
+.float-chip--br{bottom:8%;right:2%;animation-delay:-2.5s}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+.marquee{
+  background:var(--ink);color:#fff;
+  padding:1.35rem 0;overflow:hidden;
+  border-block:2px solid var(--ink);
+}
+.marquee-track{
+  display:flex;gap:0;width:max-content;
+  animation:scroll 42s linear infinite;
+}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-group{display:flex;align-items:center;gap:2.5rem;padding-right:2.5rem}
+.marquee-item{
+  display:inline-flex;align-items:center;gap:2.5rem;
+  font-size:1.05rem;font-weight:800;letter-spacing:-.015em;
+  white-space:nowrap;
+}
+.marquee-item::after{
+  content:"◆";color:var(--coral);font-size:.65rem;
+}
+.marquee-item--lime::after{color:var(--lime)}
+.marquee-item--violet::after{color:var(--violet)}
+.marquee-item--sun::after{color:var(--sun)}
+
+@keyframes scroll{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .marquee-track{animation:none}
+  .float-chip{animation:none}
+}
+
+/* ============================================================
+   FEATURED PROPERTIES
+   ============================================================ */
+.prop-grid{
+  display:grid;
+  grid-template-columns:1.15fr 1fr 1fr;
+  gap:1.5rem;
+  align-items:start;
+}
+.prop-card{
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.prop-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--border-2)}
+.prop-card--lg{grid-row:span 1}
+
+.prop-thumb{
+  position:relative;aspect-ratio:16/11;
+  background:linear-gradient(140deg,#f1e9dc 0%,#e6d9c4 100%);
+  overflow:hidden;
+}
+.prop-thumb::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(150,130,105,.18) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(150,130,105,.18) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.prop-thumb span{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8a7657;
+}
+.prop-body{padding:1.5rem 1.5rem 1.6rem}
+.prop-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;margin-bottom:.35rem}
+.prop-title{font-size:1.05rem;font-weight:800;letter-spacing:-.02em;line-height:1.25}
+.prop-addr{font-size:.84rem;color:var(--muted);margin-bottom:1rem}
+.prop-specs{
+  display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;font-size:.84rem;color:var(--ink-2);
+  padding:.9rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:1.1rem;
+}
+.prop-foot{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.prop-price{font-size:1.45rem;font-weight:800;letter-spacing:-.04em;line-height:1}
+.prop-price small{font-size:.74rem;font-weight:500;color:var(--muted);letter-spacing:0}
+
+/* Tags */
+.tag{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.3rem .7rem;border-radius:var(--radius-pill);
+  font-size:.66rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.tag--coral{background:rgba(255,77,46,.12);color:var(--coral-dark)}
+.tag--violet{background:rgba(124,58,237,.12);color:var(--violet-dark)}
+.tag--electric{background:rgba(37,99,255,.12);color:var(--electric)}
+.tag--lime{background:var(--lime);color:var(--ink)}
+.tag--ink{background:var(--ink);color:#fff}
+
+/* ============================================================
+   BENTO — WHY RENT WITH US
+   ============================================================ */
+.bento{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;
+}
+
+.tile{
+  position:relative;
+  border-radius:var(--radius-lg);
+  padding:2rem 1.9rem 2.1rem;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  min-height:230px;
+  transition:transform .22s ease,box-shadow .22s ease;
+}
+.tile:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+
+.tile--coral{background:var(--coral);color:#fff;grid-column:span 2}
+.tile--violet{background:var(--violet);color:#fff}
+.tile--electric{background:var(--electric);color:#fff}
+.tile--lime{background:var(--lime);color:var(--ink);grid-column:span 1}
+.tile--ink{background:var(--ink);color:#fff;grid-column:span 3}
+
+.tile-icon{
+  width:3rem;height:3rem;border-radius:14px;
+  background:rgba(255,255,255,.18);
+  display:grid;place-items:center;margin-bottom:auto;
+}
+.tile--lime .tile-icon{background:rgba(13,13,18,.12)}
+
+.tile h3{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;margin:1.75rem 0 .6rem;line-height:1.15}
+.tile p{font-size:.98rem;line-height:1.55;color:inherit;opacity:.88}
+
+.tile--ink .tile-inner{
+  display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:2rem;align-items:center;
+}
+.tile--ink h3{margin:0 0 .4rem;font-size:1.35rem}
+.tile--ink .stat-value{font-size:2.5rem;font-weight:900;letter-spacing:-.05em;line-height:1;color:var(--lime)}
+.tile--ink .stat-label{font-size:.8rem;color:#a1a1aa;margin-top:.4rem}
+
+/* ============================================================
+   PRICING
+   ============================================================ */
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;align-items:stretch}
+
+.plan{
+  position:relative;
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:2.25rem 2rem;
+  display:flex;flex-direction:column;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.plan:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);border-color:var(--border-2)}
+
+.plan--featured{
+  background:var(--ink);color:#fff;border-color:var(--ink);
+  box-shadow:var(--shadow-lg);
+  transform:translateY(-8px);
+}
+.plan--featured:hover{transform:translateY(-13px)}
+.plan--featured .plan-name,
+.plan--featured .plan-price{color:#fff}
+.plan--featured .plan-desc{color:#a1a1aa}
+.plan--featured .plan li{color:#e4e4e7}
+.plan--featured .plan li::before{color:var(--lime)}
+.plan--featured .plan-price small{color:#a1a1aa}
+
+.plan-tag{
+  position:absolute;top:-.85rem;left:2rem;
+  background:var(--lime);color:var(--ink);
+  font-size:.68rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+  padding:.4rem .9rem;border-radius:var(--radius-pill);
+}
+.plan-name{font-size:1.15rem;font-weight:800;letter-spacing:-.025em}
+.plan-desc{font-size:.9rem;color:var(--muted);margin-top:.5rem;min-height:2.8em;line-height:1.5}
+.plan-price{font-size:2.75rem;font-weight:900;letter-spacing:-.05em;margin:1.5rem 0 .25rem;line-height:1}
+.plan-price small{display:block;font-size:.8rem;font-weight:500;color:var(--muted);letter-spacing:0;margin-top:.45rem}
+.plan ul{margin:1.75rem 0 2rem;display:grid;gap:.7rem}
+.plan li{display:flex;gap:.65rem;align-items:flex-start;font-size:.92rem;color:var(--ink-2);line-height:1.5}
+.plan li::before{content:"✓";font-size:.9rem;font-weight:900;color:var(--coral);line-height:1.55}
+.plan .btn{margin-top:auto}
+
+/* ============================================================
+   BIG CTA
+   ============================================================ */
+.cta-block{
+  position:relative;overflow:hidden;
+  border-radius:var(--radius-lg);
+  padding:4.5rem 3.5rem;
+  background:linear-gradient(135deg,var(--violet) 0%,var(--coral) 100%);
+  color:#fff;
+  display:grid;grid-template-columns:1.4fr 1fr;gap:3rem;align-items:center;
+}
+.cta-block::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 15% 20%,rgba(255,255,255,.22),transparent 42%),
+    radial-gradient(circle at 85% 80%,rgba(200,255,0,.18),transparent 42%);
+  pointer-events:none;
+}
+.cta-block > *{position:relative;z-index:1}
+.cta-block h2{color:#fff;font-size:clamp(2rem,4vw,3rem);max-width:18ch}
+.cta-block p{color:rgba(255,255,255,.85);max-width:48ch;margin-top:1rem;font-size:1.0625rem}
+.cta-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:flex-end}
+.cta-block .btn-primary{background:#fff;color:var(--ink);border-color:#fff;box-shadow:0 8px 24px -8px rgba(0,0,0,.4)}
+.cta-block .btn-primary:hover{background:#fff;color:var(--coral-dark);transform:translateY(-2px)}
+.cta-block .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.cta-block .btn-ghost:hover{background:rgba(255,255,255,.12);border-color:#fff}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer{background:var(--ink);color:#fff;padding:5rem 0 2rem;margin-top:auto}
+.footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1.3fr;gap:3rem}
+.footer-brand .brand{color:#fff}
+.footer-brand .brand-mark{background:var(--coral);color:#fff}
+.footer-brand p{color:#a1a1aa;font-size:.9rem;margin-top:1.25rem;max-width:34ch;line-height:1.6}
+.footer-col h4{
+  font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:#71717a;margin-bottom:1.25rem;
+}
+.footer-col li + li{margin-top:.7rem}
+.footer-col a,.footer-col span{font-size:.92rem;color:#d4d4d8}
+.footer-col a:hover{color:var(--lime)}
+.footer-bottom{
+  margin-top:4rem;padding-top:1.75rem;border-top:1px solid #27272a;
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  font-size:.82rem;color:#71717a;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1080px){
+  .prop-grid{grid-template-columns:1fr 1fr}
+  .prop-card--lg{grid-column:span 2}
+  .tile--coral{grid-column:span 2}
+  .tile--ink{grid-column:span 3}
+  .tile--ink .tile-inner{grid-template-columns:1fr 1fr;gap:1.75rem}
+}
+
+@media (max-width:960px){
+  .hero-stage{grid-template-columns:1fr;max-width:520px;gap:1.5rem;margin-top:3.5rem}
+  .mockup-side{transform:none;opacity:1}
+  .mockup-center{transform:none}
+  .mockup-side--left,
+  .mockup-side--right{transform:none}
+  .mockup-side:hover,
+  .mockup-side--left:hover,
+  .mockup-side--right:hover{transform:translateY(-6px)}
+  .mockup-center:hover{transform:translateY(-6px)}
+  .float-chip{display:none}
+
+  .pricing{grid-template-columns:1fr;max-width:520px;margin-inline:auto}
+  .plan--featured{transform:none}
+  .plan--featured:hover{transform:translateY(-5px)}
+
+  .cta-block{grid-template-columns:1fr;padding:3rem 2rem;gap:2rem}
+  .cta-actions{justify-content:flex-start}
+
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+
+@media (max-width:900px){
+  .burger{display:flex}
+  .header-cta{display:none}
+  .nav{
+    position:absolute;top:calc(100% + 1px);left:0;right:0;
+    display:none;flex-direction:column;align-items:stretch;gap:.35rem;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    margin:0 1rem;padding:.75rem;
+    box-shadow:var(--shadow-md);
+  }
+  .nav a{padding:.75rem 1rem;border-radius:var(--radius-sm)}
+  .nav-toggle:checked ~ .header-bar .nav{display:flex}
+  .nav-toggle:checked ~ .header-bar .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle:checked ~ .header-bar .burger span:nth-child(2){opacity:0}
+  .nav-toggle:checked ~ .header-bar .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+}
+
+@media (max-width:780px){
+  .bento{grid-template-columns:1fr}
+  .tile--coral,
+  .tile--violet,
+  .tile--electric,
+  .tile--lime,
+  .tile--ink{grid-column:span 1}
+  .tile--ink .tile-inner{grid-template-columns:1fr;gap:1.5rem}
+}
+
+@media (max-width:680px){
+  .section{padding:4rem 0}
+  .section-tight{padding:2.75rem 0}
+  .hero{padding:3rem 0 3.5rem}
+  .prop-grid{grid-template-columns:1fr}
+  .prop-card--lg{grid-column:span 1}
+  .footer-grid{grid-template-columns:1fr;gap:2rem}
+  .marquee-item{font-size:.92rem;gap:1.75rem}
+  .marquee-group{gap:1.75rem;padding-right:1.75rem}
+}
+
+@media (max-width:520px){
+  .container{padding-inline:1.15rem}
+  .hero-actions{width:100%}
+  .hero-actions .btn{width:100%}
+  .cta-block{padding:2.25rem 1.5rem}
+  .cta-block .cta-actions{width:100%}
+  .cta-block .cta-actions .btn{width:100%}
+  .tile{padding:1.6rem 1.5rem 1.75rem;min-height:auto}
+  .plan{padding:1.85rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="container header-inner">
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <div class="header-bar">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Premier<span style="color:var(--coral)">PM</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="/" aria-current="page">Home</a>
+        <a href="/c/about">About</a>
+        <a href="/c/contact">Contact</a>
+        <a href="/c/policy">Privacy</a>
+        <a href="/c/terms">Terms</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="/c/contact" class="btn btn-dark header-cta">Book a Tour</a>
+        <label for="nav-toggle" class="burger" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
+        </label>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <span class="eyebrow-pill">Now leasing · 40+ units available</span>
+
+        <h1>Property management that actually <span class="mark">shows up</span>.</h1>
+
+        <p class="lead">
+          Transparent leasing, well-maintained apartments, and a maintenance team that answers
+          the phone. We look after 250+ residential units across the metro — and we would love
+          to show you one.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#featured" class="btn btn-primary btn-lg">Browse Available Units</a>
+          <a href="/c/contact" class="btn btn-ghost btn-lg">Book a Tour →</a>
+        </div>
+      </div>
+
+      <!-- Overlapping mockups -->
+      <div class="hero-stage">
+
+        <div class="mockup mockup-side mockup-side--left" aria-hidden="true">
+          <div class="mockup-thumb"><span>The Metropolitan</span></div>
+          <div class="mockup-body">
+            <div class="mockup-name">The Metropolitan · 902</div>
+            <div class="mockup-addr">Downtown Core</div>
+            <div class="mockup-specs"><span>1 Bed</span><span>1 Bath</span></div>
+            <div class="mockup-price">$1,850 <small>/ mo</small></div>
+          </div>
+        </div>
+
+        <div class="mockup mockup-center">
+          <span class="mockup-badge">Available Now</span>
+          <div class="mockup-thumb"><span>Harbor View Lofts</span></div>
+          <div class="mockup-body">
+            <div class="mockup-name">Harbor View Lofts · 14B</div>
+            <div class="mockup-addr">218 Harbor Street, Riverside District</div>
+            <div class="mockup-specs"><span>2 Bed</span><span>2 Bath</span><span>1,050 sq ft</span></div>
+            <div class="mockup-price">$2,450 <small>/ mo</small></div>
+          </div>
+        </div>
+
+        <div class="mockup mockup-side mockup-side--right" aria-hidden="true">
+          <div class="mockup-thumb"><span>Cedar Park</span></div>
+          <div class="mockup-body">
+            <div class="mockup-name">Cedar Park Townhomes · 7</div>
+            <div class="mockup-addr">Cedar Park</div>
+            <div class="mockup-specs"><span>3 Bed</span><span>2.5 Bath</span></div>
+            <div class="mockup-price">$3,200 <small>/ mo</small></div>
+          </div>
+        </div>
+
+        <div class="float-chip float-chip--tl" aria-hidden="true">
+          <span>●</span> 24/7 maintenance
+        </div>
+        <div class="float-chip float-chip--br" aria-hidden="true">
+          98% renewal <span>★</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MARQUEE ================= -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-group">
+        <span class="marquee-item">Downtown Core</span>
+        <span class="marquee-item marquee-item--lime">250+ Units Managed</span>
+        <span class="marquee-item marquee-item--violet">Riverside District</span>
+        <span class="marquee-item">98% Renewal Rate</span>
+        <span class="marquee-item marquee-item--sun">Cedar Park</span>
+        <span class="marquee-item marquee-item--lime">24/7 Maintenance</span>
+        <span class="marquee-item marquee-item--violet">Northgate</span>
+        <span class="marquee-item">Pet-Friendly Buildings</span>
+      </div>
+      <div class="marquee-group">
+        <span class="marquee-item">Downtown Core</span>
+        <span class="marquee-item marquee-item--lime">250+ Units Managed</span>
+        <span class="marquee-item marquee-item--violet">Riverside District</span>
+        <span class="marquee-item">98% Renewal Rate</span>
+        <span class="marquee-item marquee-item--sun">Cedar Park</span>
+        <span class="marquee-item marquee-item--lime">24/7 Maintenance</span>
+        <span class="marquee-item marquee-item--violet">Northgate</span>
+        <span class="marquee-item">Pet-Friendly Buildings</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FEATURED PROPERTIES ================= -->
+  <section class="section" id="featured">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow-pill" style="margin-bottom:1.25rem">Featured listings</span>
+        <h2>Available right now.</h2>
+        <p class="lead">
+          A snapshot of what is on the market this week. Every unit is inspected before move-in
+          and backed by our 24/7 maintenance desk.
+        </p>
+      </div>
+
+      <div class="prop-grid">
+
+        <article class="prop-card prop-card--lg">
+          <div class="prop-thumb">
+            <span class="mockup-badge" style="position:absolute;top:1rem;left:1rem">Available Now</span>
+            <span>Harbor View Lofts</span>
+          </div>
+          <div class="prop-body">
+            <div class="prop-head">
+              <div class="prop-title">Harbor View Lofts · Unit 14B</div>
+            </div>
+            <div class="prop-addr">218 Harbor Street, Riverside District</div>
+            <div class="prop-specs">
+              <span>2 Bedrooms</span><span>2 Bathrooms</span><span>1,050 sq ft</span><span>Pet Friendly</span>
+            </div>
+            <div class="prop-foot">
+              <div class="prop-price">$2,450 <small>/ mo</small></div>
+              <a href="/c/contact" class="btn btn-dark">Book a tour</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="prop-card">
+          <div class="prop-thumb">
+            <span>Cedar Park</span>
+          </div>
+          <div class="prop-body">
+            <div class="prop-head">
+              <div class="prop-title">Cedar Park Townhomes · 7</div>
+            </div>
+            <div class="prop-addr">76 Cedar Park Row</div>
+            <div class="prop-specs">
+              <span>3 Bed</span><span>2.5 Bath</span><span>1,600 sq ft</span>
+            </div>
+            <div class="prop-foot">
+              <div class="prop-price">$3,200 <small>/ mo</small></div>
+              <span class="tag tag--coral">New</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="prop-card">
+          <div class="prop-thumb">
+            <span>The Metropolitan</span>
+          </div>
+          <div class="prop-body">
+            <div class="prop-head">
+              <div class="prop-title">The Metropolitan · 902</div>
+            </div>
+            <div class="prop-addr">12 Metropolitan Plaza</div>
+            <div class="prop-specs">
+              <span>1 Bed</span><span>1 Bath</span><span>720 sq ft</span>
+            </div>
+            <div class="prop-foot">
+              <div class="prop-price">$1,850 <small>/ mo</small></div>
+              <span class="tag tag--lime">Pet OK</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BENTO: WHY RENT WITH US ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow-pill" style="margin-bottom:1.25rem">Why rent with us</span>
+        <h2>Built around residents, not paperwork.</h2>
+        <p class="lead">
+          We rebuilt property management around the three things people complain about most:
+          slow repairs, confusing payments, and being treated like a ticket number.
+        </p>
+      </div>
+
+      <div class="bento">
+
+        <div class="tile tile--coral">
+          <div class="tile-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <h3>24/7 maintenance tracking, end to end.</h3>
+          <p>
+            Submit a request from your phone and follow it the whole way — who was assigned,
+            when they arrived, what was replaced. Our emergency line is answered by a human,
+            every night of the year.
+          </p>
+        </div>
+
+        <div class="tile tile--lime">
+          <div class="tile-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 17l6-6 4 4 8-8"/>
+              <path d="M14 7h7v7"/>
+            </svg>
+          </div>
+          <h3>4 hrs</h3>
+          <p>Average maintenance response time, measured across the portfolio.</p>
+        </div>
+
+        <div class="tile tile--violet">
+          <div class="tile-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="11" width="18" height="11" rx="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h3>Secure online rent portal.</h3>
+          <p>
+            Pay by card or bank transfer, download statements, and renew your lease without
+            printing a page. No convenience-fee surprises.
+          </p>
+        </div>
+
+        <div class="tile tile--electric">
+          <div class="tile-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3>Real tenant care.</h3>
+          <p>
+            Every resident gets a named leasing contact and a maintenance coordinator. Move-in,
+            renewals, and move-out are scheduled in writing — never improvised.
+          </p>
+        </div>
+
+        <div class="tile tile--ink">
+          <div class="tile-inner">
+            <div>
+              <h3>The numbers behind the promise.</h3>
+              <p style="color:#a1a1aa;font-size:.9rem;margin-top:.4rem">
+                Twelve years of managing homes in this city, and the data still guides every
+                decision we make.
+              </p>
+            </div>
+            <div>
+              <div class="stat-value">250+</div>
+              <div class="stat-label">Residential units under management</div>
+            </div>
+            <div>
+              <div class="stat-value">98%</div>
+              <div class="stat-label">Resident lease renewal rate</div>
+            </div>
+            <div>
+              <div class="stat-value">12 yrs</div>
+              <div class="stat-label">Managing property in the metro</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRICING ================= -->
+  <section class="section" style="background:var(--surface);border-block:1.5px solid var(--border)">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow-pill" style="margin-bottom:1.25rem">Management plans</span>
+        <h2>Simple, flat monthly pricing.</h2>
+        <p class="lead">
+          Pricing shown is our management fee for a typical two-bedroom unit. No percentage
+          games, no surprise line items on your statement.
+        </p>
+      </div>
+
+      <div class="pricing">
+
+        <div class="plan">
+          <div class="plan-name">Standard Rental</div>
+          <p class="plan-desc">For owners with a single unit who want reliable placement and rent collection.</p>
+          <div class="plan-price">$1,950 <small>per month · 2-bed equivalent</small></div>
+          <ul>
+            <li>Tenant screening &amp; lease preparation</li>
+            <li>Online rent collection &amp; statements</li>
+            <li>24/7 maintenance coordination</li>
+            <li>Annual property inspection</li>
+            <li>Year-end income summary</li>
+          </ul>
+          <a href="/c/contact" class="btn btn-ghost btn-block">Get started</a>
+        </div>
+
+        <div class="plan plan--featured">
+          <span class="plan-tag">Most popular</span>
+          <div class="plan-name">Premium Managed</div>
+          <p class="plan-desc">Our most-chosen plan. Deeper oversight, faster response, and a named manager.</p>
+          <div class="plan-price">$2,450 <small>per month · 2-bed equivalent</small></div>
+          <ul>
+            <li>Everything in Standard Rental</li>
+            <li>Quarterly property inspections</li>
+            <li>Priority maintenance dispatch</li>
+            <li>Dedicated account manager</li>
+            <li>Lease renewal negotiation</li>
+            <li>Preventive upkeep scheduling</li>
+          </ul>
+          <a href="/c/contact" class="btn btn-primary btn-block">Get started</a>
+        </div>
+
+        <div class="plan">
+          <div class="plan-name">Corporate Leases</div>
+          <p class="plan-desc">For companies relocating staff or holding multi-unit portfolios in the city.</p>
+          <div class="plan-price">$3,200 <small>per month · 2-bed equivalent</small></div>
+          <ul>
+            <li>Everything in Premium Managed</li>
+            <li>Multi-unit portfolio discounts</li>
+            <li>Custom lease &amp; invoicing terms</li>
+            <li>Executive occupancy reporting</li>
+            <li>Relocation &amp; onboarding coordination</li>
+          </ul>
+          <a href="/c/contact" class="btn btn-ghost btn-block">Talk to sales</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BIG CTA ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-block">
+        <div>
+          <h2>Ready to see a unit in person?</h2>
+          <p>
+            Tours run seven days a week, including evenings. Bring your questions — we will walk
+            you through the lease line by line before you sign anything.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a href="/c/contact" class="btn btn-primary btn-lg">Book a Tour</a>
+          <a href="/c/about" class="btn btn-ghost btn-lg">Learn About Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"></span>
+          Premier<span style="color:var(--coral)">PM</span>
+        </a>
+        <p>
+          Property management and leasing for the modern city. 250+ residential units managed
+          with transparent pricing and a maintenance team that shows up.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/c/about">About</a></li>
+          <li><a href="/c/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/c/policy">Privacy Policy</a></li>
+          <li><a href="/c/terms">Terms of Service</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+15550123456">(555) 012-3456</a></li>
+          <li><a href="mailto:leasing@premierpm.example">leasing@premierpm.example</a></li>
+          <li><span>450 Harrison Avenue, Suite 12<br>City Center, ST 10024</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 Premier Property Management. All rights reserved.</span>
+      <span>Equal Housing Opportunity · Licensed Property Manager #PM-44821</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

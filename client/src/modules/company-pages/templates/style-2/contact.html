@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact PremierPM · Leasing, Maintenance &amp; Corporate Inquiries</title>
+<meta name="description" content="Reach the Premier Property Management leasing office. Office address, operating hours, 24/7 emergency maintenance hotline, and a friendly direct inquiry form.">
+<style>
+/* ============================================================
+   DESIGN TOKENS — Bold & Vibrant / Creative Studio
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0;padding:0}
+
+:root{
+  --ink:#0d0d12;
+  --ink-2:#3a3a44;
+  --muted:#71717a;
+  --muted-2:#a1a1aa;
+
+  --bg:#fdf7ef;
+  --surface:#ffffff;
+  --surface-2:#f5ede1;
+
+  --coral:#ff4d2e;
+  --coral-dark:#e63a1e;
+  --violet:#7c3aed;
+  --violet-dark:#6d28d9;
+  --electric:#2563ff;
+  --lime:#c8ff00;
+  --sun:#ffd93d;
+
+  --border:#ebe2d5;
+  --border-2:#d9cdba;
+
+  --radius-sm:10px;
+  --radius:18px;
+  --radius-lg:28px;
+  --radius-pill:999px;
+
+  --shadow-sm:0 2px 6px -1px rgb(13 13 18 / .06), 0 2px 4px -2px rgb(13 13 18 / .04);
+  --shadow-md:0 18px 40px -18px rgb(13 13 18 / .22), 0 6px 14px -6px rgb(13 13 18 / .08);
+  --shadow-lg:0 40px 80px -30px rgb(13 13 18 / .30);
+
+  --max:1240px;
+  --header-h:4.75rem;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+}
+
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:6.5rem}
+
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+ul{list-style:none}
+:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:4px}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1,h2,h3,h4{font-weight:800;letter-spacing:-.035em;line-height:1.02;color:var(--ink)}
+h1{font-size:clamp(2.5rem,7vw,5rem);letter-spacing:-.045em;line-height:.98}
+h2{font-size:clamp(1.85rem,4vw,3rem);line-height:1.03}
+h3{font-size:1.15rem;font-weight:700;letter-spacing:-.02em}
+p{color:var(--ink-2)}
+.lead{font-size:1.125rem;line-height:1.6;color:var(--ink-2)}
+.accent{color:var(--coral)}
+
+.mark{
+  background-image:linear-gradient(180deg,transparent 58%,var(--lime) 58%,var(--lime) 92%,transparent 92%);
+  padding:0 .08em;
+}
+
+/* ============================================================
+   LAYOUT PRIMITIVES
+   ============================================================ */
+.container{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:1.5rem}
+.container-narrow{width:100%;max-width:820px;margin-inline:auto;padding-inline:1.5rem}
+.section{padding:6rem 0}
+.section-tight{padding:3.5rem 0}
+
+.eyebrow-pill{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.45rem 1rem;border-radius:var(--radius-pill);
+  background:var(--surface);border:1px solid var(--border);
+  font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);box-shadow:var(--shadow-sm);
+}
+.eyebrow-pill::before{
+  content:"";width:.5rem;height:.5rem;border-radius:50%;background:var(--coral);
+  box-shadow:0 0 0 4px rgba(255,77,46,.18);
+}
+
+.section-head{max-width:720px;margin-bottom:3.5rem}
+.section-head.center{margin-inline:auto;text-align:center}
+.section-head h2{margin-bottom:1rem}
+.section-head .lead{max-width:56ch}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header{
+  position:sticky;top:0;z-index:60;
+  background:rgba(253,247,239,.82);
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid transparent;
+}
+.header-inner{position:relative}
+.header-bar{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;height:var(--header-h)}
+
+.brand{display:inline-flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.15rem;letter-spacing:-.04em;color:var(--ink)}
+.brand-mark{
+  position:relative;flex:none;width:2rem;height:2rem;border-radius:9px;
+  background:var(--ink);display:grid;place-items:center;color:var(--lime);
+  font-size:.9rem;font-weight:900;
+}
+.brand-mark::after{content:"◆";font-size:.7rem;line-height:1}
+
+.nav{display:flex;align-items:center;gap:.25rem}
+.nav a{
+  display:inline-block;padding:.55rem 1rem;border-radius:var(--radius-pill);
+  font-size:.92rem;font-weight:600;color:var(--ink-2);
+  transition:background .18s ease,color .18s ease;
+}
+.nav a:hover{color:var(--ink);background:var(--surface-2)}
+.nav a[aria-current="page"]{color:#fff;background:var(--ink);font-weight:700}
+
+.header-actions{display:flex;align-items:center;gap:.75rem}
+
+.nav-toggle{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.burger{
+  display:none;width:2.75rem;height:2.75rem;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  border:1px solid var(--border);border-radius:var(--radius-pill);background:var(--surface);cursor:pointer;
+}
+.burger span{display:block;width:16px;height:2px;background:var(--ink);border-radius:2px;transition:transform .22s ease,opacity .22s ease}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
+  padding:.85rem 1.6rem;border-radius:var(--radius-pill);
+  font-size:.95rem;font-weight:700;letter-spacing:-.005em;
+  border:1.5px solid transparent;cursor:pointer;white-space:nowrap;
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease,color .18s ease;
+}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral);box-shadow:0 6px 18px -6px rgba(255,77,46,.55)}
+.btn-primary:hover{background:var(--coral-dark);border-color:var(--coral-dark);transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(255,77,46,.7)}
+.btn-dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-dark:hover{background:#000;transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-ghost{background:var(--surface);color:var(--ink);border-color:var(--border-2)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-lg{padding:1.05rem 2rem;font-size:1rem}
+.btn-block{width:100%}
+
+/* ============================================================
+   PAGE HERO — centered, conversational
+   ============================================================ */
+.page-hero{
+  padding:4rem 0 3rem;
+  position:relative;
+  overflow:hidden;
+  text-align:center;
+}
+.page-hero::before{
+  content:"";position:absolute;top:-30%;left:-10%;
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,77,46,.10),transparent 62%);
+  pointer-events:none;
+}
+.page-hero::after{
+  content:"";position:absolute;bottom:-40%;right:-10%;
+  width:800px;height:800px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.10),transparent 62%);
+  pointer-events:none;
+}
+.page-hero-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center}
+
+.crumbs{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--muted);margin-bottom:1.5rem;justify-content:center}
+.crumbs a:hover{color:var(--coral)}
+.crumbs span{color:var(--muted-2)}
+
+.page-hero h1{max-width:15ch;margin:1.5rem 0 1.5rem}
+.page-hero .lead{max-width:60ch;margin-bottom:2rem}
+
+/* Quick contact chips */
+.quick-chips{
+  display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-top:.5rem;
+}
+.chip{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.65rem 1.15rem;border-radius:var(--radius-pill);
+  background:var(--surface);border:1.5px solid var(--border);
+  font-size:.88rem;font-weight:600;color:var(--ink);
+  box-shadow:var(--shadow-sm);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.chip:hover{transform:translateY(-2px);border-color:var(--coral);box-shadow:var(--shadow-md)}
+.chip-dot{
+  width:.55rem;height:.55rem;border-radius:50%;flex:none;
+}
+.chip-dot--coral{background:var(--coral);box-shadow:0 0 0 4px rgba(255,77,46,.18)}
+.chip-dot--lime{background:var(--lime);box-shadow:0 0 0 4px rgba(200,255,0,.28)}
+.chip-dot--violet{background:var(--violet);box-shadow:0 0 0 4px rgba(124,58,237,.18)}
+
+/* ============================================================
+   FORM SECTION — centered card
+   ============================================================ */
+.form-section{
+  padding:2rem 0 6rem;
+  position:relative;
+}
+.form-halo{
+  position:relative;
+  max-width:820px;margin-inline:auto;
+}
+.form-halo::before{
+  content:"";position:absolute;inset:-8% -8%;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(255,77,46,.16),transparent 45%),
+    radial-gradient(circle at 80% 90%,rgba(124,58,237,.16),transparent 45%);
+  border-radius:50%;
+  filter:blur(40px);
+  z-index:0;
+  pointer-events:none;
+}
+
+.form-card{
+  position:relative;
+  z-index:1;
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:3rem 2.75rem 2.75rem;
+  box-shadow:var(--shadow-lg);
+}
+
+.form-card-header{
+  text-align:center;
+  margin-bottom:2.5rem;
+}
+.form-card-header .eyebrow-pill{margin-bottom:1.25rem}
+.form-card-header h2{font-size:clamp(1.65rem,3.2vw,2.25rem);margin-bottom:.75rem}
+.form-card-header p{font-size:1rem;color:var(--muted);max-width:50ch;margin-inline:auto}
+
+/* Inquiry type — colorful radio pills */
+.inquiry-group{
+  display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2rem;
+  justify-content:center;
+}
+.inquiry-group input[type="radio"]{
+  position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;
+}
+.inquiry-option{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.7rem 1.2rem;border-radius:var(--radius-pill);
+  background:var(--surface);border:1.5px solid var(--border);
+  font-size:.88rem;font-weight:700;letter-spacing:-.01em;
+  color:var(--ink-2);cursor:pointer;
+  transition:transform .16s ease,border-color .16s ease,background .16s ease,color .16s ease,box-shadow .16s ease;
+}
+.inquiry-option:hover{border-color:var(--border-2);transform:translateY(-2px)}
+.inquiry-option::before{
+  content:"";width:.6rem;height:.6rem;border-radius:50%;
+  background:var(--border-2);flex:none;
+  transition:background .16s ease,box-shadow .16s ease;
+}
+
+/* Selected states with brand colors */
+.inquiry-group input[type="radio"]:checked + .inquiry-option{
+  color:#fff;border-color:transparent;transform:translateY(-2px);
+  box-shadow:0 8px 20px -8px rgba(255,77,46,.55);
+}
+.inquiry-group input[type="radio"]:checked + .inquiry-option::before{
+  background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.35);
+}
+.inquiry-group input[type="radio"]#type-general:checked + .inquiry-option{background:var(--coral)}
+.inquiry-group input[type="radio"]#type-viewing:checked + .inquiry-option{background:var(--violet);box-shadow:0 8px 20px -8px rgba(124,58,237,.55)}
+.inquiry-group input[type="radio"]#type-maintenance:checked + .inquiry-option{background:var(--electric);box-shadow:0 8px 20px -8px rgba(37,99,255,.55)}
+.inquiry-group input[type="radio"]#type-application:checked + .inquiry-option{background:var(--ink);box-shadow:0 8px 20px -8px rgba(13,13,18,.45)}
+.inquiry-group input[type="radio"]:focus-visible + .inquiry-option{outline:3px solid var(--violet);outline-offset:3px}
+
+/* Fields with floating labels */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.field{position:relative}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  padding:1.6rem 1.1rem .6rem;
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  background:var(--bg);
+  font-size:1rem;
+  line-height:1.4;
+  color:var(--ink);
+  transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+
+.field textarea{
+  resize:vertical;
+  min-height:150px;
+  padding-top:1.8rem;
+  line-height:1.55;
+}
+
+.field select{
+  appearance:none;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 1.1rem center;
+  padding-right:2.75rem;
+  cursor:pointer;
+}
+
+.field label{
+  position:absolute;
+  left:1.1rem;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:.95rem;
+  font-weight:500;
+  color:var(--muted);
+  pointer-events:none;
+  transition:top .18s ease,transform .18s ease,font-size .18s ease,color .18s ease,letter-spacing .18s ease;
+}
+
+.field textarea + label{
+  top:1.25rem;
+  transform:none;
+}
+
+/* Floating trigger */
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field textarea:focus + label,
+.field textarea:not(:placeholder-shown) + label,
+.field select:focus + label,
+.field select:valid + label{
+  top:.65rem;
+  transform:none;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--coral);
+}
+
+/* Focused field border */
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  outline:none;
+  border-color:var(--coral);
+  background:var(--surface);
+  box-shadow:0 0 0 4px rgba(255,77,46,.14);
+}
+
+.field input::placeholder,
+.field textarea::placeholder{color:transparent}
+
+/* Submit area */
+.form-submit{margin-top:1.75rem}
+.form-submit .btn{width:100%}
+
+.form-microcopy{
+  display:flex;align-items:flex-start;gap:.6rem;
+  margin-top:1.1rem;
+  font-size:.85rem;color:var(--muted);line-height:1.55;
+  text-align:left;
+}
+.form-microcopy::before{
+  content:"";flex:none;width:1.1rem;height:1.1rem;margin-top:.1rem;
+  border-radius:50%;
+  background:var(--lime);
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%230d0d12' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:center;
+}
+
+/* ============================================================
+   COMMUNITY / SOCIAL
+   ============================================================ */
+.community-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1.15rem;
+}
+
+.social-card{
+  position:relative;
+  border-radius:var(--radius-lg);
+  padding:1.9rem 1.65rem 1.75rem;
+  min-height:190px;
+  display:flex;flex-direction:column;
+  color:#fff;
+  overflow:hidden;
+  transition:transform .22s ease,box-shadow .22s ease;
+}
+.social-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+
+.social-card--coral{background:var(--coral)}
+.social-card--violet{background:var(--violet)}
+.social-card--electric{background:var(--electric)}
+.social-card--ink{background:var(--ink)}
+.social-card--lime{background:var(--lime);color:var(--ink)}
+
+.social-card::after{
+  content:"";position:absolute;right:-30px;bottom:-30px;
+  width:120px;height:120px;border-radius:50%;
+  background:rgba(255,255,255,.10);
+  pointer-events:none;
+}
+
+.social-icon{
+  width:2.75rem;height:2.75rem;border-radius:14px;
+  background:rgba(255,255,255,.20);
+  display:grid;place-items:center;
+  margin-bottom:auto;
+  color:#fff;
+}
+.social-card--lime .social-icon{background:rgba(13,13,18,.12);color:var(--ink)}
+
+.social-name{
+  font-size:1.05rem;font-weight:800;letter-spacing:-.02em;
+  margin-top:1.5rem;
+}
+.social-handle{
+  font-size:.82rem;opacity:.85;margin-top:.15rem;
+  font-weight:500;
+}
+.social-cta{
+  display:inline-flex;align-items:center;gap:.35rem;
+  margin-top:.85rem;
+  font-size:.82rem;font-weight:800;letter-spacing:.02em;
+  position:relative;z-index:1;
+}
+.social-cta::after{content:"→";transition:transform .18s ease}
+.social-card:hover .social-cta::after{transform:translateX(4px)}
+
+/* ============================================================
+   OFFICE BENTO
+   ============================================================ */
+.office-bento{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;
+}
+
+.office-tile{
+  position:relative;
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:1.9rem 1.8rem 2rem;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.office-tile:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--border-2)}
+
+.office-tile--wide{grid-column:span 2}
+.office-tile--dark{background:var(--ink);border-color:var(--ink);color:#fff}
+.office-tile--dark .office-label{color:var(--lime)}
+.office-tile--dark p,
+.office-tile--dark address{color:#d4d4d8}
+.office-tile--dark .office-value{color:#fff}
+
+.office-icon{
+  width:2.75rem;height:2.75rem;border-radius:14px;
+  display:grid;place-items:center;
+  margin-bottom:1.25rem;
+  background:var(--bg);border:1px solid var(--border);
+  color:var(--coral);
+}
+.office-tile--dark .office-icon{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:var(--lime)}
+
+.office-label{
+  font-size:.68rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted-2);margin-bottom:.5rem;
+}
+.office-value{
+  font-size:1.05rem;font-weight:800;letter-spacing:-.015em;line-height:1.3;
+  color:var(--ink);
+}
+.office-value a{border-bottom:2px solid var(--lime);transition:color .16s ease}
+.office-value a:hover{color:var(--coral)}
+
+.office-tile p{font-size:.9rem;color:var(--ink-2);margin-top:.85rem;line-height:1.55}
+
+.hours-list{margin-top:1rem;display:grid;gap:.55rem}
+.hours-list li{
+  display:flex;justify-content:space-between;gap:1rem;
+  font-size:.9rem;
+  padding-bottom:.55rem;
+  border-bottom:1px solid var(--border);
+}
+.hours-list li:last-child{border-bottom:0;padding-bottom:0}
+.hours-list .day{color:var(--muted);font-weight:500}
+.hours-list .time{color:var(--ink);font-weight:700}
+.office-tile--dark .hours-list li{border-color:rgba(255,255,255,.12)}
+.office-tile--dark .hours-list .day{color:#a1a1aa}
+.office-tile--dark .hours-list .time{color:#fff}
+
+/* ============================================================
+   CTA BLOCK
+   ============================================================ */
+.cta-block{
+  position:relative;overflow:hidden;
+  border-radius:var(--radius-lg);
+  padding:4.5rem 3.5rem;
+  background:linear-gradient(135deg,var(--violet) 0%,var(--coral) 100%);
+  color:#fff;
+  display:grid;grid-template-columns:1.4fr 1fr;gap:3rem;align-items:center;
+}
+.cta-block::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 15% 20%,rgba(255,255,255,.22),transparent 42%),
+    radial-gradient(circle at 85% 80%,rgba(200,255,0,.18),transparent 42%);
+  pointer-events:none;
+}
+.cta-block > *{position:relative;z-index:1}
+.cta-block h2{color:#fff;font-size:clamp(2rem,4vw,3rem);max-width:18ch}
+.cta-block p{color:rgba(255,255,255,.88);max-width:48ch;margin-top:1rem;font-size:1.0625rem}
+.cta-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:flex-end}
+.cta-block .btn-primary{background:#fff;color:var(--ink);border-color:#fff;box-shadow:0 8px 24px -8px rgba(0,0,0,.4)}
+.cta-block .btn-primary:hover{background:#fff;color:var(--coral-dark);transform:translateY(-2px)}
+.cta-block .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.cta-block .btn-ghost:hover{background:rgba(255,255,255,.12);border-color:#fff}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer{background:var(--ink);color:#fff;padding:5rem 0 2rem;margin-top:auto}
+.footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1.3fr;gap:3rem}
+.footer-brand .brand{color:#fff}
+.footer-brand .brand-mark{background:var(--coral);color:#fff}
+.footer-brand p{color:#a1a1aa;font-size:.9rem;margin-top:1.25rem;max-width:34ch;line-height:1.6}
+.footer-col h4{
+  font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:#71717a;margin-bottom:1.25rem;
+}
+.footer-col li + li{margin-top:.7rem}
+.footer-col a,.footer-col span{font-size:.92rem;color:#d4d4d8}
+.footer-col a:hover{color:var(--lime)}
+.footer-bottom{
+  margin-top:4rem;padding-top:1.75rem;border-top:1px solid #27272a;
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  font-size:.82rem;color:#71717a;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1080px){
+  .community-grid{grid-template-columns:repeat(2,1fr)}
+  .office-bento{grid-template-columns:repeat(2,1fr)}
+  .office-tile--wide{grid-column:span 2}
+}
+
+@media (max-width:960px){
+  .cta-block{grid-template-columns:1fr;padding:3rem 2rem;gap:2rem}
+  .cta-actions{justify-content:flex-start}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .form-card{padding:2.5rem 2rem 2.25rem}
+}
+
+@media (max-width:900px){
+  .burger{display:flex}
+  .header-cta{display:none}
+  .nav{
+    position:absolute;top:calc(100% + 1px);left:0;right:0;
+    display:none;flex-direction:column;align-items:stretch;gap:.35rem;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    margin:0 1rem;padding:.75rem;
+    box-shadow:var(--shadow-md);
+  }
+  .nav a{padding:.75rem 1rem;border-radius:var(--radius-sm)}
+  .nav-toggle:checked ~ .header-bar .nav{display:flex}
+  .nav-toggle:checked ~ .header-bar .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle:checked ~ .header-bar .burger span:nth-child(2){opacity:0}
+  .nav-toggle:checked ~ .header-bar .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+}
+
+@media (max-width:780px){
+  .office-bento{grid-template-columns:1fr}
+  .office-tile--wide{grid-column:span 1}
+}
+
+@media (max-width:680px){
+  .section{padding:4rem 0}
+  .section-tight{padding:2.75rem 0}
+  .page-hero{padding:2.5rem 0 2rem}
+  .footer-grid{grid-template-columns:1fr;gap:2rem}
+  .field-row{grid-template-columns:1fr;gap:0;margin-bottom:0}
+  .field-row .field{margin-bottom:1rem}
+  .community-grid{grid-template-columns:1fr}
+  .form-card{padding:2rem 1.5rem}
+  .inquiry-option{flex:1 1 calc(50% - .3rem);justify-content:center}
+}
+
+@media (max-width:520px){
+  .container,.container-narrow{padding-inline:1.15rem}
+  .cta-block{padding:2.25rem 1.5rem}
+  .cta-block .cta-actions{width:100%}
+  .cta-block .cta-actions .btn{width:100%}
+  .quick-chips{width:100%}
+  .chip{flex:1 1 100%;justify-content:center}
+  .inquiry-option{flex:1 1 100%}
+  .form-card{padding:1.75rem 1.25rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="container header-inner">
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <div class="header-bar">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Premier<span style="color:var(--coral)">PM</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/c/about">About</a>
+        <a href="/c/contact" aria-current="page">Contact</a>
+        <a href="/c/policy">Privacy</a>
+        <a href="/c/terms">Terms</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="/c/contact" class="btn btn-dark header-cta">Book a Tour</a>
+        <label for="nav-toggle" class="burger" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
+        </label>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= PAGE HERO ================= -->
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>Contact</span>
+      </nav>
+
+      <span class="eyebrow-pill">Get in touch</span>
+
+      <h1>Let's talk. We <span class="mark">actually answer</span>.</h1>
+
+      <p class="lead">
+        Whether you are scheduling a viewing, reporting a repair, or asking a question about your
+        lease — this is the place to start. We reply to every message within one business day,
+        and emergencies get a human on the phone right away.
+      </p>
+
+      <div class="quick-chips">
+        <a href="mailto:leasing@premierpm.example" class="chip">
+          <span class="chip-dot chip-dot--coral" aria-hidden="true"></span>
+          leasing@premierpm.example
+        </a>
+        <a href="tel:+15550123456" class="chip">
+          <span class="chip-dot chip-dot--lime" aria-hidden="true"></span>
+          (555) 012-3456
+        </a>
+        <span class="chip">
+          <span class="chip-dot chip-dot--violet" aria-hidden="true"></span>
+          Mon–Fri · 9 AM – 6 PM
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FORM ================= -->
+  <section class="form-section">
+    <div class="container-narrow">
+      <div class="form-halo">
+        <div class="form-card">
+
+          <div class="form-card-header">
+            <span class="eyebrow-pill">Send us a message</span>
+            <h2>Tell us what you need.</h2>
+            <p>
+              Pick a topic, drop your details, and we will route your message to the right person
+              on our team. No call-center queues.
+            </p>
+          </div>
+
+          <form action="/c/contact" method="post" novalidate>
+
+            <!-- Inquiry type as colorful radio pills -->
+            <fieldset style="border:0;padding:0;margin:0 0 2rem">
+              <legend style="font-size:.72rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--muted-2);margin-bottom:1rem;text-align:center;display:block;width:100%">
+                What is this about?
+              </legend>
+
+              <div class="inquiry-group">
+                <input type="radio" name="inquiry_type" id="type-general" value="general" checked>
+                <label for="type-general" class="inquiry-option">General Inquiry</label>
+
+                <input type="radio" name="inquiry_type" id="type-viewing" value="viewing">
+                <label for="type-viewing" class="inquiry-option">Schedule a Viewing</label>
+
+                <input type="radio" name="inquiry_type" id="type-maintenance" value="maintenance">
+                <label for="type-maintenance" class="inquiry-option">Maintenance</label>
+
+                <input type="radio" name="inquiry_type" id="type-application" value="application">
+                <label for="type-application" class="inquiry-option">Leasing Application</label>
+              </div>
+            </fieldset>
+
+            <!-- Name / Email -->
+            <div class="field-row">
+              <div class="field">
+                <input type="text" id="name" name="name" placeholder=" " autocomplete="name" required>
+                <label for="name">Full name</label>
+              </div>
+
+              <div class="field">
+                <input type="email" id="email" name="email" placeholder=" " autocomplete="email" required>
+                <label for="email">Email address</label>
+              </div>
+            </div>
+
+            <!-- Phone / Unit -->
+            <div class="field-row">
+              <div class="field">
+                <input type="tel" id="phone" name="phone" placeholder=" " autocomplete="tel">
+                <label for="phone">Phone (optional)</label>
+              </div>
+
+              <div class="field">
+                <input type="text" id="unit" name="unit" placeholder=" ">
+                <label for="unit">Unit or building (optional)</label>
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="field" style="margin-bottom:0">
+              <textarea id="message" name="message" placeholder=" " required></textarea>
+              <label for="message">Your message</label>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn btn-primary btn-lg">Send Message →</button>
+
+              <p class="form-microcopy">
+                We respond to all messages within one business day. Emergency maintenance requests
+                should be phoned in to the 24/7 hotline instead.
+              </p>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COMMUNITY / SOCIAL ================= -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow-pill" style="margin-bottom:1.25rem">Find us elsewhere</span>
+        <h2>Come hang out with us.</h2>
+        <p class="lead">
+          We share new listings, neighborhood guides, maintenance tips, and resident stories on
+          social. Drop a comment — we read them all.
+        </p>
+      </div>
+
+      <div class="community-grid">
+
+        <a href="#" class="social-card social-card--coral" aria-label="PremierPM on Instagram">
+          <div class="social-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </div>
+          <div class="social-name">Instagram</div>
+          <div class="social-handle">@premierpm</div>
+          <span class="social-cta">Follow along</span>
+        </a>
+
+        <a href="#" class="social-card social-card--violet" aria-label="PremierPM on LinkedIn">
+          <div class="social-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </div>
+          <div class="social-name">LinkedIn</div>
+          <div class="social-handle">Premier Property Management</div>
+          <span class="social-cta">Connect with us</span>
+        </a>
+
+        <a href="#" class="social-card social-card--electric" aria-label="PremierPM on Facebook">
+          <div class="social-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+          </div>
+          <div class="social-name">Facebook</div>
+          <div class="social-handle">@PremierPMCity</div>
+          <span class="social-cta">Like our page</span>
+        </a>
+
+        <a href="#" class="social-card social-card--ink" aria-label="PremierPM newsletter">
+          <div class="social-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div class="social-name">Resident Newsletter</div>
+          <div class="social-handle">Monthly · no spam, ever</div>
+          <span class="social-cta">Subscribe</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= OFFICE BENTO ================= -->
+  <section class="section" style="background:var(--surface);border-block:1.5px solid var(--border)">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow-pill" style="margin-bottom:1.25rem">Visit or call</span>
+        <h2>The details, if you want them.</h2>
+        <p class="lead">
+          Our leasing office sits in the Downtown Core, a short walk from the Harrison Avenue
+          transit stop. Walk-ins welcome during business hours.
+        </p>
+      </div>
+
+      <div class="office-bento">
+
+        <!-- Address (wide) -->
+        <div class="office-tile office-tile--wide">
+          <div class="office-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div class="office-label">Leasing office</div>
+          <div class="office-value">
+            450 Harrison Avenue, Suite 12<br>
+            City Center, ST 10024
+          </div>
+          <p>
+            Two doors south of the corner café on Harrison. Free visitor parking in the rear lot —
+            entrance on 5th Street. Step-free access and an accessible restroom on site.
+          </p>
+        </div>
+
+        <!-- Hours -->
+        <div class="office-tile">
+          <div class="office-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="office-label">Operating hours</div>
+          <ul class="hours-list">
+            <li><span class="day">Mon – Fri</span><span class="time">9:00 – 18:00</span></li>
+            <li><span class="day">Saturday</span><span class="time">10:00 – 16:00</span></li>
+            <li><span class="day">Sunday</span><span class="time">By appointment</span></li>
+            <li><span class="day">Showings</span><span class="time">Daily + evenings</span></li>
+          </ul>
+        </div>
+
+        <!-- Email / Phone -->
+        <div class="office-tile">
+          <div class="office-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div class="office-label">Email &amp; phone</div>
+          <div class="office-value" style="font-size:.95rem;line-height:1.7">
+            Leasing: <a href="mailto:leasing@premierpm.example">leasing@…</a><br>
+            Support: <a href="mailto:support@premierpm.example">support@…</a><br>
+            Office: <a href="tel:+15550123456">(555) 012-3456</a>
+          </div>
+          <p>Email is fastest for leasing questions. Call for anything urgent during business hours.</p>
+        </div>
+
+        <!-- Emergency (dark, wide) -->
+        <div class="office-tile office-tile--dark office-tile--wide">
+          <div class="office-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div class="office-label">24/7 emergency maintenance</div>
+          <div class="office-value" style="font-size:1.5rem;letter-spacing:-.03em">
+            <a href="tel:+15550123456" style="border-bottom-color:var(--lime)">(555) 012-3456</a>
+          </div>
+          <p>
+            For active leaks, loss of heat or hot water, lockouts, or anything affecting safety —
+            call the hotline at any hour. A human responder, not a voicemail, answers every call.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-block">
+        <div>
+          <h2>Prefer to see a unit before you ask anything?</h2>
+          <p>
+            Tours run seven days a week, including evenings. Pick a time and a leasing agent will
+            meet you at the building.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a href="/" class="btn btn-primary btn-lg">Browse Available Units</a>
+          <a href="/c/about" class="btn btn-ghost btn-lg">Learn About Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"></span>
+          Premier<span style="color:var(--coral)">PM</span>
+        </a>
+        <p>
+          Property management and leasing for the modern city. 250+ residential units managed
+          with transparent pricing and a maintenance team that shows up.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/c/about">About</a></li>
+          <li><a href="/c/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/c/policy">Privacy Policy</a></li>
+          <li><a href="/c/terms">Terms of Service</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+15550123456">(555) 012-3456</a></li>
+          <li><a href="mailto:leasing@premierpm.example">leasing@premierpm.example</a></li>
+          <li><span>450 Harrison Avenue, Suite 12<br>City Center, ST 10024</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 Premier Property Management. All rights reserved.</span>
+      <span>Equal Housing Opportunity · Licensed Property Manager #PM-44821</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

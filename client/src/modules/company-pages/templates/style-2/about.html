@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About PremierPM · 250+ Residential Units Managed in the City</title>
+<meta name="description" content="Premier Property Management has managed 250+ residential units across the metro since 2012. Meet the team and see the milestones behind our transparent leasing model.">
+<style>
+/* ============================================================
+   DESIGN TOKENS — Bold & Vibrant / Creative Studio
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0;padding:0}
+
+:root{
+  --ink:#0d0d12;
+  --ink-2:#3a3a44;
+  --muted:#71717a;
+  --muted-2:#a1a1aa;
+
+  --bg:#fdf7ef;
+  --surface:#ffffff;
+  --surface-2:#f5ede1;
+
+  --coral:#ff4d2e;
+  --coral-dark:#e63a1e;
+  --violet:#7c3aed;
+  --violet-dark:#6d28d9;
+  --electric:#2563ff;
+  --lime:#c8ff00;
+  --sun:#ffd93d;
+
+  --border:#ebe2d5;
+  --border-2:#d9cdba;
+
+  --radius-sm:10px;
+  --radius:18px;
+  --radius-lg:28px;
+  --radius-pill:999px;
+
+  --shadow-sm:0 2px 6px -1px rgb(13 13 18 / .06), 0 2px 4px -2px rgb(13 13 18 / .04);
+  --shadow-md:0 18px 40px -18px rgb(13 13 18 / .22), 0 6px 14px -6px rgb(13 13 18 / .08);
+  --shadow-lg:0 40px 80px -30px rgb(13 13 18 / .30);
+
+  --max:1240px;
+  --header-h:4.75rem;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+}
+
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:6.5rem}
+
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+ul{list-style:none}
+:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:4px}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1,h2,h3,h4{font-weight:800;letter-spacing:-.035em;line-height:1.02;color:var(--ink)}
+h1{font-size:clamp(2.5rem,7vw,5.25rem);letter-spacing:-.045em;line-height:.98}
+h2{font-size:clamp(1.85rem,4vw,3rem);line-height:1.03}
+h3{font-size:1.15rem;font-weight:700;letter-spacing:-.02em}
+p{color:var(--ink-2)}
+.lead{font-size:1.125rem;line-height:1.6;color:var(--ink-2)}
+.accent{color:var(--coral)}
+
+.mark{
+  background-image:linear-gradient(180deg,transparent 58%,var(--lime) 58%,var(--lime) 92%,transparent 92%);
+  padding:0 .08em;
+}
+
+/* ============================================================
+   LAYOUT PRIMITIVES
+   ============================================================ */
+.container{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:1.5rem}
+.section{padding:6rem 0}
+.section-tight{padding:3.5rem 0}
+
+.eyebrow-pill{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.45rem 1rem;border-radius:var(--radius-pill);
+  background:var(--surface);border:1px solid var(--border);
+  font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);box-shadow:var(--shadow-sm);
+}
+.eyebrow-pill::before{
+  content:"";width:.5rem;height:.5rem;border-radius:50%;background:var(--coral);
+  box-shadow:0 0 0 4px rgba(255,77,46,.18);
+}
+
+.section-head{max-width:720px;margin-bottom:3.5rem}
+.section-head.center{margin-inline:auto;text-align:center}
+.section-head h2{margin-bottom:1rem}
+.section-head .lead{max-width:56ch}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header{
+  position:sticky;top:0;z-index:60;
+  background:rgba(253,247,239,.82);
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid transparent;
+}
+.header-inner{position:relative}
+.header-bar{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;height:var(--header-h)}
+
+.brand{display:inline-flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.15rem;letter-spacing:-.04em;color:var(--ink)}
+.brand-mark{
+  position:relative;flex:none;width:2rem;height:2rem;border-radius:9px;
+  background:var(--ink);display:grid;place-items:center;color:var(--lime);
+  font-size:.9rem;font-weight:900;
+}
+.brand-mark::after{content:"◆";font-size:.7rem;line-height:1}
+
+.nav{display:flex;align-items:center;gap:.25rem}
+.nav a{
+  display:inline-block;padding:.55rem 1rem;border-radius:var(--radius-pill);
+  font-size:.92rem;font-weight:600;color:var(--ink-2);
+  transition:background .18s ease,color .18s ease;
+}
+.nav a:hover{color:var(--ink);background:var(--surface-2)}
+.nav a[aria-current="page"]{color:#fff;background:var(--ink);font-weight:700}
+
+.header-actions{display:flex;align-items:center;gap:.75rem}
+
+.nav-toggle{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.burger{
+  display:none;width:2.75rem;height:2.75rem;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  border:1px solid var(--border);border-radius:var(--radius-pill);background:var(--surface);cursor:pointer;
+}
+.burger span{display:block;width:16px;height:2px;background:var(--ink);border-radius:2px;transition:transform .22s ease,opacity .22s ease}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
+  padding:.85rem 1.6rem;border-radius:var(--radius-pill);
+  font-size:.95rem;font-weight:700;letter-spacing:-.005em;
+  border:1.5px solid transparent;cursor:pointer;white-space:nowrap;
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease,color .18s ease;
+}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral);box-shadow:0 6px 18px -6px rgba(255,77,46,.55)}
+.btn-primary:hover{background:var(--coral-dark);border-color:var(--coral-dark);transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(255,77,46,.7)}
+.btn-dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-dark:hover{background:#000;transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-ghost{background:var(--surface);color:var(--ink);border-color:var(--border-2)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-lg{padding:1.05rem 2rem;font-size:1rem}
+.btn-block{width:100%}
+
+/* ============================================================
+   PAGE HERO
+   ============================================================ */
+.page-hero{padding:3.5rem 0 3rem;position:relative;overflow:hidden}
+.page-hero::before{
+  content:"";position:absolute;top:-40%;right:-20%;
+  width:800px;height:800px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.10),transparent 62%);
+  pointer-events:none;
+}
+.page-hero-inner{position:relative;z-index:1;max-width:900px}
+
+.crumbs{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--muted);margin-bottom:1.5rem}
+.crumbs a:hover{color:var(--coral)}
+.crumbs span{color:var(--muted-2)}
+
+.page-hero h1{margin:1.5rem 0 1.5rem;max-width:16ch}
+.page-hero .lead{max-width:64ch}
+
+.doc-meta{
+  display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;
+  margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);
+  font-size:.85rem;color:var(--muted);
+}
+.doc-meta li{display:flex;align-items:center;gap:.5rem}
+.doc-meta li::before{content:"";width:.45rem;height:.45rem;border-radius:50%;background:var(--coral)}
+
+/* ============================================================
+   BENTO — MISSION, STATS, CULTURE
+   ============================================================ */
+.bento{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;
+}
+
+.tile{
+  position:relative;
+  border-radius:var(--radius-lg);
+  padding:2rem 1.9rem 2.1rem;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  min-height:240px;
+  transition:transform .22s ease,box-shadow .22s ease;
+}
+.tile:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+
+.tile--coral{background:var(--coral);color:#fff;grid-column:span 2}
+.tile--violet{background:var(--violet);color:#fff}
+.tile--electric{background:var(--electric);color:#fff}
+.tile--lime{background:var(--lime);color:var(--ink)}
+.tile--sun{background:var(--sun);color:var(--ink)}
+.tile--ink{background:var(--ink);color:#fff;grid-column:span 3}
+
+.tile-icon{
+  width:3rem;height:3rem;border-radius:14px;
+  background:rgba(255,255,255,.18);
+  display:grid;place-items:center;margin-bottom:auto;
+}
+.tile--lime .tile-icon,
+.tile--sun .tile-icon{background:rgba(13,13,18,.10)}
+
+.tile h3{font-size:1.45rem;font-weight:800;letter-spacing:-.03em;margin:1.75rem 0 .6rem;line-height:1.15}
+.tile p{font-size:.98rem;line-height:1.55;color:inherit;opacity:.9}
+
+.tile .big-num{
+  font-size:clamp(3.5rem,7vw,5rem);
+  font-weight:900;letter-spacing:-.055em;line-height:.9;
+  margin-top:auto;
+}
+.tile .big-label{
+  font-size:.9rem;font-weight:600;margin-top:.6rem;line-height:1.45;opacity:.85;
+}
+
+.tile--ink .tile-inner{
+  display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:2rem;align-items:center;
+}
+.tile--ink h3{margin:0 0 .4rem;font-size:1.35rem}
+.tile--ink .stat-value{font-size:2.5rem;font-weight:900;letter-spacing:-.05em;line-height:1;color:var(--lime)}
+.tile--ink .stat-label{font-size:.8rem;color:#a1a1aa;margin-top:.5rem;line-height:1.45}
+
+/* ============================================================
+   TEAM — BENTO
+   ============================================================ */
+.team-bento{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;
+}
+
+.team-card{
+  position:relative;
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:1.9rem 1.8rem 2rem;
+  display:flex;flex-direction:column;
+  min-height:260px;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+  overflow:hidden;
+}
+.team-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--border-2)}
+
+.team-card--wide{grid-column:span 2}
+
+/* Colored top bar accent */
+.team-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:6px;
+}
+.team-card--coral::before{background:var(--coral)}
+.team-card--violet::before{background:var(--violet)}
+.team-card--electric::before{background:var(--electric)}
+.team-card--lime::before{background:var(--lime)}
+.team-card--sun::before{background:var(--sun)}
+
+.avatar{
+  flex:none;width:4.25rem;height:4.25rem;border-radius:16px;
+  display:grid;place-items:center;
+  font-weight:900;font-size:1.35rem;letter-spacing:-.02em;
+  margin-bottom:1.35rem;
+}
+.avatar--coral{background:var(--coral);color:#fff}
+.avatar--violet{background:var(--violet);color:#fff}
+.avatar--electric{background:var(--electric);color:#fff}
+.avatar--lime{background:var(--lime);color:var(--ink)}
+.avatar--sun{background:var(--sun);color:var(--ink)}
+
+.team-name{font-size:1.2rem;font-weight:800;letter-spacing:-.025em;line-height:1.2}
+.team-role{
+  display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--coral);margin:.5rem 0 .9rem;
+}
+.team-card--violet .team-role{color:var(--violet-dark)}
+.team-card--electric .team-role{color:var(--electric)}
+.team-card--lime .team-role{color:#6b7a00}
+.team-card--sun .team-role{color:#8a6d00}
+
+.team-bio{font-size:.92rem;color:var(--ink-2);line-height:1.55;margin-top:auto}
+
+.team-meta{
+  display:flex;flex-wrap:wrap;gap:.4rem .75rem;
+  margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);
+  font-size:.78rem;color:var(--muted);
+}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timeline{
+  position:relative;
+  max-width:820px;
+  margin-inline:auto;
+}
+
+.timeline-item{
+  display:grid;
+  grid-template-columns:7rem 1fr;
+  gap:2.25rem;
+  position:relative;
+  padding-bottom:2.5rem;
+}
+.timeline-item:last-child{padding-bottom:0}
+
+.timeline-year{
+  text-align:right;
+  padding-top:.35rem;
+}
+.timeline-year .yr{
+  display:inline-block;
+  font-size:.95rem;font-weight:900;letter-spacing:-.02em;
+  padding:.35rem .85rem;border-radius:var(--radius-pill);
+  white-space:nowrap;
+}
+.timeline-year .yr--coral{background:var(--coral);color:#fff}
+.timeline-year .yr--lime{background:var(--lime);color:var(--ink)}
+.timeline-year .yr--violet{background:var(--violet);color:#fff}
+.timeline-year .yr--electric{background:var(--electric);color:#fff}
+.timeline-year .yr--sun{background:var(--sun);color:var(--ink)}
+
+.timeline-body{
+  position:relative;
+  padding-left:2.25rem;
+  border-left:2px solid var(--border);
+  padding-bottom:.25rem;
+}
+.timeline-body::before{
+  content:"";position:absolute;left:-9px;top:.5rem;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--bg);border:3px solid var(--coral);
+  transition:transform .2s ease;
+}
+.timeline-item:hover .timeline-body::before{transform:scale(1.25)}
+
+.timeline-item:nth-child(2) .timeline-body::before{border-color:var(--lime)}
+.timeline-item:nth-child(3) .timeline-body::before{border-color:var(--violet)}
+.timeline-item:nth-child(4) .timeline-body::before{border-color:var(--electric)}
+.timeline-item:nth-child(5) .timeline-body::before{border-color:var(--sun);background:var(--sun)}
+.timeline-item:nth-child(5) .timeline-body::before{box-shadow:0 0 0 6px rgba(255,217,61,.28)}
+
+.timeline-body h3{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem;line-height:1.25}
+.timeline-body p{font-size:.93rem;color:var(--ink-2);line-height:1.6}
+
+/* ============================================================
+   CTA BLOCK
+   ============================================================ */
+.cta-block{
+  position:relative;overflow:hidden;
+  border-radius:var(--radius-lg);
+  padding:4.5rem 3.5rem;
+  background:linear-gradient(135deg,var(--violet) 0%,var(--coral) 100%);
+  color:#fff;
+  display:grid;grid-template-columns:1.4fr 1fr;gap:3rem;align-items:center;
+}
+.cta-block::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 15% 20%,rgba(255,255,255,.22),transparent 42%),
+    radial-gradient(circle at 85% 80%,rgba(200,255,0,.18),transparent 42%);
+  pointer-events:none;
+}
+.cta-block > *{position:relative;z-index:1}
+.cta-block h2{color:#fff;font-size:clamp(2rem,4vw,3rem);max-width:18ch}
+.cta-block p{color:rgba(255,255,255,.88);max-width:48ch;margin-top:1rem;font-size:1.0625rem}
+.cta-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:flex-end}
+.cta-block .btn-primary{background:#fff;color:var(--ink);border-color:#fff;box-shadow:0 8px 24px -8px rgba(0,0,0,.4)}
+.cta-block .btn-primary:hover{background:#fff;color:var(--coral-dark);transform:translateY(-2px)}
+.cta-block .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.cta-block .btn-ghost:hover{background:rgba(255,255,255,.12);border-color:#fff}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer{background:var(--ink);color:#fff;padding:5rem 0 2rem;margin-top:auto}
+.footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1.3fr;gap:3rem}
+.footer-brand .brand{color:#fff}
+.footer-brand .brand-mark{background:var(--coral);color:#fff}
+.footer-brand p{color:#a1a1aa;font-size:.9rem;margin-top:1.25rem;max-width:34ch;line-height:1.6}
+.footer-col h4{
+  font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:#71717a;margin-bottom:1.25rem;
+}
+.footer-col li + li{margin-top:.7rem}
+.footer-col a,.footer-col span{font-size:.92rem;color:#d4d4d8}
+.footer-col a:hover{color:var(--lime)}
+.footer-bottom{
+  margin-top:4rem;padding-top:1.75rem;border-top:1px solid #27272a;
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  font-size:.82rem;color:#71717a;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1080px){
+  .bento{grid-template-columns:repeat(2,1fr)}
+  .tile--coral{grid-column:span 2}
+  .tile--ink{grid-column:span 2}
+  .tile--ink .tile-inner{grid-template-columns:1fr 1fr;gap:1.5rem}
+
+  .team-bento{grid-template-columns:repeat(2,1fr)}
+  .team-card--wide{grid-column:span 2}
+}
+
+@media (max-width:960px){
+  .cta-block{grid-template-columns:1fr;padding:3rem 2rem;gap:2rem}
+  .cta-actions{justify-content:flex-start}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+
+@media (max-width:900px){
+  .burger{display:flex}
+  .header-cta{display:none}
+  .nav{
+    position:absolute;top:calc(100% + 1px);left:0;right:0;
+    display:none;flex-direction:column;align-items:stretch;gap:.35rem;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    margin:0 1rem;padding:.75rem;
+    box-shadow:var(--shadow-md);
+  }
+  .nav a{padding:.75rem 1rem;border-radius:var(--radius-sm)}
+  .nav-toggle:checked ~ .header-bar .nav{display:flex}
+  .nav-toggle:checked ~ .header-bar .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle:checked ~ .header-bar .burger span:nth-child(2){opacity:0}
+  .nav-toggle:checked ~ .header-bar .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+}
+
+@media (max-width:780px){
+  .bento{grid-template-columns:1fr}
+  .tile--coral,
+  .tile--violet,
+  .tile--electric,
+  .tile--lime,
+  .tile--sun,
+  .tile--ink{grid-column:span 1}
+  .tile--ink .tile-inner{grid-template-columns:1fr;gap:1.5rem}
+
+  .team-bento{grid-template-columns:1fr}
+  .team-card--wide{grid-column:span 1}
+}
+
+@media (max-width:680px){
+  .section{padding:4rem 0}
+  .section-tight{padding:2.75rem 0}
+  .page-hero{padding:2.5rem 0 2rem}
+  .footer-grid{grid-template-columns:1fr;gap:2rem}
+
+  .timeline-item{grid-template-columns:1fr;gap:1rem;padding-bottom:2rem}
+  .timeline-year{text-align:left}
+  .timeline-body{padding-left:1.5rem}
+  .timeline-body::before{left:-8px;width:14px;height:14px}
+}
+
+@media (max-width:520px){
+  .container{padding-inline:1.15rem}
+  .tile{padding:1.6rem 1.5rem 1.75rem;min-height:auto}
+  .team-card{padding:1.6rem 1.5rem 1.75rem;min-height:auto}
+  .cta-block{padding:2.25rem 1.5rem}
+  .cta-block .cta-actions{width:100%}
+  .cta-block .cta-actions .btn{width:100%}
+  .doc-meta{flex-direction:column;gap:.4rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="container header-inner">
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <div class="header-bar">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Premier<span style="color:var(--coral)">PM</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/c/about" aria-current="page">About</a>
+        <a href="/c/contact">Contact</a>
+        <a href="/c/policy">Privacy</a>
+        <a href="/c/terms">Terms</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="/c/contact" class="btn btn-dark header-cta">Book a Tour</a>
+        <label for="nav-toggle" class="burger" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
+        </label>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= PAGE HERO ================= -->
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>About</span>
+      </nav>
+
+      <span class="eyebrow-pill">About PremierPM</span>
+
+      <h1>We manage homes the way we would want <span class="mark">ours</span> managed.</h1>
+
+      <p class="lead">
+        Premier Property Management has looked after residential buildings in this city since 2012.
+        What began as twelve units in the downtown corridor is now a portfolio of 250+ homes,
+        operated by leasing agents, maintenance coordinators, and property managers who live in
+        the neighborhoods they serve.
+      </p>
+
+      <ul class="doc-meta">
+        <li>Founded 2012 · Downtown Core</li>
+        <li>250+ residential units under management</li>
+        <li>4 neighborhoods served across the metro</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= BENTO — MISSION, STATS, CULTURE ================= -->
+  <section class="section" style="padding-top:2rem">
+    <div class="container">
+      <div class="bento">
+
+        <!-- Story -->
+        <div class="tile tile--coral">
+          <div class="tile-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 21h18"/>
+              <path d="M5 21V7l7-4 7 4v14"/>
+              <path d="M9 21v-6h6v6"/>
+            </svg>
+          </div>
+          <h3>Twelve units on a single block. Then a whole city.</h3>
+          <p>
+            We started in 2012 with one renovated walk-up and a simple observation: most people do
+            not dislike renting — they dislike being ignored. Repairs sat for weeks, statements
+            arrived without explanation, and renewals felt like ultimatums. We built the company
+            around fixing exactly that, one building at a time.
+          </p>
+        </div>
+
+        <!-- Big stat -->
+        <div class="tile tile--lime">
+          <div class="big-num">250+</div>
+          <div class="big-label">Residential units under active management across the metro.</div>
+        </div>
+
+        <!-- Mission -->
+        <div class="tile tile--violet">
+          <div class="tile-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="6"/>
+              <circle cx="12" cy="12" r="2"/>
+            </svg>
+          </div>
+          <h3>Our mission</h3>
+          <p>
+            Well-maintained homes and transparent, professional service to every resident and owner
+            we work with — clear pricing, documented processes, and a human on the other end of the
+            line.
+          </p>
+        </div>
+
+        <!-- Where we work -->
+        <div class="tile tile--electric">
+          <div class="tile-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <h3>Where we work</h3>
+          <p>
+            Downtown Core · Riverside District · Cedar Park · Northgate. We stay deliberately local
+            so our crews are close and our knowledge of each block stays current.
+          </p>
+        </div>
+
+        <!-- Culture -->
+        <div class="tile tile--sun">
+          <div class="tile-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <h3>Community-first culture</h3>
+          <p>
+            Resident appreciation events, neighborhood cleanups, and partnerships with local
+            vendors. We hire people who care about the blocks they manage.
+          </p>
+        </div>
+
+        <!-- Full-width stats strip -->
+        <div class="tile tile--ink">
+          <div class="tile-inner">
+            <div>
+              <h3>The numbers behind the promise.</h3>
+              <p style="color:#a1a1aa;font-size:.9rem;margin-top:.4rem">
+                Twelve years of managing homes in this city, and the data still guides every
+                decision we make.
+              </p>
+            </div>
+            <div>
+              <div class="stat-value">98%</div>
+              <div class="stat-label">Resident lease renewal rate across the portfolio</div>
+            </div>
+            <div>
+              <div class="stat-value">&lt; 4 hrs</div>
+              <div class="stat-label">Average maintenance response time</div>
+            </div>
+            <div>
+              <div class="stat-value">12 yrs</div>
+              <div class="stat-label">Managing property in the metro area</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEAM BENTO ================= -->
+  <section class="section" style="background:var(--surface);border-block:1.5px solid var(--border)">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow-pill" style="margin-bottom:1.25rem">Leadership team</span>
+        <h2>The people you will actually talk to.</h2>
+        <p class="lead">
+          Four people run day-to-day operations at PremierPM. Every one of them is reachable
+          through the office line — no call-center routing, no ticket queues.
+        </p>
+      </div>
+
+      <div class="team-bento">
+
+        <!-- Managing Director (wide) -->
+        <div class="team-card team-card--coral team-card--wide">
+          <div class="avatar avatar--coral" aria-hidden="true">MD</div>
+          <div class="team-name">Morgan Delacroix</div>
+          <div class="team-role">Managing Director</div>
+          <p class="team-bio">
+            Founded PremierPM in 2012 and still reviews every owner statement before it goes out.
+            Oversees portfolio strategy, building acquisitions, and long-term capital planning for
+            every property under management.
+          </p>
+          <div class="team-meta">
+            <span>· 18 years in property management</span>
+            <span>· Licensed broker</span>
+            <span>· Downtown Core resident</span>
+          </div>
+        </div>
+
+        <!-- Lead Leasing Agent -->
+        <div class="team-card team-card--violet">
+          <div class="avatar avatar--violet" aria-hidden="true">LC</div>
+          <div class="team-name">Leah Chen</div>
+          <div class="team-role">Lead Leasing Agent</div>
+          <p class="team-bio">
+            Runs showings and applications for every available unit. Twelve years in residential
+            leasing and fair-housing compliance.
+          </p>
+          <div class="team-meta">
+            <span>· 12 years leasing</span>
+            <span>· Fair-housing certified</span>
+          </div>
+        </div>
+
+        <!-- Head of Maintenance -->
+        <div class="team-card team-card--electric">
+          <div class="avatar avatar--electric" aria-hidden="true">JO</div>
+          <div class="team-name">James Okafor</div>
+          <div class="team-role">Head of Maintenance</div>
+          <p class="team-bio">
+            Manages the in-house maintenance crew and the vendor network. Owns our 24/7 emergency
+            dispatch schedule, personally.
+          </p>
+          <div class="team-meta">
+            <span>· 15 years in facilities</span>
+            <span>· EPA certified</span>
+          </div>
+        </div>
+
+        <!-- Tenant Relations (wide) -->
+        <div class="team-card team-card--lime team-card--wide">
+          <div class="avatar avatar--lime" aria-hidden="true">SR</div>
+          <div class="team-name">Sofia Ramirez</div>
+          <div class="team-role">Tenant Relations Manager</div>
+          <p class="team-bio">
+            Handles move-in coordination, lease renewals, and resident concerns. Sofia is your
+            first call when something needs resolving — and the person who makes sure it actually
+            gets resolved. She also runs our resident appreciation events and neighborhood
+            cleanups.
+          </p>
+          <div class="team-meta">
+            <span>· 9 years in resident services</span>
+            <span>· Bilingual: English / Spanish</span>
+            <span>· Cedar Park resident</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TIMELINE ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow-pill" style="margin-bottom:1.25rem">Company milestones</span>
+        <h2>How we grew, one building at a time.</h2>
+        <p class="lead">
+          Every milestone below came from the same playbook: take on a property, inspect it
+          thoroughly, document the standard, and manage it properly.
+        </p>
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-year"><span class="yr yr--coral">2012</span></div>
+          <div class="timeline-body">
+            <h3>Company founded with 12 units</h3>
+            <p>
+              PremierPM opens with a single renovated walk-up in the Downtown Core. First written
+              maintenance standard drafted for the building — a document we still update every
+              year.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year"><span class="yr yr--lime">2015</span></div>
+          <div class="timeline-body">
+            <h3>75 units and the online tenant portal</h3>
+            <p>
+              Portfolio reaches 75 managed units across three neighborhoods. Online rent payment
+              and maintenance requests replace paper notices entirely — and our response time
+              drops by half.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year"><span class="yr yr--violet">2018</span></div>
+          <div class="timeline-body">
+            <h3>Corporate leasing and mixed-use expansion</h3>
+            <p>
+              Added corporate relocation leases and expanded into mixed-use buildings, surpassing
+              150 units under management and hiring a dedicated tenant relations lead.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year"><span class="yr yr--electric">2022</span></div>
+          <div class="timeline-body">
+            <h3>250+ units and 24/7 dispatch</h3>
+            <p>
+              Crossed 250 managed units, opened a second office in Northgate, and launched a
+              round-the-clock emergency maintenance line staffed by a human responder.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year"><span class="yr yr--sun">2025</span></div>
+          <div class="timeline-body">
+            <h3>Smart access and preventive upkeep</h3>
+            <p>
+              Rolling out smart locks and energy monitoring across premium managed units,
+              alongside a scheduled preventive maintenance program for every building in the
+              portfolio.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-block">
+        <div>
+          <h2>Want to see how we operate up close?</h2>
+          <p>
+            Tour a unit, meet the leasing team, and read a sample lease before you commit. We are
+            happy to answer the detailed questions.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a href="/c/contact" class="btn btn-primary btn-lg">Book a Tour</a>
+          <a href="/" class="btn btn-ghost btn-lg">Browse Available Units</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"></span>
+          Premier<span style="color:var(--coral)">PM</span>
+        </a>
+        <p>
+          Property management and leasing for the modern city. 250+ residential units managed
+          with transparent pricing and a maintenance team that shows up.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/c/about">About</a></li>
+          <li><a href="/c/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/c/policy">Privacy Policy</a></li>
+          <li><a href="/c/terms">Terms of Service</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+15550123456">(555) 012-3456</a></li>
+          <li><a href="mailto:leasing@premierpm.example">leasing@premierpm.example</a></li>
+          <li><span>450 Harrison Avenue, Suite 12<br>City Center, ST 10024</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 Premier Property Management. All rights reserved.</span>
+      <span>Equal Housing Opportunity · Licensed Property Manager #PM-44821</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

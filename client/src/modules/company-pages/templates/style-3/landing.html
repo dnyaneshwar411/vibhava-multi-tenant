@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premier Property Management &amp; Leasing in the City</title>
+<meta name="description" content="Transparent leasing, well-maintained apartments, and 24/7 maintenance. Premier Property Management operates 250+ residential units across the metro.">
+<style>
+/* ============================================================
+   DESIGN TOKENS — Editorial / Content-First (Editorial Minimal)
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0;padding:0}
+
+:root{
+  --ink:#1c1917;
+  --ink-2:#3f3a35;
+  --ink-3:#57534e;
+  --muted:#78716c;
+  --muted-2:#a8a29e;
+
+  --paper:#faf7f2;
+  --paper-2:#f5f0e8;
+  --surface:#ffffff;
+  --surface-2:#fdfbf7;
+
+  --rule:#e7e0d5;
+  --rule-2:#d8cfbf;
+  --rule-3:#c4b8a3;
+
+  --accent:#8b3a2e;           /* deep rust — editorial masthead tone */
+  --accent-2:#6b2c1f;
+  --accent-soft:rgba(139,58,46,.08);
+
+  --serif:Georgia,'Iowan Old Style','Palatino Linotype','Book Antiqua',Palatino,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+
+  --max:1180px;
+  --measure:66ch;
+  --header-h:4.5rem;
+}
+
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:6rem}
+
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.7;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none;transition:color .16s ease}
+button,input,select,textarea{font:inherit;color:inherit}
+ul{list-style:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1,h2,h3,h4{
+  font-family:var(--serif);
+  font-weight:400;
+  letter-spacing:-.015em;
+  line-height:1.18;
+  color:var(--ink);
+}
+h1{font-size:clamp(2.5rem,5.5vw,4.5rem);letter-spacing:-.025em;line-height:1.05}
+h2{font-size:clamp(1.65rem,3vw,2.35rem);letter-spacing:-.02em;line-height:1.18}
+h3{font-size:1.35rem;line-height:1.3}
+h4{font-size:1.05rem;line-height:1.35}
+
+p{color:var(--ink-2);line-height:1.75}
+p + p{margin-top:1.15rem}
+
+/* Small caps / kicker */
+.kicker{
+  font-family:var(--sans);
+  font-size:.72rem;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+
+/* Understated links */
+.link{
+  color:var(--accent);
+  border-bottom:1px solid rgba(139,58,46,.4);
+  padding-bottom:1px;
+  transition:border-color .16s ease,color .16s ease;
+}
+.link:hover{
+  color:var(--accent-2);
+  border-bottom-color:var(--accent);
+}
+
+/* Drop cap */
+.dropcap::first-letter{
+  font-family:var(--serif);
+  font-size:3.85em;
+  line-height:.85;
+  float:left;
+  padding:.1em .12em 0 0;
+  color:var(--ink);
+  font-weight:400;
+}
+
+/* Marker / accent word */
+.italic-accent{
+  font-style:italic;
+  color:var(--accent);
+}
+
+/* ============================================================
+   LAYOUT PRIMITIVES
+   ============================================================ */
+.container{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:1.5rem}
+.container-narrow{width:100%;max-width:760px;margin-inline:auto;padding-inline:1.5rem}
+.container-wide{width:100%;max-width:1340px;margin-inline:auto;padding-inline:1.5rem}
+
+.section{padding:5rem 0}
+.section-tight{padding:3rem 0}
+
+.rule{
+  height:1px;
+  background:var(--rule);
+  border:0;
+}
+
+/* Section heading — small caps lead + serif title */
+.section-head{margin-bottom:2.75rem}
+.section-head .kicker{display:block;margin-bottom:1rem}
+.section-head h2{max-width:22ch}
+.section-head.center{text-align:center;margin-inline:auto;max-width:720px}
+.section-head.center h2{margin-inline:auto}
+
+/* ============================================================
+   HEADER — magazine masthead feel
+   ============================================================ */
+.site-header{
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  position:relative;
+  z-index:40;
+}
+.header-top{
+  border-bottom:1px solid var(--rule);
+  padding:.55rem 0;
+  font-family:var(--sans);
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.header-top-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:1.5rem;
+  flex-wrap:wrap;
+}
+.header-top-inner span{white-space:nowrap}
+.header-top-inner .dot{
+  display:inline-block;
+  width:.28rem;
+  height:.28rem;
+  background:var(--accent);
+  border-radius:50%;
+  margin:0 .55rem;
+  vertical-align:middle;
+  transform:translateY(-1px);
+}
+
+.header-main{padding:1.5rem 0 1.25rem;border-bottom:1px solid var(--rule)}
+.header-main-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:2rem;
+  flex-wrap:wrap;
+}
+
+.masthead{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:.15rem;
+}
+.masthead-name{
+  font-family:var(--serif);
+  font-size:1.85rem;
+  letter-spacing:-.03em;
+  line-height:1;
+  color:var(--ink);
+}
+.masthead-name em{
+  font-style:italic;
+  color:var(--accent);
+}
+.masthead-tag{
+  font-family:var(--sans);
+  font-size:.66rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:.35rem;
+}
+
+.header-contact{
+  font-family:var(--sans);
+  font-size:.82rem;
+  color:var(--ink-2);
+  text-align:right;
+  line-height:1.65;
+}
+.header-contact a{
+  border-bottom:1px solid var(--rule-2);
+  padding-bottom:1px;
+}
+.header-contact a:hover{border-bottom-color:var(--accent);color:var(--accent)}
+
+/* Nav row — like a newspaper section bar */
+.nav-bar{
+  border-bottom:1px solid var(--rule);
+  background:var(--paper);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+.nav-bar-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1.5rem;
+  padding:.85rem 0;
+}
+
+.nav{display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.nav a{
+  font-family:var(--sans);
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  padding:.25rem 0;
+  border-bottom:1px solid transparent;
+  transition:color .16s ease,border-color .16s ease;
+}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+.nav a[aria-current="page"]{color:var(--accent);border-bottom-color:var(--accent)}
+
+.nav-toggle{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.burger{
+  display:none;
+  width:2.5rem;height:2.5rem;
+  border:1px solid var(--rule-2);
+  background:var(--surface);
+  cursor:pointer;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:4px;
+}
+.burger span{display:block;width:16px;height:1.5px;background:var(--ink)}
+
+.nav-cta{
+  font-family:var(--sans);
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  padding:.25rem 0;
+  border-bottom:1px solid var(--accent);
+  white-space:nowrap;
+}
+.nav-cta:hover{color:var(--accent-2)}
+
+/* ============================================================
+   HERO — magazine cover story
+   ============================================================ */
+.hero{
+  padding:4.5rem 0 5rem;
+  border-bottom:1px solid var(--rule);
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+  gap:4rem;
+  align-items:start;
+}
+
+.hero-left .kicker{
+  display:block;
+  margin-bottom:1.5rem;
+}
+.hero-left .kicker .dot{
+  display:inline-block;
+  width:.35rem;
+  height:.35rem;
+  background:var(--accent);
+  border-radius:50%;
+  margin-right:.6rem;
+  vertical-align:middle;
+  transform:translateY(-2px);
+}
+
+.hero h1{
+  margin-bottom:1.75rem;
+  max-width:15ch;
+}
+
+.hero-sub{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:1.3rem;
+  line-height:1.5;
+  color:var(--ink-3);
+  max-width:44ch;
+  margin-bottom:2rem;
+  padding-bottom:2rem;
+  border-bottom:1px solid var(--rule);
+}
+
+.hero-body{
+  max-width:60ch;
+}
+.hero-body p{font-size:1.02rem}
+
+.hero-actions{
+  display:flex;
+  gap:2rem;
+  margin-top:2.5rem;
+  flex-wrap:wrap;
+  align-items:baseline;
+}
+.hero-actions .link-lg{
+  font-family:var(--sans);
+  font-size:.82rem;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  border-bottom:1px solid var(--accent);
+  padding-bottom:2px;
+}
+.hero-actions .link-lg:hover{color:var(--accent-2);border-bottom-color:var(--accent-2)}
+.hero-actions .link-quiet{
+  font-family:var(--sans);
+  font-size:.82rem;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  border-bottom:1px solid var(--rule-2);
+  padding-bottom:2px;
+}
+.hero-actions .link-quiet:hover{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* Right rail — featured brief */
+.hero-rail{
+  border-top:3px double var(--rule-2);
+  padding-top:1.75rem;
+}
+.hero-rail .kicker{
+  display:block;
+  margin-bottom:1rem;
+  color:var(--muted);
+}
+
+.feature-card{
+  display:flex;
+  flex-direction:column;
+  gap:1.25rem;
+}
+
+.feature-thumb{
+  position:relative;
+  aspect-ratio:4/3;
+  background:linear-gradient(160deg,var(--paper-2) 0%,#ece3d3 100%);
+  border:1px solid var(--rule-2);
+  overflow:hidden;
+}
+.feature-thumb::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(139,58,46,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(139,58,46,.06) 1px,transparent 1px);
+  background-size:24px 24px;
+}
+.feature-thumb span{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:.98rem;
+  color:var(--muted);
+}
+
+.feature-title{
+  font-family:var(--serif);
+  font-size:1.35rem;
+  line-height:1.25;
+  letter-spacing:-.015em;
+}
+.feature-meta{
+  font-family:var(--sans);
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.feature-meta .dot{
+  display:inline-block;
+  width:.25rem;height:.25rem;
+  background:var(--muted-2);
+  border-radius:50%;
+  margin:0 .5rem;
+  vertical-align:middle;
+  transform:translateY(-2px);
+}
+.feature-excerpt{
+  font-size:.95rem;
+  color:var(--ink-3);
+  line-height:1.7;
+}
+.feature-price{
+  font-family:var(--serif);
+  font-size:1.15rem;
+  color:var(--ink);
+  padding-top:1.15rem;
+  border-top:1px solid var(--rule);
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+}
+.feature-price small{
+  font-family:var(--sans);
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* ============================================================
+   TICKER — quiet stats bar
+   ============================================================ */
+.ticker{
+  border-bottom:1px solid var(--rule);
+  background:var(--paper-2);
+  padding:1.35rem 0;
+}
+.ticker-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:2rem;
+  flex-wrap:wrap;
+  font-family:var(--sans);
+  font-size:.78rem;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.ticker-inner .item{display:flex;align-items:center;gap:.75rem}
+.ticker-inner .item strong{
+  font-family:var(--serif);
+  font-size:1.05rem;
+  font-weight:400;
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--ink);
+}
+
+/* ============================================================
+   FEATURE — main story with pull quote
+   ============================================================ */
+.feature-story{
+  padding:5rem 0;
+  border-bottom:1px solid var(--rule);
+}
+.story-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,2.1fr);
+  gap:4rem;
+  align-items:start;
+}
+
+.story-aside{
+  position:sticky;
+  top:6rem;
+}
+.story-aside .kicker{display:block;margin-bottom:1rem}
+.story-aside h3{
+  font-size:1.05rem;
+  line-height:1.4;
+  color:var(--ink);
+  padding-bottom:1rem;
+  border-bottom:1px solid var(--rule);
+  margin-bottom:1.25rem;
+}
+.story-aside ul{display:flex;flex-direction:column;gap:.85rem}
+.story-aside li{
+  font-family:var(--sans);
+  font-size:.83rem;
+  color:var(--ink-3);
+  padding-bottom:.85rem;
+  border-bottom:1px solid var(--rule);
+  display:flex;
+  gap:.6rem;
+  align-items:baseline;
+  line-height:1.55;
+}
+.story-aside li::before{
+  content:"—";
+  color:var(--accent);
+  flex:none;
+  font-weight:400;
+}
+.story-aside li:last-child{border-bottom:0;padding-bottom:0}
+
+.story-main{max-width:var(--measure)}
+
+.story-main h2{
+  margin-bottom:1.5rem;
+  max-width:24ch;
+}
+.story-main h2 em{
+  font-style:italic;
+  color:var(--accent);
+}
+
+.story-main p{
+  font-size:1.02rem;
+  color:var(--ink-2);
+}
+
+/* Pull quote */
+.pull-quote{
+  margin:2.5rem 0;
+  padding:1.75rem 0;
+  border-top:1px solid var(--rule-2);
+  border-bottom:1px solid var(--rule-2);
+  text-align:center;
+}
+.pull-quote p{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:1.55rem;
+  line-height:1.4;
+  letter-spacing:-.015em;
+  color:var(--ink);
+  max-width:34ch;
+  margin:0 auto;
+}
+.pull-quote cite{
+  display:block;
+  font-family:var(--sans);
+  font-style:normal;
+  font-size:.72rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:1.35rem;
+}
+
+.story-bylines{
+  margin-top:2.25rem;
+  padding-top:1.75rem;
+  border-top:1px solid var(--rule);
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.75rem;
+}
+.byline-item .label{
+  font-family:var(--sans);
+  font-size:.68rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:.4rem;
+}
+.byline-item .value{
+  font-family:var(--serif);
+  font-size:1rem;
+  color:var(--ink);
+  line-height:1.4;
+}
+
+/* ============================================================
+   LISTINGS INDEX — editorial table-like cards
+   ============================================================ */
+.listings{
+  padding:5rem 0;
+  border-bottom:1px solid var(--rule);
+}
+.listings-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:2rem;
+  margin-bottom:3rem;
+  padding-bottom:1.5rem;
+  border-bottom:1px solid var(--rule);
+  flex-wrap:wrap;
+}
+.listings-head h2{max-width:20ch}
+.listings-head .link-quiet{
+  font-family:var(--sans);
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  border-bottom:1px solid var(--rule-2);
+  padding-bottom:2px;
+  white-space:nowrap;
+}
+.listings-head .link-quiet:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
+.listings-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  border-top:1px solid var(--rule);
+  border-left:1px solid var(--rule);
+}
+.listing-card{
+  border-right:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding:2rem 1.75rem 2.25rem;
+  display:flex;
+  flex-direction:column;
+  gap:1.35rem;
+  background:var(--paper);
+  transition:background .18s ease;
+}
+.listing-card:hover{background:var(--surface-2)}
+
+.listing-thumb{
+  position:relative;
+  aspect-ratio:16/11;
+  background:linear-gradient(160deg,var(--paper-2) 0%,#ece3d3 100%);
+  border:1px solid var(--rule-2);
+  overflow:hidden;
+}
+.listing-thumb::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(139,58,46,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(139,58,46,.06) 1px,transparent 1px);
+  background-size:24px 24px;
+}
+.listing-thumb span{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:.92rem;
+  color:var(--muted);
+}
+
+.listing-status{
+  position:absolute;
+  top:.85rem;
+  left:.85rem;
+  font-family:var(--sans);
+  font-size:.62rem;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  background:var(--paper);
+  color:var(--ink);
+  padding:.32rem .6rem;
+  border:1px solid var(--rule-2);
+  z-index:2;
+}
+.listing-status.accent{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+}
+
+.listing-title{
+  font-family:var(--serif);
+  font-size:1.18rem;
+  line-height:1.3;
+  letter-spacing:-.015em;
+}
+.listing-title a:hover{color:var(--accent)}
+
+.listing-addr{
+  font-family:var(--sans);
+  font-size:.82rem;
+  color:var(--muted);
+  margin-top:.35rem;
+}
+
+.listing-specs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem 1rem;
+  font-family:var(--sans);
+  font-size:.78rem;
+  color:var(--ink-3);
+  letter-spacing:.02em;
+  padding-top:1rem;
+  border-top:1px solid var(--rule);
+  margin-top:auto;
+}
+.listing-specs span{white-space:nowrap}
+.listing-specs .sep{color:var(--muted-2)}
+
+.listing-foot{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:1rem;
+  padding-top:.85rem;
+  border-top:1px solid var(--rule);
+}
+.listing-price{
+  font-family:var(--serif);
+  font-size:1.25rem;
+  color:var(--ink);
+  letter-spacing:-.01em;
+}
+.listing-price small{
+  font-family:var(--sans);
+  font-size:.72rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.listing-link{
+  font-family:var(--sans);
+  font-size:.7rem;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  border-bottom:1px solid rgba(139,58,46,.5);
+  padding-bottom:1px;
+  white-space:nowrap;
+}
+.listing-link:hover{color:var(--accent-2);border-bottom-color:var(--accent-2)}
+
+/* ============================================================
+   THREE-PART ESSAY — why rent with us
+   ============================================================ */
+.essay{
+  padding:5rem 0;
+  border-bottom:1px solid var(--rule);
+  background:var(--paper-2);
+}
+.essay-head{
+  max-width:760px;
+  margin:0 auto 3.5rem;
+  text-align:center;
+}
+.essay-head .kicker{display:block;margin-bottom:1rem}
+.essay-head h2{max-width:22ch;margin:0 auto}
+
+.essay-columns{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  max-width:1080px;
+  margin:0 auto;
+  border-top:1px solid var(--rule-2);
+  border-bottom:1px solid var(--rule-2);
+}
+.essay-col{
+  padding:2.75rem 2rem;
+  border-right:1px solid var(--rule-2);
+  display:flex;
+  flex-direction:column;
+}
+.essay-col:last-child{border-right:0}
+
+.essay-num{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:2.5rem;
+  color:var(--accent);
+  line-height:1;
+  margin-bottom:1.5rem;
+  letter-spacing:-.02em;
+}
+.essay-col h3{
+  font-family:var(--serif);
+  font-size:1.28rem;
+  line-height:1.3;
+  margin-bottom:1rem;
+  max-width:20ch;
+}
+.essay-col p{
+  font-size:.95rem;
+  color:var(--ink-3);
+  line-height:1.75;
+}
+.essay-col .essay-detail{
+  margin-top:auto;
+  padding-top:1.5rem;
+  font-family:var(--sans);
+  font-size:.78rem;
+  color:var(--muted);
+  letter-spacing:.02em;
+  border-top:1px solid var(--rule-2);
+  margin-top:2rem;
+}
+
+/* ============================================================
+   PRICING — editorial table
+   ============================================================ */
+.pricing{
+  padding:5rem 0;
+  border-bottom:1px solid var(--rule);
+}
+.pricing-head{
+  max-width:720px;
+  margin:0 auto 3.5rem;
+  text-align:center;
+}
+.pricing-head .kicker{display:block;margin-bottom:1rem}
+
+.pricing-table{
+  max-width:1000px;
+  margin:0 auto;
+  border-top:1px solid var(--rule-2);
+  border-bottom:1px solid var(--rule-2);
+}
+
+.pricing-row{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(0,1.3fr) auto;
+  gap:2rem;
+  padding:2rem 0;
+  border-bottom:1px solid var(--rule);
+  align-items:center;
+}
+.pricing-row:last-child{border-bottom:0}
+.pricing-row.featured{
+  background:var(--surface-2);
+  padding-left:1.5rem;
+  padding-right:1.5rem;
+  margin:0 -1.5rem;
+}
+
+.plan-name{
+  font-family:var(--serif);
+  font-size:1.32rem;
+  line-height:1.25;
+  color:var(--ink);
+}
+.plan-name em{
+  font-style:italic;
+  color:var(--accent);
+}
+.plan-name .plan-label{
+  display:block;
+  font-family:var(--sans);
+  font-size:.68rem;
+  font-style:normal;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:.5rem;
+}
+.plan-name .plan-label.tag{
+  color:var(--accent);
+}
+
+.plan-price{
+  font-family:var(--serif);
+  font-size:1.65rem;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  line-height:1;
+}
+.plan-price small{
+  display:block;
+  font-family:var(--sans);
+  font-size:.7rem;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:.5rem;
+}
+
+.plan-features{
+  display:flex;
+  flex-direction:column;
+  gap:.45rem;
+  font-family:var(--sans);
+  font-size:.85rem;
+  color:var(--ink-3);
+  line-height:1.55;
+}
+.plan-features li{
+  display:flex;
+  gap:.55rem;
+  align-items:baseline;
+}
+.plan-features li::before{
+  content:"—";
+  color:var(--accent);
+  flex:none;
+}
+
+.plan-cta{
+  font-family:var(--sans);
+  font-size:.76rem;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink);
+  border-bottom:1px solid var(--ink);
+  padding-bottom:2px;
+  white-space:nowrap;
+}
+.plan-cta:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ============================================================
+   SUBSCRIPTION / CTA — quiet letter
+   ============================================================ */
+.subscribe{
+  padding:5rem 0;
+  background:var(--paper);
+}
+.subscribe-inner{
+  max-width:760px;
+  margin:0 auto;
+  text-align:center;
+}
+.subscribe-inner .kicker{display:block;margin-bottom:1.25rem}
+.subscribe-inner h2{max-width:22ch;margin:0 auto 1.25rem}
+.subscribe-inner p{
+  font-size:1.02rem;
+  color:var(--ink-3);
+  max-width:56ch;
+  margin:0 auto 2.5rem;
+}
+
+.subscribe-form{
+  display:flex;
+  gap:0;
+  max-width:520px;
+  margin:0 auto;
+  border:1px solid var(--rule-2);
+  background:var(--surface);
+  padding:.35rem;
+}
+.subscribe-form input{
+  flex:1;
+  padding:1rem 1.15rem;
+  border:0;
+  background:transparent;
+  font-family:var(--sans);
+  font-size:.95rem;
+  color:var(--ink);
+  min-width:0;
+}
+.subscribe-form input::placeholder{color:var(--muted-2)}
+.subscribe-form input:focus{outline:none}
+.subscribe-form button{
+  padding:1rem 1.5rem;
+  background:var(--ink);
+  color:var(--paper);
+  border:0;
+  font-family:var(--sans);
+  font-size:.76rem;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:background .16s ease;
+}
+.subscribe-form button:hover{background:var(--accent)}
+.subscribe-note{
+  font-family:var(--sans);
+  font-size:.78rem;
+  color:var(--muted);
+  margin-top:1.15rem;
+  letter-spacing:.02em;
+}
+
+/* ============================================================
+   FOOTER — masthead-style
+   ============================================================ */
+.site-footer{
+  background:var(--paper);
+  border-top:1px solid var(--rule);
+  padding:4rem 0 2rem;
+  margin-top:auto;
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.6fr) 1fr 1fr 1.3fr;
+  gap:3rem;
+  padding-bottom:3rem;
+  border-bottom:1px solid var(--rule);
+}
+.footer-brand .masthead-name{font-size:1.5rem}
+.footer-brand p{
+  font-size:.88rem;
+  color:var(--muted);
+  margin-top:1.15rem;
+  max-width:38ch;
+  line-height:1.7;
+}
+.footer-col h4{
+  font-family:var(--sans);
+  font-size:.68rem;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:1.25rem;
+}
+.footer-col li + li{margin-top:.65rem}
+.footer-col a,.footer-col span{
+  font-family:var(--sans);
+  font-size:.88rem;
+  color:var(--ink-3);
+  line-height:1.6;
+}
+.footer-col a{border-bottom:1px solid transparent;transition:border-color .16s ease,color .16s ease}
+.footer-col a:hover{color:var(--accent);border-bottom-color:rgba(139,58,46,.4)}
+
+.footer-bottom{
+  padding-top:1.75rem;
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+  font-family:var(--sans);
+  font-size:.78rem;
+  color:var(--muted);
+  letter-spacing:.02em;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1080px){
+  .hero-grid{grid-template-columns:1fr;gap:3.5rem}
+  .hero-rail{max-width:520px}
+  .story-grid{grid-template-columns:1fr;gap:2.5rem}
+  .story-aside{position:static}
+  .story-aside ul{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem 2rem}
+  .listings-grid{grid-template-columns:repeat(2,1fr)}
+  .pricing-row{grid-template-columns:1fr 1fr;gap:1.5rem 2rem;padding:2rem 0}
+  .plan-features{grid-column:1/-1}
+  .plan-cta{justify-self:start}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2.5rem}
+}
+
+@media (max-width:900px){
+  .nav-bar-inner{gap:1rem}
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--surface);border:1px solid var(--rule);border-top:0;padding:0}
+  .nav a{padding:1rem 1.5rem;border-bottom:1px solid var(--rule);border-bottom-color:var(--rule);font-size:.82rem}
+  .nav a:last-child{border-bottom:0}
+  .burger{display:flex}
+  .nav-toggle:checked ~ .nav-bar-inner .nav{display:flex}
+}
+
+@media (max-width:780px){
+  .hero{padding:3.5rem 0 3.5rem}
+  .essay-columns{grid-template-columns:1fr}
+  .essay-col{border-right:0;border-bottom:1px solid var(--rule-2);padding:2.25rem 1.5rem}
+  .essay-col:last-child{border-bottom:0}
+  .story-bylines{grid-template-columns:1fr;gap:1.25rem}
+  .pull-quote p{font-size:1.3rem}
+}
+
+@media (max-width:680px){
+  .section{padding:3.5rem 0}
+  .section-tight{padding:2.25rem 0}
+  .header-top{display:none}
+  .header-main{padding:1.25rem 0}
+  .masthead-name{font-size:1.5rem}
+  .header-contact{text-align:left;width:100%}
+  .listings-grid{grid-template-columns:1fr}
+  .pricing-row{grid-template-columns:1fr;gap:1.25rem}
+  .pricing-row.featured{padding:1.5rem 1rem;margin:0 -1rem}
+  .subscribe-form{flex-direction:column;padding:.5rem;gap:.5rem}
+  .subscribe-form input{text-align:center}
+  .footer-grid{grid-template-columns:1fr;gap:2rem}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .ticker-inner{justify-content:flex-start;gap:1rem}
+}
+
+@media (max-width:520px){
+  body{font-size:16px}
+  .container,.container-narrow,.container-wide{padding-inline:1.15rem}
+  .hero h1{font-size:2.15rem}
+  .hero-actions{flex-direction:column;align-items:flex-start;gap:1.25rem}
+  .listings-head{flex-direction:column;gap:1.25rem;align-items:flex-start}
+  .plan-price{font-size:1.4rem}
+}
+
+/* prefers-reduced-motion */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none !important;animation:none !important}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+
+  <!-- Top wire bar -->
+  <div class="header-top">
+    <div class="container header-top-inner">
+      <span>Vol. XII <span class="dot"></span> Property Management &amp; Leasing</span>
+      <span>City Center <span class="dot"></span> Est. 2012</span>
+      <span>Issue No. 248 <span class="dot"></span> March 2025</span>
+    </div>
+  </div>
+
+  <!-- Masthead -->
+  <div class="header-main">
+    <div class="container header-main-inner">
+      <a href="/" class="masthead">
+        <span class="masthead-name">Premier <em>Property</em> Management</span>
+        <span class="masthead-tag">Transparent leasing · Well-kept homes · The metro since 2012</span>
+      </a>
+
+      <div class="header-contact">
+        <a href="mailto:leasing@premierpm.example">leasing@premierpm.example</a><br>
+        <a href="tel:+15550123456">(555) 012-3456</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section nav -->
+  <div class="nav-bar">
+    <div class="container nav-bar-inner">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav class="nav" aria-label="Primary">
+        <a href="/" aria-current="page">Home</a>
+        <a href="/c/about">About</a>
+        <a href="/c/contact">Contact</a>
+        <a href="/c/policy">Privacy</a>
+        <a href="/c/terms">Terms</a>
+      </nav>
+
+      <a href="/c/contact" class="nav-cta">Book a Tour →</a>
+
+      <label for="nav-toggle" class="burger" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </label>
+    </div>
+  </div>
+
+</header>
+
+<main>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+
+        <!-- Left: cover story -->
+        <div class="hero-left">
+          <span class="kicker"><span class="dot"></span>Featured Story <span style="margin-left:.6rem;color:var(--muted);letter-spacing:.14em">· Issue 248</span></span>
+
+          <h1>Property management that reads like a good letter, not a legal notice.</h1>
+
+          <p class="hero-sub">
+            Transparent leasing, well-maintained apartments, and a maintenance team that answers
+            the phone. A quiet look at how we run 250+ residential units across the metro.
+          </p>
+
+          <div class="hero-body">
+            <p class="dropcap">
+              We started in 2012 with one renovated walk-up in the Downtown Core and a simple
+              observation: most people do not dislike renting, they dislike being ignored. Repairs
+              sat for weeks. Statements arrived without explanation. Renewals felt like ultimatums.
+              We built the company around fixing exactly that — and the portfolio has grown slowly,
+              building by building, ever since.
+            </p>
+            <p>
+              Today Premier Property Management looks after more than 250 homes across four
+              neighborhoods. Every unit is inspected before it is listed. Every repair has a
+              written standard. Every resident has a named contact. This page is the short version
+              of how that works.
+            </p>
+          </div>
+
+          <div class="hero-actions">
+            <a href="#listings" class="link-lg">Browse Available Units</a>
+            <a href="/c/contact" class="link-quiet">Book a Tour</a>
+          </div>
+        </div>
+
+        <!-- Right: featured brief -->
+        <aside class="hero-rail">
+          <span class="kicker">This Week's Feature</span>
+
+          <article class="feature-card">
+            <div class="feature-thumb"><span>Harbor View Lofts · Unit 14B</span></div>
+
+            <div class="feature-meta">
+              Riverside District
+              <span class="dot"></span>
+              Available Now
+            </div>
+
+            <h3 class="feature-title">A two-bedroom corner loft with morning light on three sides.</h3>
+
+            <p class="feature-excerpt">
+              Exposed brick, a small writing nook off the second bedroom, and a walkable block
+              that puts the ferry, the market, and a very good bakery within four minutes.
+            </p>
+
+            <div class="feature-price">
+              <span>$2,450</span>
+              <small>per month</small>
+            </div>
+
+            <a href="/c/contact" class="link" style="align-self:flex-start;font-size:.85rem">Read the full listing →</a>
+          </article>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TICKER ================= -->
+  <div class="ticker" aria-label="Portfolio at a glance">
+    <div class="container ticker-inner">
+      <span class="item"><strong>250+</strong> units under management</span>
+      <span class="item"><strong>98%</strong> resident renewal rate</span>
+      <span class="item"><strong>&lt; 4 hrs</strong> maintenance response</span>
+      <span class="item"><strong>12 yrs</strong> in the metro</span>
+    </div>
+  </div>
+
+  <!-- ================= FEATURE STORY WITH PULL QUOTE ================= -->
+  <section class="feature-story">
+    <div class="container">
+      <div class="story-grid">
+
+        <!-- Aside — quiet index -->
+        <aside class="story-aside">
+          <span class="kicker">In This Issue</span>
+          <h3>What we mean when we say “well-managed.”</h3>
+          <ul>
+            <li>Every unit inspected before listing</li>
+            <li>Every repair logged and time-stamped</li>
+            <li>Every resident assigned a named contact</li>
+            <li>Every renewal negotiated in writing</li>
+            <li>Every building on a preventive upkeep schedule</li>
+          </ul>
+        </aside>
+
+        <!-- Main story -->
+        <div class="story-main">
+          <h2>We treat property management as a form of <em>careful writing</em> — one record at a time.</h2>
+
+          <p>
+            Every apartment we manage has a file. Not a folder of scanned PDFs, but a real record
+            with a history: the date it was last painted, the name of the plumber who replaced the
+            water heater, the resident who reported the slow drain on a Tuesday morning and the
+            technician who cleared it by Thursday afternoon. That record is what separates a
+            well-run building from a building that happens not to be on fire this week.
+          </p>
+
+          <p>
+            We take that idea seriously. Maintenance requests are time-stamped from the moment you
+            submit them. Repairs are documented with before-and-after photographs. Notices to
+            residents are written in plain English, not landlord legalese. When a resident asks a
+            question, they get a real answer, in writing, from a person whose name they know.
+          </p>
+
+          <blockquote class="pull-quote">
+            <p>“The best property management is the kind you never have to think about — because everything was already handled before you noticed.”</p>
+            <cite>Morgan Delacroix, Managing Director</cite>
+          </blockquote>
+
+          <p>
+            That is not a marketing line. It is the operating standard we hold ourselves to. Every
+            vendor contract we sign includes response-time requirements. Every building in the
+            portfolio has a preventive maintenance calendar. Every resident has a phone number to
+            call at 2 a.m. if a pipe bursts, and a human being on the other end who has the
+            authority to dispatch help without asking permission from four levels of management.
+          </p>
+
+          <p>
+            It is not glamorous work. It is the work, and it is the reason our residents stay an
+            average of four and a half years, and why almost every renewal we offer comes back
+            signed.
+          </p>
+
+          <div class="story-bylines">
+            <div class="byline-item">
+              <div class="label">Written by</div>
+              <div class="value">Morgan Delacroix<br>Managing Director</div>
+            </div>
+            <div class="byline-item">
+              <div class="label">Fact-checked by</div>
+              <div class="value">Leah Chen<br>Lead Leasing Agent</div>
+            </div>
+            <div class="byline-item">
+              <div class="label">Photos &amp; records</div>
+              <div class="value">James Okafor<br>Head of Maintenance</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LISTINGS INDEX ================= -->
+  <section class="listings" id="listings">
+    <div class="container">
+      <div class="listings-head">
+        <h2>Available units, indexed and inspected.</h2>
+        <a href="/c/contact" class="link-quiet">Request the full index →</a>
+      </div>
+
+      <div class="listings-grid">
+
+        <article class="listing-card">
+          <div class="listing-thumb">
+            <span class="listing-status accent">Available Now</span>
+            <span>Harbor View Lofts</span>
+          </div>
+          <div>
+            <h3 class="listing-title"><a href="/c/contact">Harbor View Lofts · Unit 14B</a></h3>
+            <p class="listing-addr">218 Harbor Street, Riverside District</p>
+          </div>
+          <div class="listing-specs">
+            <span>2 Bedrooms</span>
+            <span class="sep">·</span>
+            <span>2 Bathrooms</span>
+            <span class="sep">·</span>
+            <span>1,050 sq ft</span>
+            <span class="sep">·</span>
+            <span>Pet Friendly</span>
+          </div>
+          <div class="listing-foot">
+            <div class="listing-price">$2,450 <small>/ mo</small></div>
+            <a href="/c/contact" class="listing-link">Arrange a viewing</a>
+          </div>
+        </article>
+
+        <article class="listing-card">
+          <div class="listing-thumb">
+            <span>Cedar Park Townhomes</span>
+          </div>
+          <div>
+            <h3 class="listing-title"><a href="/c/contact">Cedar Park Townhomes · No. 7</a></h3>
+            <p class="listing-addr">76 Cedar Park Row, Cedar Park</p>
+          </div>
+          <div class="listing-specs">
+            <span>3 Bedrooms</span>
+            <span class="sep">·</span>
+            <span>2.5 Bathrooms</span>
+            <span class="sep">·</span>
+            <span>1,600 sq ft</span>
+            <span class="sep">·</span>
+            <span>Private Entry</span>
+          </div>
+          <div class="listing-foot">
+            <div class="listing-price">$3,200 <small>/ mo</small></div>
+            <a href="/c/contact" class="listing-link">Arrange a viewing</a>
+          </div>
+        </article>
+
+        <article class="listing-card">
+          <div class="listing-thumb">
+            <span class="listing-status">Available Now</span>
+            <span>The Metropolitan</span>
+          </div>
+          <div>
+            <h3 class="listing-title"><a href="/c/contact">The Metropolitan · Unit 902</a></h3>
+            <p class="listing-addr">12 Metropolitan Plaza, Downtown Core</p>
+          </div>
+          <div class="listing-specs">
+            <span>1 Bedroom</span>
+            <span class="sep">·</span>
+            <span>1 Bathroom</span>
+            <span class="sep">·</span>
+            <span>720 sq ft</span>
+            <span class="sep">·</span>
+            <span>Doorman</span>
+          </div>
+          <div class="listing-foot">
+            <div class="listing-price">$1,850 <small>/ mo</small></div>
+            <a href="/c/contact" class="listing-link">Arrange a viewing</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ESSAY — WHY RENT WITH US ================= -->
+  <section class="essay">
+    <div class="container">
+      <div class="essay-head">
+        <span class="kicker">Three Essays on Renting Well</span>
+        <h2>The three things residents complain about most — and how we address each one.</h2>
+      </div>
+
+      <div class="essay-columns">
+
+        <div class="essay-col">
+          <div class="essay-num">i.</div>
+          <h3>Maintenance that is tracked, not promised.</h3>
+          <p>
+            When you file a maintenance request through the portal, it is time-stamped
+            immediately. You receive a confirmation with the name of the coordinator assigned to
+            your request, a target response window, and a log that updates as the work progresses.
+            If a vendor needs to be scheduled, you see the appointment before the technician
+            arrives — not after.
+          </p>
+          <div class="essay-detail">
+            Average response: under four hours, measured across the whole portfolio.
+          </div>
+        </div>
+
+        <div class="essay-col">
+          <div class="essay-num">ii.</div>
+          <h3>Payments you can see, line by line.</h3>
+          <p>
+            Rent is collected through a secure online portal. Each month you receive a statement
+            showing the rent owed, any credits applied, and the exact date and method of every
+            payment. Ledger history is downloadable as a PDF. If a charge is unclear, you can
+            click it and see the note that generated it — no mystery fees, no phone calls to ask
+            what line three of your bill actually means.
+          </p>
+          <div class="essay-detail">
+            Payment methods: bank transfer, card, or in-office check.
+          </div>
+        </div>
+
+        <div class="essay-col">
+          <div class="essay-num">iii.</div>
+          <h3>A named person, not a ticket number.</h3>
+          <p>
+            Every resident is assigned a leasing contact and a maintenance coordinator on move-in
+            day. Their names, email addresses, and direct extensions are printed on the front of
+            your welcome packet. You do not have to route through a call center, and you do not
+            have to explain your situation twice. It is the simplest idea we have, and the one
+            that makes the biggest difference.
+          </p>
+          <div class="essay-detail">
+            Renewal rate: 98% across the current portfolio.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRICING TABLE ================= -->
+  <section class="pricing">
+    <div class="container">
+      <div class="pricing-head">
+        <span class="kicker">Management Plans</span>
+        <h2>A quiet, straightforward table of what we charge.</h2>
+      </div>
+
+      <div class="pricing-table">
+
+        <div class="pricing-row">
+          <div class="plan-name">
+            <span class="plan-label">Plan One</span>
+            Standard Rental
+          </div>
+          <div class="plan-price">
+            $1,950
+            <small>Per month · 2-bed equivalent</small>
+          </div>
+          <ul class="plan-features">
+            <li>Tenant screening &amp; lease preparation</li>
+            <li>Online rent collection &amp; monthly statements</li>
+            <li>24/7 maintenance coordination</li>
+            <li>Annual property inspection</li>
+          </ul>
+          <a href="/c/contact" class="plan-cta">Enquire →</a>
+        </div>
+
+        <div class="pricing-row featured">
+          <div class="plan-name">
+            <span class="plan-label tag">Plan Two · Most Chosen</span>
+            Premium <em>Managed</em>
+          </div>
+          <div class="plan-price">
+            $2,450
+            <small>Per month · 2-bed equivalent</small>
+          </div>
+          <ul class="plan-features">
+            <li>Everything in Standard Rental</li>
+            <li>Quarterly property inspections</li>
+            <li>Priority maintenance dispatch</li>
+            <li>Dedicated account manager</li>
+            <li>Lease renewal negotiation</li>
+          </ul>
+          <a href="/c/contact" class="plan-cta">Enquire →</a>
+        </div>
+
+        <div class="pricing-row">
+          <div class="plan-name">
+            <span class="plan-label">Plan Three</span>
+            Corporate Leases
+          </div>
+          <div class="plan-price">
+            $3,200
+            <small>Per month · 2-bed equivalent</small>
+          </div>
+          <ul class="plan-features">
+            <li>Everything in Premium Managed</li>
+            <li>Multi-unit portfolio discounts</li>
+            <li>Custom lease &amp; invoicing terms</li>
+            <li>Executive occupancy reporting</li>
+            <li>Relocation coordination</li>
+          </ul>
+          <a href="/c/contact" class="plan-cta">Enquire →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SUBSCRIBE / CTA ================= -->
+  <section class="subscribe">
+    <div class="container-narrow">
+      <div class="subscribe-inner">
+        <span class="kicker">The Resident Letter</span>
+        <h2>New listings, neighborhood notes, and maintenance advice — once a month.</h2>
+        <p>
+          No advertisements, no urgency tactics, no “act now.” Just a short letter when we have
+          something genuinely worth telling you about.
+        </p>
+
+        <form class="subscribe-form" action="/" method="post">
+          <input type="email" placeholder="your@email.com" aria-label="Email address" required>
+          <button type="submit">Subscribe</button>
+        </form>
+
+        <p class="subscribe-note">
+          One email per month · Unsubscribe with a single click · No data sharing, ever.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container">
+
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="masthead">
+          <span class="masthead-name">Premier <em>Property</em> Management</span>
+          <span class="masthead-tag">Transparent leasing · Well-kept homes · The metro since 2012</span>
+        </a>
+        <p>
+          Property management and leasing for the modern city. We look after more than 250
+          residential units with the same attention to detail you would want in your own home.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/c/about">About</a></li>
+          <li><a href="/c/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/c/policy">Privacy Policy</a></li>
+          <li><a href="/c/terms">Terms of Service</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+15550123456">(555) 012-3456</a></li>
+          <li><a href="mailto:leasing@premierpm.example">leasing@premierpm.example</a></li>
+          <li><span>450 Harrison Avenue, Suite 12<br>City Center, ST 10024</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 Premier Property Management. All rights reserved.</span>
+      <span>Equal Housing Opportunity · Licensed Property Manager #PM-44821</span>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

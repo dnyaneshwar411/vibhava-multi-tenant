@@ -121,7 +121,7 @@ import { toast } from "sonner";
 
 export default function Page() {
   const { isLoading, data, error, mutate } = useFetch("/api/v1/organization/pages")
-  const [selectedStyle, setSelectedStyle] = useState<"current" | keyof typeof Templates>("Style1");
+  const [selectedStyle, setSelectedStyle] = useState<"current" | keyof typeof Templates>("current");
 
   const resolvedPages = useMemo(function () {
     if (selectedStyle === "current" && data?.data && data.data.length > 0) {

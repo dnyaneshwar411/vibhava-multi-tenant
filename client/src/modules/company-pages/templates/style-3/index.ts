@@ -1153,8 +1153,8 @@ p + p{margin-top:1.15rem}
         <a href="/" aria-current="page">Home</a>
         <a href="/c/about">About</a>
         <a href="/c/contact">Contact</a>
-        <a href="/c/policy">Privacy</a>
-        <a href="/c/terms">Terms</a>
+        <a href="/c/privacy-policy">Privacy</a>
+        <a href="/c/terms-conditions">Terms</a>
       </nav>
 
       <a href="/c/contact" class="nav-cta">Book a Tour →</a>
@@ -1593,8 +1593,8 @@ p + p{margin-top:1.15rem}
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="/c/policy">Privacy Policy</a></li>
-          <li><a href="/c/terms">Terms of Service</a></li>
+          <li><a href="/c/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/c/terms-conditions">Terms of Service</a></li>
         </ul>
       </div>
 
@@ -2465,8 +2465,8 @@ p + p{margin-top:1.15rem}
         <a href="/">Home</a>
         <a href="/c/about" aria-current="page">About</a>
         <a href="/c/contact">Contact</a>
-        <a href="/c/policy">Privacy</a>
-        <a href="/c/terms">Terms</a>
+        <a href="/c/privacy-policy">Privacy</a>
+        <a href="/c/terms-conditions">Terms</a>
       </nav>
 
       <a href="/c/contact" class="nav-cta">Book a Tour →</a>
@@ -3014,8 +3014,8 @@ p + p{margin-top:1.15rem}
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="/c/policy">Privacy Policy</a></li>
-          <li><a href="/c/terms">Terms of Service</a></li>
+          <li><a href="/c/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/c/terms-conditions">Terms of Service</a></li>
         </ul>
       </div>
 
@@ -3852,8 +3852,8 @@ p + p{margin-top:1.15rem}
         <a href="/">Home</a>
         <a href="/c/about">About</a>
         <a href="/c/contact" aria-current="page">Contact</a>
-        <a href="/c/policy">Privacy</a>
-        <a href="/c/terms">Terms</a>
+        <a href="/c/privacy-policy">Privacy</a>
+        <a href="/c/terms-conditions">Terms</a>
       </nav>
 
       <a href="#message" class="nav-cta">Send a Message →</a>
@@ -4272,8 +4272,8 @@ p + p{margin-top:1.15rem}
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="/c/policy">Privacy Policy</a></li>
-          <li><a href="/c/terms">Terms of Service</a></li>
+          <li><a href="/c/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/c/terms-conditions">Terms of Service</a></li>
         </ul>
       </div>
 
@@ -5049,8 +5049,8 @@ p + p{margin-top:1.1rem}
         <a href="/">Home</a>
         <a href="/c/about">About</a>
         <a href="/c/contact">Contact</a>
-        <a href="/c/policy" aria-current="page">Privacy</a>
-        <a href="/c/terms">Terms</a>
+        <a href="/c/privacy-policy" aria-current="page">Privacy</a>
+        <a href="/c/terms-conditions">Terms</a>
       </nav>
 
       <a href="/c/contact" class="nav-cta">Contact Us →</a>
@@ -5488,7 +5488,7 @@ p + p{margin-top:1.1rem}
               <div class="contact-row">
                 <dt>Related Documents</dt>
                 <dd>
-                  <a href="/c/terms" class="xref">Terms of Service</a> ·
+                  <a href="/c/terms-conditions" class="xref">Terms of Service</a> ·
                   <a href="/c/contact" class="xref">Contact the Leasing Office</a>
                 </dd>
               </div>
@@ -5513,7 +5513,7 @@ p + p{margin-top:1.1rem}
         </p>
 
         <div class="subscribe-actions">
-          <a href="/c/terms" class="link-lg">Read the Terms of Service →</a>
+          <a href="/c/terms-conditions" class="link-lg">Read the Terms of Service →</a>
           <a href="/c/contact" class="link-quiet">Contact Us</a>
         </div>
       </div>
@@ -5550,8 +5550,8 @@ p + p{margin-top:1.1rem}
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="/c/policy">Privacy Policy</a></li>
-          <li><a href="/c/terms">Terms of Service</a></li>
+          <li><a href="/c/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/c/terms-conditions">Terms of Service</a></li>
         </ul>
       </div>
 
@@ -6301,8 +6301,8 @@ p + p{margin-top:1.1rem}
         <a href="/">Home</a>
         <a href="/c/about">About</a>
         <a href="/c/contact">Contact</a>
-        <a href="/c/policy">Privacy</a>
-        <a href="/c/terms" aria-current="page">Terms</a>
+        <a href="/c/privacy-policy">Privacy</a>
+        <a href="/c/terms-conditions" aria-current="page">Terms</a>
       </nav>
 
       <a href="/c/contact" class="nav-cta">Contact Us →</a>
@@ -6675,7 +6675,7 @@ p + p{margin-top:1.1rem}
             <p>
               You may close your portal account at any time by contacting the leasing office. Some
               records are retained after closure as described in our
-              <a href="/c/policy" class="link">Privacy Policy</a>.
+              <a href="/c/privacy-policy" class="link">Privacy Policy</a>.
             </p>
           </section>
 
@@ -6768,7 +6768,7 @@ p + p{margin-top:1.1rem}
               <div class="contact-row">
                 <dt>Related Documents</dt>
                 <dd>
-                  <a href="/c/policy" class="xref">Privacy Policy</a> ·
+                  <a href="/c/privacy-policy" class="xref">Privacy Policy</a> ·
                   <a href="/c/contact" class="xref">Contact the Leasing Office</a>
                 </dd>
               </div>
@@ -6793,7 +6793,7 @@ p + p{margin-top:1.1rem}
         </p>
 
         <div class="subscribe-actions">
-          <a href="/c/policy" class="link-lg">Read the Privacy Policy →</a>
+          <a href="/c/privacy-policy" class="link-lg">Read the Privacy Policy →</a>
           <a href="/c/contact" class="link-quiet">Contact Us</a>
         </div>
       </div>
@@ -6830,8 +6830,8 @@ p + p{margin-top:1.1rem}
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="/c/policy">Privacy Policy</a></li>
-          <li><a href="/c/terms">Terms of Service</a></li>
+          <li><a href="/c/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/c/terms-conditions">Terms of Service</a></li>
         </ul>
       </div>
 

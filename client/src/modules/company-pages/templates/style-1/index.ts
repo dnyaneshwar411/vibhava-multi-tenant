@@ -400,8 +400,8 @@ p{color:var(--ink-2)}
         <a href="/" aria-current="page">Home</a>
         <a href="/c/about">About</a>
         <a href="/c/contact">Contact</a>
-        <a href="/c/policy">Privacy</a>
-        <a href="/c/terms">Terms</a>
+        <a href="/c/privacy-policy">Privacy</a>
+        <a href="/c/terms-conditions">Terms</a>
       </nav>
 
       <div class="header-actions">
@@ -783,8 +783,8 @@ p{color:var(--ink-2)}
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="/c/policy">Privacy Policy</a></li>
-          <li><a href="/c/terms">Terms of Service</a></li>
+          <li><a href="/c/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/c/terms-conditions">Terms of Service</a></li>
         </ul>
       </div>
 
@@ -1165,8 +1165,8 @@ p{color:var(--ink-2)}
         <a href="/">Home</a>
         <a href="/c/about" aria-current="page">About</a>
         <a href="/c/contact">Contact</a>
-        <a href="/c/policy">Privacy</a>
-        <a href="/c/terms">Terms</a>
+        <a href="/c/privacy-policy">Privacy</a>
+        <a href="/c/terms-conditions">Terms</a>
       </nav>
 
       <div class="header-actions">
@@ -1478,8 +1478,8 @@ p{color:var(--ink-2)}
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="/c/policy">Privacy Policy</a></li>
-          <li><a href="/c/terms">Terms of Service</a></li>
+          <li><a href="/c/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/c/terms-conditions">Terms of Service</a></li>
         </ul>
       </div>
 
@@ -1904,8 +1904,8 @@ p{color:var(--ink-2)}
         <a href="/">Home</a>
         <a href="/c/about">About</a>
         <a href="/c/contact" aria-current="page">Contact</a>
-        <a href="/c/policy">Privacy</a>
-        <a href="/c/terms">Terms</a>
+        <a href="/c/privacy-policy">Privacy</a>
+        <a href="/c/terms-conditions">Terms</a>
       </nav>
 
       <div class="header-actions">
@@ -2236,8 +2236,8 @@ p{color:var(--ink-2)}
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="/c/policy">Privacy Policy</a></li>
-          <li><a href="/c/terms">Terms of Service</a></li>
+          <li><a href="/c/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/c/terms-conditions">Terms of Service</a></li>
         </ul>
       </div>
 
@@ -2622,8 +2622,8 @@ p{color:var(--ink-2)}
         <a href="/">Home</a>
         <a href="/c/about">About</a>
         <a href="/c/contact">Contact</a>
-        <a href="/c/policy" aria-current="page">Privacy</a>
-        <a href="/c/terms">Terms</a>
+        <a href="/c/privacy-policy" aria-current="page">Privacy</a>
+        <a href="/c/terms-conditions">Terms</a>
       </nav>
 
       <div class="header-actions">
@@ -2995,7 +2995,7 @@ p{color:var(--ink-2)}
           </p>
         </div>
         <div class="cta-actions">
-          <a href="/c/terms" class="btn btn-primary btn-lg">Read Terms of Service</a>
+          <a href="/c/terms-conditions" class="btn btn-primary btn-lg">Read Terms of Service</a>
           <a href="/c/contact" class="btn btn-secondary btn-lg">Contact Us</a>
         </div>
       </div>
@@ -3031,8 +3031,8 @@ p{color:var(--ink-2)}
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="/c/policy">Privacy Policy</a></li>
-          <li><a href="/c/terms">Terms of Service</a></li>
+          <li><a href="/c/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/c/terms-conditions">Terms of Service</a></li>
         </ul>
       </div>
 
@@ -3417,8 +3417,8 @@ p{color:var(--ink-2)}
         <a href="/">Home</a>
         <a href="/c/about">About</a>
         <a href="/c/contact">Contact</a>
-        <a href="/c/policy">Privacy</a>
-        <a href="/c/terms" aria-current="page">Terms</a>
+        <a href="/c/privacy-policy">Privacy</a>
+        <a href="/c/terms-conditions" aria-current="page">Terms</a>
       </nav>
 
       <div class="header-actions">
@@ -3705,7 +3705,7 @@ p{color:var(--ink-2)}
           <p>
             You may close your portal account at any time by contacting the leasing office. Some
             records are retained after closure as described in our
-            <a href="/c/policy" class="accent">Privacy Policy</a>.
+            <a href="/c/privacy-policy" class="accent">Privacy Policy</a>.
           </p>
 
           <!-- 9 -->
@@ -3766,7 +3766,7 @@ p{color:var(--ink-2)}
               <div>
                 <dt>Related documents</dt>
                 <dd>
-                  <a href="/c/policy">Privacy Policy</a> ·
+                  <a href="/c/privacy-policy">Privacy Policy</a> ·
                   <a href="/c/contact">Contact the leasing office</a>
                 </dd>
               </div>
@@ -3793,7 +3793,7 @@ p{color:var(--ink-2)}
           </p>
         </div>
         <div class="cta-actions">
-          <a href="/c/policy" class="btn btn-primary btn-lg">Read Privacy Policy</a>
+          <a href="/c/privacy-policy" class="btn btn-primary btn-lg">Read Privacy Policy</a>
           <a href="/c/contact" class="btn btn-secondary btn-lg">Contact Us</a>
         </div>
       </div>
@@ -3829,8 +3829,8 @@ p{color:var(--ink-2)}
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="/c/policy">Privacy Policy</a></li>
-          <li><a href="/c/terms">Terms of Service</a></li>
+          <li><a href="/c/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/c/terms-conditions">Terms of Service</a></li>
         </ul>
       </div>
 

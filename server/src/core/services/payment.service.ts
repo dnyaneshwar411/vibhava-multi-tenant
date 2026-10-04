@@ -211,7 +211,8 @@ export default class PaymentService {
       type: payload.gateway,
       organization: payload.organizationId
     })
-
+    console.log("gateway", gateway)
+console.log("condition hit handleOrganizationFinance", payload.notes.entity)
     // handle the cases when the gateway is deleted.
     if (!gateway) return
 
@@ -221,6 +222,7 @@ export default class PaymentService {
       gateway.credentials,
       payload.stringifiedPayload
     );
+    console.log("SIGNATURE VALIDATION ", success)
     if (!success) return;
 
     switch (payload.notes.entity) {

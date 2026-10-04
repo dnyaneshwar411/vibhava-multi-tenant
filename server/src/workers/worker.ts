@@ -15,7 +15,7 @@ new Worker(
   async function (payload: any) {
     // implement the functionality to validate the request with the signature sent in the
     // header against the webhook secret of vibhava or the respective organization
-    console.log("CONDITION HIT NOW", payload)
+    console.log("CONDITION HIT NOW", payload.data)
     const notes = payload.data.notes || {}
     switch (notes.resource) {
       case "ORGANIZATION_MEMBERSHIP": {

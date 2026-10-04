@@ -51,6 +51,16 @@ export const sidebarData: OrgSidebarSection[] = [
     children: [
       { title: "Maintenance", type: "RESOURCE", scopes: ["ticket:read:all", "ticket:read:own"], icon: Wrench, href: "/operations/maintenance" },
       { title: "Vendors", type: "RESOURCE", scopes: ["vendor:read"], icon: Truck, href: "/operations/vendor" },
+    ]
+  },
+
+  // Financials Section
+  {
+    label: "Financials",
+    type: "SECTION",
+    resourceGroup: "/financials",
+    children: [
+      { title: "Ledger", type: "RESOURCE", scopes: ["ledger:read"], icon: Receipt, href: "/financials/ledger" },
       {
         title: "Reports",
         type: "RESOURCE-NESTED",
@@ -62,27 +72,6 @@ export const sidebarData: OrgSidebarSection[] = [
           { title: "Rent Roll", href: "/financials/reports/rent-roll", actor: ["Tenant"] },
         ],
       },
-    ]
-  },
-
-  // Financials Section
-  {
-    label: "Financials",
-    type: "SECTION",
-    resourceGroup: "/financials",
-    children: [
-      // { title: "Ledger", type: "RESOURCE", scopes: ["ledger:read"], icon: Receipt, href: "/financials/ledger" },
-      // {
-      //   title: "Reports",
-      //   type: "RESOURCE-NESTED",
-      //   icon: BarChart3,
-      //   scopes: [],
-      //   resourceType: "/financials/reports",
-      //   children: [
-      //     { title: "Profit & Loss", href: "/financials/reports/profit-loss", actor: ["User", "Vendor"] },
-      //     { title: "Rent Roll", href: "/financials/reports/rent-roll", actor: ["Tenant"] },
-      //   ],
-      // },
     ]
   },
 

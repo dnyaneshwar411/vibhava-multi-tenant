@@ -17,6 +17,7 @@ import { documentRouter } from "./document.router.js";
 import { paymentGatewayRouter } from "./paymentGateway.router.js";
 import { auditLogsRouter } from "./auditLog.router.js";
 import { reportsRouter } from "./reports.router.js";
+import { ledgerRouter } from "./ledger.router.js";
 
 const router: express.Router = express.Router();
 
@@ -39,6 +40,7 @@ const routes: { path: string, router: express.Router }[] = [
   { path: "/payment-gateway", router: paymentGatewayRouter },
   { path: "/audit", router: auditLogsRouter },
   { path: "/reports", router: reportsRouter },
+  { path: "/ledger", router: ledgerRouter },
 ];
 
 routes.forEach(route => router.use(route.path, route.router));

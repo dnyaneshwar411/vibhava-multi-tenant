@@ -3,12 +3,16 @@ import catchAsync from "../utils/catchAsync.js";
 import httpStatus from "http-status";
 import LedgerRepository from "../../infrastructure/database/repositories/ledger.repository.js";
 import { buildPaginationFilters, PaginationQueryOptions } from "../../common/utils/pagination.js";
+import { ApiError } from "../utils/apiError.js";
 
 export default class LedgerController {
   static getEntries = catchAsync(
     async function (req: Request, res: Response) {
       const pagination = buildPaginationFilters<{}, { total?: number }>(req.query as PaginationQueryOptions);
-      const { entries, total } = await LedgerRepository.paginate(req.organization!, pagination);
+      const { entries, total } = await LedgerRepository.paginate(req.organization!, pagination, {
+        model: req.userModel,
+        id: req.user._id
+      });
       pagination.total = total;
       res.status(httpStatus.OK).json({ code: httpStatus.OK, data: entries, pagination });
     }
@@ -37,6 +41,15 @@ export default class LedgerController {
       res.status(httpStatus.OK).json({ code: httpStatus.OK, message: "Ledger entry updated successfully" });
     }
   );
+
+  static createLedgerEntryPaymentOrder = catchAsync(
+    async function (req: Request, res: Response) {
+      const { entryId: ledgerId } = req.params as { entryId: string };
+      const { success, message, order, credentials } = await LedgerRepository.createLedgerOrder(req.organization!, ledgerId, req.user._id);
+      if (!success) throw new ApiError(httpStatus.BAD_REQUEST, message!)
+      res.status(httpStatus.OK).json({ code: httpStatus.OK, credentials, order })
+    }
+  )
 
   static reverseEntry = catchAsync(
     async function (req: Request, res: Response) {

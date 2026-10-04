@@ -6,6 +6,7 @@ import { ENV } from "@/config/envVars";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { useGlobalStore } from "@/providers/store-provider";
 
 export default function CreateRazorpayOrder({
   options,
@@ -18,6 +19,8 @@ export default function CreateRazorpayOrder({
   triggerOnLoad?: boolean
   onSuccess?: any
 }) {
+  const organization = useGlobalStore(state => state.organization)
+
   const createRazorpayOrder = async function () {
     try {
       const res = await initializeRazorpay();
@@ -27,12 +30,15 @@ export default function CreateRazorpayOrder({
 
       const config = {
         key: credentials?.razorpayKeyId || ENV.RAZORPAY_KEY,
-        name: "Vibhava Systems",
+        name: organization.name || "Vibhava Systems",
         currency: options.currency,
         amount: options.amount,
         order_id: options.id || options.order_id,
-        description: "Thankyou for your test donation",
-        image: "https://manuarora.in/logo.png",
+        // description: "Thankyou for your test donation",
+        image: organization.branding?.logo ||
+          organization.branding?.darkLogo ||
+          organization.branding?.favicon ||
+          "https://manuarora.in/logo.png",
         handler: function () {
           if (typeof onSuccess === "function") onSuccess()
         },

@@ -19,6 +19,7 @@ import OrganizationRepository from "../../infrastructure/database/repositories/o
 import AuditLogService from "./auditLog.service.js";
 import Logger from "../../common/logger/index.js";
 import LeaseService from "./lease.service.js";
+import LedgerRepository from "../../infrastructure/database/repositories/ledger.repository.js";
 
 export default class PaymentService {
   private static membershipWeight: Record<MEMBERSHIP_TIER, number> = {
@@ -57,19 +58,24 @@ export default class PaymentService {
 
     switch (gateway) {
       case "RAZORPAY": {
-        return await RazorpayPaymentGateway.createOrder({
+        const response = await RazorpayPaymentGateway.createOrder({
           isVibhava: false,
           credentials: {
             key_id: paymentGateway.credentials.razorpayKeyId,
             key_secret: paymentGateway.credentials.razorpayKeySecret,
           }
         }, options)
+        delete response.credentials.key_secret
+        return response;
       }
       case "STRIPE": {
-        return await StripePaymentGateway.createOrder({
+        const response = await StripePaymentGateway.createOrder({
           isVibhava: false,
           credentials: paymentGateway.credentials
         }, options)
+        delete response.credentials.key_secret
+        delete response.credentials.razorpayKeySecret;
+        return response;
       }
     }
   }
@@ -235,6 +241,7 @@ export default class PaymentService {
       }
       case "LEDGER": {
         // implement the ledger logic here.
+        await LedgerRepository.processLedgerPayment(payload)
         break;
       }
     }

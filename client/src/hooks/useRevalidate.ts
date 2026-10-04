@@ -17,17 +17,12 @@ export default function useRevalidate({
 }: RevalidateOptions) {
   const { mutate, cache } = useSWRConfig();
 
-  for (const key of cache.keys()) {
-    console.log(key)
-  }
-
   const update = useCallback(function () {
     for (const key of focus) {
       cache.delete(key);
     }
 
     for (const key of instant) {
-      console.log("condition hit", key)
       mutate(key);
     }
 

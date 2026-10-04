@@ -30,6 +30,14 @@ router
     LedgerController.updateEntry
   );
 
+
+router
+  .route("/entries/:entryId/pay")
+  .post(
+    authenticate(["ledger:read"]),
+    LedgerController.createLedgerEntryPaymentOrder
+  )
+
 router
   .route("/entries/:entryId/reverse")
   .get(

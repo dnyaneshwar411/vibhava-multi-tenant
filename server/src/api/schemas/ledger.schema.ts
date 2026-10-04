@@ -6,7 +6,7 @@ const transactionLineSchema = z.object({
   accountId: z.string().trim().min(1, "Account ID is required"),
   accountName: z.string().trim().min(1, "Account name is required"),
   type: z.enum(["DEBIT", "CREDIT"]),
-  amount: z.number().positive("Amount must be greater than zero"),
+  amount: z.coerce.number().positive("Amount must be greater than zero"),
   description: z.string().trim().optional(),
 });
 
@@ -22,7 +22,7 @@ export default class LedgerSchema {
       status: z.enum(CONSTANTS.LEDGER_ENTRY_STATUS).default("Posted"),
       finance: z.object({
         currency: z.enum(CONSTANTS.AVAILABLE_CURRENCY).default("INR"),
-        totalAmount: z.number().min(0),
+        totalAmount: z.coerce.number().min(0),
         paymentGateway: z.enum(CONSTANTS.PAYMENT_GATEWAY).default("RAZORPAY"),
       }),
       lines: z.array(transactionLineSchema).min(1),

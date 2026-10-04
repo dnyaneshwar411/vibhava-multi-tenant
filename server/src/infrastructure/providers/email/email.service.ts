@@ -526,10 +526,10 @@ export default class EmailService {
         return this.buildLeaseExpirationTemplate(payload)
       case "ORGANIZATION_MEMBERSHIP_EXPIRATION":
         return this.buildOrgMembershipExpirationTemplate(payload);
-        case "RENT_PAYMENT_DUE" :
-          return this.buildPaymentDueTomorrowTemplate(payload);
-        case "RENT_PAYMENT_OVERDUE" :
-          return this.buildRentPaymentOverdueTemplate(payload);
+      case "RENT_PAYMENT_DUE":
+        return this.buildPaymentDueTomorrowTemplate(payload);
+      case "RENT_PAYMENT_OVERDUE":
+        return this.buildRentPaymentOverdueTemplate(payload);
       default:
         return "";
     }

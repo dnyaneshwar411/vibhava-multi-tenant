@@ -228,6 +228,7 @@ export default class PaymentService {
         Logger.info("THIS IS RENT ROLL")
         // implement the rent roll logic here.
         // Lease Service handles the logic
+        console.log("RENT ROLL Condition hit")
         await LeaseService.processRentPayment(payload)
         break;
       }

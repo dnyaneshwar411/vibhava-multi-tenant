@@ -126,14 +126,14 @@ export default class LeaseService {
 
   static async processRentPayment(payload: EventPaymentsType) {
     try {
-
+      console.log("processRentPayment condition hit")
       const notes = payload.notes || {};
       if (!isValidObjectId(notes.leaseId)) return
-
+console.log("correct leaseId ", notes.leaseId)
       // find the lease
       const lease: any = await LeaseRepository.findOne({ _id: notes.leaseId })
       if (!lease) return
-
+console.log("condition hit lease found")
       // calcuate the startDate and the end Date.
       const billingCycle = lease.finance?.billingCycle || "Monthly"
       const { startDate, endDate } = this.calculateEndDate(notes.startDate, billingCycle)
@@ -163,8 +163,9 @@ export default class LeaseService {
       }
 
       const entry = await LedgerRepository.create(dbPayload as any);
-
+      console.log("lease created")
       const { success, data: organization } = await OrganizationRepository.findById(notes.organizationId)
+      console.log("organization data", success, organization._id)
       if(!success) return
 
       const emailPayload = {
@@ -185,17 +186,17 @@ export default class LeaseService {
       };
 
 
-        // notify the users via email
-        EventOrchestrator.publish("EMAILS", {
-          type: "EMAILS",
-          entity: "RENT_PAYMENT_SUCCESS",
-          payload: {
-            subject: `Payment Successful: Rent Receipt for ${lease.unit.unitNumber || "Unit" + ", " + lease?.property?.title || "Property"}`,
-            to: lease.primaryTenant.email,
-            cc: lease.coTenants.map((tenant: any) => tenant.email),
-            ...emailPayload
-          }
-        })
+      // notify the users via email
+      EventOrchestrator.publish("EMAILS", {
+        type: "EMAILS",
+        entity: "RENT_PAYMENT_SUCCESS",
+        payload: {
+          subject: `Payment Successful: Rent Receipt for ${lease.unit.unitNumber || "Unit" + ", " + lease?.property?.title || "Property"}`,
+          to: lease.primaryTenant.email,
+          cc: lease.coTenants.map((tenant: any) => tenant.email),
+          ...emailPayload
+        }
+      })
 
     } catch (error) {
       Logger.error("error", error)

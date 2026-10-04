@@ -23,6 +23,7 @@ new Worker(
         break;
       }
       case "ORGANIZATION_FINANCE": {
+        console.log("ORGANIZATION_FINANCE condition hit")
         // need to pass in the secret here the signature is in the payload.data.webhookSignature
         await PaymentService.handleOrganizationFinance(payload.data)
         break;

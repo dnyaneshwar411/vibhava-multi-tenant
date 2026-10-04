@@ -126,14 +126,13 @@ export default class LeaseService {
 
   static async processRentPayment(payload: EventPaymentsType) {
     try {
-      console.log("processRentPayment condition hit")
       const notes = payload.notes || {};
       if (!isValidObjectId(notes.leaseId)) return
-console.log("correct leaseId ", notes.leaseId)
+
       // find the lease
       const lease: any = await LeaseRepository.findOne({ _id: notes.leaseId })
       if (!lease) return
-console.log("condition hit lease found")
+
       // calcuate the startDate and the end Date.
       const billingCycle = lease.finance?.billingCycle || "Monthly"
       const { startDate, endDate } = this.calculateEndDate(notes.startDate, billingCycle)
@@ -163,9 +162,7 @@ console.log("condition hit lease found")
       }
 
       const entry = await LedgerRepository.create(dbPayload as any);
-      console.log("lease created")
       const { success, data: organization } = await OrganizationRepository.findById(notes.organizationId)
-      console.log("organization data", success, organization._id)
       if(!success) return
 
       const emailPayload = {

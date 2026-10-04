@@ -211,8 +211,7 @@ export default class PaymentService {
       type: payload.gateway,
       organization: payload.organizationId
     })
-    console.log("gateway", gateway)
-console.log("condition hit handleOrganizationFinance", payload.notes.entity)
+
     // handle the cases when the gateway is deleted.
     if (!gateway) return
 
@@ -222,7 +221,7 @@ console.log("condition hit handleOrganizationFinance", payload.notes.entity)
       gateway.credentials,
       payload.stringifiedPayload
     );
-    console.log("SIGNATURE VALIDATION ", success)
+
     if (!success) return;
 
     switch (payload.notes.entity) {
@@ -230,7 +229,7 @@ console.log("condition hit handleOrganizationFinance", payload.notes.entity)
         Logger.info("THIS IS RENT ROLL")
         // implement the rent roll logic here.
         // Lease Service handles the logic
-        console.log("RENT ROLL Condition hit")
+
         await LeaseService.processRentPayment(payload)
         break;
       }

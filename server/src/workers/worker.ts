@@ -15,7 +15,7 @@ new Worker(
   async function (payload: any) {
     // implement the functionality to validate the request with the signature sent in the
     // header against the webhook secret of vibhava or the respective organization
-    console.log("CONDITION HIT NOW", payload.data)
+
     const notes = payload.data.notes || {}
     switch (notes.resource) {
       case "ORGANIZATION_MEMBERSHIP": {
@@ -23,7 +23,6 @@ new Worker(
         break;
       }
       case "ORGANIZATION_FINANCE": {
-        console.log("ORGANIZATION_FINANCE condition hit")
         // need to pass in the secret here the signature is in the payload.data.webhookSignature
         await PaymentService.handleOrganizationFinance(payload.data)
         break;
@@ -36,7 +35,6 @@ new Worker(
 new Worker(
   "AUDIT_LOGS",
   async function (payload: any) {
-    console.log("AUDIT LOGS")
     if (payload.data.logs && payload.data.logs.length > 0) {
       await AuditLogService.save(payload.data.logs)
     }
@@ -45,7 +43,6 @@ new Worker(
 )
 
 new Worker("EMAILS", async function (payload) {
-  console.log("SEND EMAILS")
   await EmailService.process(payload.data)
 }, {
   connection: redisConnection,

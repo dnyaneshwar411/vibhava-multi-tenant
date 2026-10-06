@@ -6,6 +6,7 @@ import PaymentService from "../../../core/services/payment.service.js";
 import { EventPaymentsType } from "../../../core/events/types.js";
 import { CONSTANTS_TYPE } from "../../../common/types/index.js";
 import LeaseRepository from "./lease.repository.js";
+import { EventOrchestrator } from "../../../core/events/eventBus.js";
 
 export default class LedgerRepository {
   private static model = LedgerEntry;
@@ -46,7 +47,7 @@ export default class LedgerRepository {
     return { entries, total };
   }
 
-  static async findById(organizationId: ObjectIdQueryTypeCasting, entryId: string) {
+  static async findById(organizationId: ObjectIdQueryTypeCasting, entryId: ObjectIdQueryTypeCasting) {
     return await this.model
       .findOne({ organization: organizationId, _id: entryId })
       .select("-reference -updatedAt -createdAt -organization -__v")
@@ -57,8 +58,75 @@ export default class LedgerRepository {
       .lean();
   }
 
+  private static getLedgerEntryCreatedSubject(
+    propertyName?: string,
+    unitNumber?: string,
+    entryType?: string
+  ): string {
+    const location = propertyName ? `${propertyName}${unitNumber ? `, Unit ${unitNumber}` : ""}` : "Your Account";
+    const typeStr = entryType ? ` (${entryType})` : "";
+    return `New Ledger Entry Posted for ${location}${typeStr}`;
+  }
+
+  private static buildLedgerEntryCreatedPayload(ledgerEntry: any) {
+    if (!ledgerEntry) {
+      throw new Error("Ledger entry data is required to build the email payload.");
+    }
+
+    const tenantEmails: string[] = [];
+
+    if (ledgerEntry.tenant?.email) {
+      tenantEmails.push(ledgerEntry.tenant.email);
+    }
+
+    if (ledgerEntry.lease?.primaryTenant?.email) {
+      tenantEmails.push(ledgerEntry.lease.primaryTenant.email);
+    }
+
+    if (Array.isArray(ledgerEntry.lease?.coTenants)) {
+      ledgerEntry.lease.coTenants.forEach((coTenant: any) => {
+        if (coTenant?.email) {
+          tenantEmails.push(coTenant.email);
+        }
+      });
+    }
+
+    const to = Array.from(new Set(tenantEmails));
+
+    const ownerEmail =
+      ledgerEntry.organization?.owner?.email ||
+      ledgerEntry.property?.owner?.email ||
+      ledgerEntry.organizationOwnerEmail;
+
+    const bcc = ownerEmail ? [ownerEmail] : [];
+
+    const propertyName = ledgerEntry.property?.name || "N/A";
+    const unitNumber = ledgerEntry.unit?.unitNumber || "N/A";
+    const entryType = ledgerEntry.entryType || "Ledger Entry";
+
+    const subject = this.getLedgerEntryCreatedSubject(propertyName, unitNumber, entryType);
+
+    return {
+      to,
+      cc: [],
+      bcc,
+      subject
+    };
+  }
+
   static async create(payload: CreateLedgerInput["body"] & { organization: ObjectIdQueryTypeCasting, createdBy?: ObjectIdQueryTypeCasting }) {
-    return await this.model.create(payload);
+    const ledgerEntry = await this.model.create(payload);
+    const populatedDoc = await this.findById(ledgerEntry.organization, ledgerEntry._id)
+    const emailPayload = this.buildLedgerEntryCreatedPayload(populatedDoc)
+    EventOrchestrator.publish("EMAILS", {
+      type: "EMAILS",
+      entity: "LEDGER_CREATED",
+      payload: {
+        ...emailPayload,
+        ...populatedDoc,
+        portalUrl: `http://harborstone-residential.localhost:3000/financials/ledger/6aabbdadee4c4ebe8ea7d148`
+      }
+    })
   }
 
   static async updateOne(
@@ -117,11 +185,6 @@ export default class LedgerRepository {
     credentials: any
   }> {
     const ledgerEntry = await this.model.findOne({ _id: ledgerId, organization: organizationId })
-    console.log(ledgerEntry, {
-      organizationId,
-      ledgerEntry,
-      tenantId
-    })
     if (!ledgerEntry) return {
       success: false,
       message: "No such ledger entry found!"

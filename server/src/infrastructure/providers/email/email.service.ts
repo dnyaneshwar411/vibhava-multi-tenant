@@ -12,6 +12,7 @@ import {
 import { TemplatePaymentDueTomorrow, TemplateRentPaymentOverdue, TemplateRentPaymentSuccess } from "./templates/rentPaymentSuccess.js";
 import { TemplateOrgMembershipExpiration, TemplateOrgOnboardingSuccess } from "./templates/organizationOnboarding.js";
 import { TemplateMembershipOverdue, TemplateMembershipRenewalReminder } from "./templates/membershipReminder.js";
+import { TemplateLedgerEntryCreated } from "./templates/ledger.js";
 
 export default class EmailService {
   private static injectConditional(template: string, key: string, value: string | null) {
@@ -264,7 +265,7 @@ export default class EmailService {
 
     const guideFileName = payload.guideFileName || "Organization_Onboarding_Guide.pdf";
     const dashboardUrl = payload.dashboardUrl || "https://admin.yourplatform.com";
-    const supportEmail = payload.supportEmail || "support@yourplatform.com";
+    const supportEmail = payload.supportEmail || "contact@vibhava.xyz";
 
     return TemplateOrgOnboardingSuccess
       .replace(/{{organizationName}}/g, orgName)
@@ -299,7 +300,7 @@ export default class EmailService {
       .replace("{{duration}}", payload.duration || "Annual")
       .replace("{{dueDate}}", dueDateFormatted)
       .replace("{{renewalUrl}}", payload.renewalUrl || "https://yourplatform.com/account/billing")
-      .replace("{{supportEmail}}", payload.supportEmail || "support@yourplatform.com");
+      .replace("{{supportEmail}}", payload.supportEmail || "contact@vibhava.xyz");
   }
 
   private static buildMembershipOverdueTemplate(payload: any): string {
@@ -324,7 +325,7 @@ export default class EmailService {
       .replace("{{duration}}", payload.duration || "Annual")
       .replace(/{{dueDate}}/g, dueDateFormatted)
       .replace("{{renewalUrl}}", payload.renewalUrl || "https://yourplatform.com/account/billing")
-      .replace("{{supportEmail}}", payload.supportEmail || "support@yourplatform.com");
+      .replace("{{supportEmail}}", payload.supportEmail || "contact@vibhava.xyz");
   }
 
   private static buildLeaseExpirationTemplate(payload: any): string {
@@ -406,7 +407,7 @@ export default class EmailService {
       .replace("{{currentPeriodStart}}", periodStart)
       .replace(/{{currentPeriodEnd}}/g, periodEnd)
       .replace("{{billingUrl}}", billingUrl)
-      .replace("{{supportEmail}}", payload.supportEmail || "support@yourplatform.com");
+      .replace("{{supportEmail}}", payload.supportEmail || "contact@vibhava.xyz");
   }
 
   private static buildPaymentDueTomorrowTemplate(payload: any): string {
@@ -455,7 +456,7 @@ export default class EmailService {
       .replace("{{primaryTenantInfo}}", primaryTenantInfo)
       .replace("{{coTenantsBlock}}", coTenantsBlock)
       .replace("{{portalUrl}}", payload.portalUrl || payload.loginUrl || "https://yourplatform.com/portal/payments")
-      .replace("{{supportEmail}}", payload.supportEmail || "support@yourplatform.com");
+      .replace("{{supportEmail}}", payload.supportEmail || "contact@vibhava.xyz");
   }
 
   private static buildRentPaymentOverdueTemplate(payload: any): string {
@@ -473,7 +474,7 @@ export default class EmailService {
       ? new Date(payload.dueDate).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })
       : yesterday.toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
 
-    const pt = payload.primaryTenant;
+    const pt = payload.primaryTenant || payload.tenant;
     const primaryTenantInfo = typeof pt === 'object' && pt !== null
       ? `${pt.name || "N/A"} (${pt.email || "No email"}${pt.mobileNumber ? `, +${pt.countryCode || 91} ${pt.mobileNumber}` : ""})`
       : (payload.primaryTenantName || "N/A");
@@ -503,7 +504,83 @@ export default class EmailService {
       .replace("{{primaryTenantInfo}}", primaryTenantInfo)
       .replace("{{coTenantsBlock}}", coTenantsBlock)
       .replace("{{portalUrl}}", payload.portalUrl || payload.loginUrl || "https://yourplatform.com/portal/payments")
-      .replace("{{supportEmail}}", payload.supportEmail || "support@yourplatform.com");
+      .replace("{{supportEmail}}", payload.supportEmail || "contact@vibhava.xyz");
+  }
+
+  private static buildLedgerEntryCreatedTemplate(payload: any): string {
+    if (!payload) return TemplateLedgerEntryCreated;
+
+    const orgName = payload.organization?.name || payload.organizationName || "Our Platform";
+
+    const logoBlock = payload.organizationLogo
+      ? `<img src="${payload.organizationLogo}" alt="${orgName} Logo" style="max-height: 48px; width: auto; margin-bottom: 24px;" />`
+      : "";
+
+    const currency = payload.finance?.currency || "INR";
+    const totalAmount = typeof payload.finance?.totalAmount === 'number'
+      ? payload.finance.totalAmount.toFixed(2)
+      : "0.00";
+
+    let periodBlock = "";
+    if (payload.period?.startDate || payload.period?.endDate) {
+      const start = payload.period.startDate
+        ? new Date(payload.period.startDate).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })
+        : "";
+      const end = payload.period.endDate
+        ? new Date(payload.period.endDate).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })
+        : "";
+
+      periodBlock = `
+      <tr>
+        <td style="padding: 4px 0; font-weight: 500;">Billing Period:</td>
+        <td style="padding: 4px 0;">${start} ${end ? `to ${end}` : ""}</td>
+      </tr>
+    `;
+    }
+
+    const memoBlock = payload.memo
+      ? `<tr>
+        <td style="padding: 4px 0; font-weight: 500;">Memo / Note:</td>
+        <td style="padding: 4px 0; font-style: italic;">${payload.memo}</td>
+       </tr>`
+      : "";
+
+    let transactionLinesRows = "";
+    if (Array.isArray(payload.lines) && payload.lines.length > 0) {
+      transactionLinesRows = payload.lines
+        .map(
+          (line: any) => `
+        <tr style="border-bottom: 1px solid #f3f4f6;">
+          <td style="padding: 8px 0; font-weight: 500;">${line.accountName || line.accountId}</td>
+          <td style="padding: 8px 0; font-size: 12px; font-weight: 600; color: ${line.type === 'DEBIT' ? '#dc2626' : '#059669'};">${line.type}</td>
+          <td style="padding: 8px 0; text-align: right; font-weight: 600;">${currency} ${(line.amount || 0).toFixed(2)}</td>
+        </tr>
+      `
+        )
+        .join("");
+    } else {
+      transactionLinesRows = `
+      <tr>
+        <td colspan="3" style="padding: 8px 0; text-align: center; color: #9ca3af;">No line item details available.</td>
+      </tr>
+    `;
+    }
+
+    return TemplateLedgerEntryCreated
+      .replace(/{{organizationName}}/g, orgName)
+      .replace("{{organizationLogoBlock}}", logoBlock)
+      .replace("{{recipientName}}", payload.recipientName || payload.tenant?.name || payload.primaryTenant?.name || "Valued Tenant")
+      .replace(/{{propertyName}}/g, payload.property?.name || payload.propertyName || "N/A")
+      .replace(/{{unitNumber}}/g, payload.unit?.unitNumber || payload.unitNumber || "N/A")
+      .replace("{{entryType}}", payload.entryType || "N/A")
+      .replace("{{status}}", payload.status || "Posted")
+      .replace("{{currency}}", currency)
+      .replace("{{totalAmount}}", totalAmount)
+      .replace("{{periodBlock}}", periodBlock)
+      .replace("{{memoBlock}}", memoBlock)
+      .replace("{{transactionLinesRows}}", transactionLinesRows)
+      .replace("{{portalUrl}}", payload.portalUrl || payload.loginUrl || "https://yourplatform.com/portal/ledger")
+      .replace("{{supportEmail}}", payload.supportEmail || "contact@vibhava.xyz");
   }
 
   private static buildEmailHTML(type: CONSTANTS_TYPE["EMAIL_ENTITIES"], payload?: any) {
@@ -530,6 +607,8 @@ export default class EmailService {
         return this.buildPaymentDueTomorrowTemplate(payload);
       case "RENT_PAYMENT_OVERDUE":
         return this.buildRentPaymentOverdueTemplate(payload);
+      case "LEDGER_CREATED":
+        return this.buildLedgerEntryCreatedTemplate(payload);
       default:
         return "";
     }

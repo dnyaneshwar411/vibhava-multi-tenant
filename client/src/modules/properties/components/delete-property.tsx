@@ -6,6 +6,7 @@ import { ConfirmationAlert } from "@/components/common/confirmation-alert";
 import api from "@/network/client";
 import { buildToastMessage } from "@/lib/catchAsync";
 import { useRouter } from "next/navigation";
+import useRevalidate from "@/hooks/useRevalidate";
 
 interface DeletePropertyProps {
   propertyId: string;
@@ -15,6 +16,10 @@ interface DeletePropertyProps {
 
 export function DeleteProperty({ propertyId, propertyName, children }: DeletePropertyProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { update } = useRevalidate({
+    groupedFocus: ["/api/v1/property"],
+    focus: [`/api/v1/property/${propertyId}?`]
+  })
   const router = useRouter();
 
   async function handleDelete() {
@@ -23,6 +28,7 @@ export function DeleteProperty({ propertyId, propertyName, children }: DeletePro
       if (response.code !== 200) throw new Error(response.message);
       toast.success(response.message);
       router.push("/management/properties");
+      update()
     } catch (error) {
       toast.error(buildToastMessage(error));
     }

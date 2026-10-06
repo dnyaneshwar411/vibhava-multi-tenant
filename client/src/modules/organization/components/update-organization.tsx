@@ -14,6 +14,7 @@ import { buildOrganizationRequestPayload } from "../helpers/request-payload";
 import { toast } from "sonner";
 import { buildToastMessage } from "@/lib/catchAsync";
 import api from "@/network/client";
+import useRevalidate from "@/hooks/useRevalidate";
 
 export default function UpdateOrganization({ organization }: {
   organization: Organization
@@ -36,6 +37,7 @@ function FormContainer({
   organization: Organization
 }) {
   const [currentStep, setCurrentStep] = useState(0);
+  const { update } = useRevalidate({ instant: ["/api/v1/organization?"] })
 
   const form = useForm<OrganizationInput>({
     resolver: zodResolver(organizationSchema),
@@ -76,6 +78,7 @@ function FormContainer({
       })
       if (response.code !== 200) throw new Error(response.message)
       toast.success(response.message || "Success")
+      update()
     } catch (error) {
       toast.dismiss(imageUploadToast)
       toast.error(buildToastMessage(error))

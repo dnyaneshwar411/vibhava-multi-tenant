@@ -23,6 +23,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { getUpdateUserDefaultValues } from "../config/update-user-default-value";
 import { UpdateUserInput, updateUserSchema } from "../helpers/update-schema";
 import type { UserDetailsForForm, UpdateUserFormValues } from "../types";
+import useRevalidate from "@/hooks/useRevalidate";
 
 const USER_STATUSES = ["Active", "Inactive", "Suspended"] as const;
 
@@ -35,6 +36,7 @@ export function UpdateUser({
 }) {
   const [open, setOpen] = useState(false);
   const defaultValues = getUpdateUserDefaultValues(user);
+  const { update } = useRevalidate({ instant: [`/api/v1/user/${user._id}?`] })
 
   const form = useForm<UpdateUserInput>({
     resolver: zodResolver(updateUserSchema),
@@ -58,6 +60,7 @@ export function UpdateUser({
       toast.success(response.message || "User updated");
       setOpen(false);
       form.reset(defaultValues);
+      update()
     } catch (error) {
       toast.error(buildToastMessage(error));
     }

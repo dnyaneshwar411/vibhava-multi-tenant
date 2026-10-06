@@ -134,7 +134,7 @@ export default function AddLedgerLines({
               accountId: "",
               accountName: "",
               type: "DEBIT",
-              amount: 0,
+              amount: "0",
               description: undefined,
             })
           }

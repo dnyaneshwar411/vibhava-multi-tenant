@@ -23,6 +23,7 @@ import { buildToastMessage } from "@/lib/catchAsync";
 import api from "@/network/client";
 import { createPropertyDefaultValue } from "../configs/creation-default";
 import { uploadPropertyImages } from "../helpers/network";
+import useRevalidate from "@/hooks/useRevalidate";
 
 const STAGES = ["Basic Info", "Address", "Amenities & Finance", "Media"];
 
@@ -32,6 +33,7 @@ export default function CreatePropertyModal({
   children: React.ReactNode;
 }) {
   const [currentStage, setCurrentStage] = useState(0);
+  const { update } = useRevalidate({ groupedInstant: ["/api/v1/property"] })
   const form = useForm<CreatePropertyFormValues>({
     resolver: zodResolver(createPropertyFormSchema),
     mode: "all",
@@ -57,6 +59,7 @@ export default function CreatePropertyModal({
       })
       if (response.code !== 201) throw new Error(response.message);
       toast.success(response.message);
+      update()
     } catch (error) {
       toast.error(buildToastMessage(error));
     }

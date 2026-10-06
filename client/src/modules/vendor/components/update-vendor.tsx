@@ -12,6 +12,7 @@ import { useState } from "react";
 import VendorCreationBasicInformation from "./vendor-creation-basic-information";
 import VendorCreationAddress from "./vendor-creation-address";
 import { Vendor } from "../types";
+import useRevalidate from "@/hooks/useRevalidate";
 
 export default function UpdateVendor({ vendor }: {
   vendor: Vendor
@@ -85,6 +86,7 @@ function RenderStep({ vendorId, currentStep, nextStep, previousStep, form }: {
   form: UseFormReturn<VendorCreationInput>;
   vendorId: string
 }) {
+  const { update } = useRevalidate({ instant: [`/api/v1/vendor/${vendorId}?`] })
   const onSubmit = async function () {
     try {
       const data: VendorCreationInput = form.getValues()
@@ -93,6 +95,7 @@ function RenderStep({ vendorId, currentStep, nextStep, previousStep, form }: {
       });
       if (response.code !== 200) throw new Error(response.message)
       toast.success(response.message || "Successfull")
+      update()
     } catch (error) {
       toast.error(buildToastMessage(error))
     }

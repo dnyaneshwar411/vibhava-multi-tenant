@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -32,7 +32,7 @@ import { ComponentLoader } from "@/components/ui/loader";
 import CreateRazorpayOrder from "@/modules/payments/components/create-razorpay-order";
 import api from "@/network/client";
 import { buildToastMessage } from "@/lib/catchAsync";
-import { copyText } from "@/lib/helpers";
+import { copyText, resolveDialogClose } from "@/lib/helpers";
 import { format } from "date-fns";
 import CreateStripeOrder from "@/modules/payments/components/create-stripe-order";
 
@@ -71,6 +71,7 @@ export default function TenantPayRentModal({ unitData, onPaymentSuccess }: Tenan
 function RentPaymentContainer({ unitData, onPaymentSuccess }: TenantPayRentModalProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedGateway, setSelectedGateway] = useState<string>("");
+  const dialogCloseRef = useRef<HTMLButtonElement>(null)
 
   const { data, isLoading, error } = useFetch(`/api/v1/reports/rent-roll/${unitData?.unitId}/pay`);
 
@@ -106,7 +107,9 @@ function RentPaymentContainer({ unitData, onPaymentSuccess }: TenantPayRentModal
         onSelectGateway={setSelectedGateway}
         onPay={Function}
         isProcessing={isProcessing}
+        onSuccess={resolveDialogClose(dialogCloseRef)}
       />
+      <DialogClose ref={dialogCloseRef} />
     </>
   );
 }
@@ -197,12 +200,14 @@ function PaymentDetailsForm({
   onSelectGateway,
   onPay,
   isProcessing,
+  onSuccess
 }: {
   rentDetails: any;
   gateways: string[];
   selectedGateway: string;
   onSelectGateway: (gateway: string) => void;
   onPay: () => void;
+  onSuccess: () => void;
   isProcessing: boolean;
 }) {
   return (
@@ -305,6 +310,7 @@ function PaymentDetailsForm({
           gateway={selectedGateway}
           rentDetails={rentDetails}
           isProcessing={isProcessing}
+          onSuccess={onSuccess}
         />
       </DialogFooter>
     </div>
@@ -314,11 +320,13 @@ function PaymentDetailsForm({
 function PaymentGateway({
   isProcessing,
   rentDetails,
-  gateway
+  gateway,
+  onSuccess
 }: {
   gateway: string
   rentDetails: any
   isProcessing: boolean
+  onSuccess: () => void
 }) {
 
   if (isProcessing) return <>
@@ -327,7 +335,10 @@ function PaymentGateway({
   </>
 
   if (gateway === "RAZORPAY") {
-    return <RazorpayOrder rentDetails={rentDetails} />
+    return <RazorpayOrder
+      rentDetails={rentDetails}
+      onSuccess={onSuccess}
+    />
   }
 
   if (gateway === "STRIPE") {
@@ -337,7 +348,10 @@ function PaymentGateway({
   return null
 }
 
-function RazorpayOrder({ rentDetails }: { rentDetails: any }) {
+function RazorpayOrder({ rentDetails, onSuccess }: {
+  rentDetails: any,
+  onSuccess: () => void
+}) {
   const [order, setOrder] = useState({});
   const [processing, setProcessing] = useState(false);
 
@@ -374,7 +388,7 @@ function RazorpayOrder({ rentDetails }: { rentDetails: any }) {
       </Button>
       <CreateRazorpayOrder
         options={order}
-        onSuccess={Function}
+        onSuccess={onSuccess}
         triggerOnLoad={true}
       />
     </div>

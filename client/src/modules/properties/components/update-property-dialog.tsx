@@ -23,6 +23,7 @@ import { MediaStage } from "./media-stage";
 import { toast } from "sonner";
 import { buildToastMessage } from "@/lib/catchAsync";
 import api from "@/network/client";
+import useRevalidate from "@/hooks/useRevalidate";
 
 const STAGES = ["Basic Info", "Address", "Amenities & Finance", "Media"];
 
@@ -61,6 +62,10 @@ export function UpdatePropertyDialog({
       },
     },
   });
+  const { update } = useRevalidate({
+    // groupedFocus: ["/api/v1/property"],
+    instant: [`/api/v1/property/${property._id}?`]
+  })
 
   async function onSubmit(values: UpdatePropertyFormValues) {
     try {
@@ -70,6 +75,7 @@ export function UpdatePropertyDialog({
       if (response.code !== 200) throw new Error(response.message);
       toast.success(response.message);
       // mutate functionality
+      update()
     } catch (error) {
       toast.error(buildToastMessage(error));
     }

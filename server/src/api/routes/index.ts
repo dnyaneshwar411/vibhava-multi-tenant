@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { authRouter } from "./auth.router.js";
 import { organizationRouter } from "./organization.router.js";
 import { propertyRouter } from "./property.router.js";
@@ -20,6 +20,8 @@ import { reportsRouter } from "./reports.router.js";
 import { ledgerRouter } from "./ledger.router.js";
 
 const router: express.Router = express.Router();
+
+router.get("/health", (req: Request, res: Response) => res.status(200).json({ code: 200, message: "HEALTHY" }))
 
 const routes: { path: string, router: express.Router }[] = [
   { path: "/auth", router: authRouter },
